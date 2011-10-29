@@ -117,6 +117,16 @@
 
 	});
 
+	test( 'relevant event bubbles', 1, function() {
+
+		$( '#bar' ).parent().bind( 'relevant', function() {
+			ok( true, 'relevant event detected on #bar parent' );
+		});
+
+		$( 'input#bar' ).forcesRelevance( 'relevant', true );
+
+	});
+
 
 	module( 'irrelevant events' );
 
@@ -139,6 +149,17 @@
 		$( 'input#bar' ).forcesRelevance( 'relevant', false );
 
 	});
+
+	test( 'relevant event bubbles', 1, function() {
+
+		$( '#foo' ).parent().bind( 'irrelevant', function() {
+			ok( true, 'relevant event detected on #foo parent' );
+		});
+
+		$( 'input#foo' ).forcesRelevance( 'relevant', true );
+
+	});
+
 
 
 	// test event bubbles and can be found with bind and/or live
