@@ -10,17 +10,20 @@ if ( jQuery !== 'undefined' ) {
 (function( $ ) {
 	'use strict';
 
-	var i = 0,
+	var relevantEvent = $.Event( 'relevant' ),
+		irrelevantEvent = $.Event( 'irrelevant' ),
 
 	methods = {
 
-		// $( x ).forcesRelevance( "relevant" )
+		// $( x ).forcesRelevance( "relevant", true )
 		// if the element is hidden, fire a "relevant" event
+		// $( x ).forcesRelevance( "relevant", false )
+		// if the element is visible, fire an "irrelevant" event
 		relevant : function( makeRelevant ) {
-			if ( !! makeRelevant ) {
-				this.filter( ':hidden' ).trigger( 'relevant' );
+			if ( ! makeRelevant ) {
+				this.filter( ':visible' ).trigger( irrelevantEvent );
 			} else {
-				this.filter( ':visible' ).trigger( 'irrelevant' );
+				this.filter( ':hidden' ).trigger( relevantEvent );
 			}
 			return this;
 		}
