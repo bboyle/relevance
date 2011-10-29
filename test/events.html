@@ -49,11 +49,11 @@
 								</label>
 								<input type="text" id="foo" name="foo" />
 							</li>
-							<li style="display: none" hidden="hidden">
+							<li>
 								<label for="bar">
 									<span class="label">Bar</span>
 								</label>
-								<input type="text" id="bar" name="bar" />
+								<input type="text" id="bar" name="bar" style="display: none" hidden="hidden" />
 							</li>
 						</ol>
 					</fieldset>
@@ -97,11 +97,16 @@
 	module( 'relevant events' );
 
 	test( 'relevant event is triggered for hidden elements', 1, function() {
+
+		var eventDetected = 0;
 		
 		$( '#bar' ).bind( 'relevant', function() {
-			ok( true, 'relevant event detected' );
+			eventDetected += 1;
+			strictEqual( eventDetected, 1, 'relevant event detected' );
 		});
 
+		$( 'input#bar' ).forcesRelevance( 'relevant', true );
+		// should not fire event now element is relevant
 		$( 'input#bar' ).forcesRelevance( 'relevant', true );
 
 	});
@@ -117,13 +122,22 @@
 
 	});
 
-	test( 'relevant event bubbles', 1, function() {
+	test( 'relevant event bubbles', 3, function() {
 
 		$( '#bar' ).parent().bind( 'relevant', function() {
-			ok( true, 'relevant event detected on #bar parent' );
+			ok( true, 'relevant event detected on #bar parent with .bind()' );
+		});
+		$( 'body' ).bind( 'relevant', function() {
+			ok( true, 'relevant event detected with body.bind()' );
+		});
+		$( document ).bind( 'relevant', function() {
+			ok( true, 'relevant event detected with document.bind()' );
 		});
 
 		$( 'input#bar' ).forcesRelevance( 'relevant', true );
+
+		$( '#foo, body' ).unbind( 'relevant.test' );
+		$( document ).unbind( 'relevant.test' );
 
 	});
 
@@ -132,10 +146,15 @@
 
 	test( 'irrelevant event is triggered for visible elements', 1, function() {
 		
+		var eventDetected = 0;
+
 		$( '#foo' ).bind( 'irrelevant', function( event ) {
-			ok( true, 'irrelevant event detected' );
+			eventDetected += 1;
+			strictEqual( eventDetected, 1, 'irrelevant event detected' );
 		});
 
+		$( 'input#foo' ).forcesRelevance( 'relevant', false );
+		// should not fire event now element is irrelevant
 		$( 'input#foo' ).forcesRelevance( 'relevant', false );
 
 	});
@@ -150,13 +169,24 @@
 
 	});
 
-	test( 'relevant event bubbles', 1, function() {
+	test( 'irrelevant event bubbles', 3, function() {
 
-		$( '#foo' ).parent().bind( 'irrelevant', function() {
-			ok( true, 'relevant event detected on #foo parent' );
+		$( '#foo' ).parent().bind( 'irrelevant.test', function() {
+			ok( true, 'irrelevant event detected on #foo parent' );
 		});
 
-		$( 'input#foo' ).forcesRelevance( 'relevant', true );
+		$( 'body' ).bind( 'irrelevant.test', function() {
+			ok( true, 'irrelevant event detected with body.bind()' );
+		});
+
+		$( document ).bind( 'irrelevant.test', function() {
+			ok( true, 'irrelevant event detected with document.bind()' );
+		});
+
+		$( 'input#foo' ).forcesRelevance( 'relevant', false );
+
+		$( '#foo, body' ).unbind( 'irrelevant.test' );
+		$( document ).unbind( 'irrelevant.test' );
 
 	});
 

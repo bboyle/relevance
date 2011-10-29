@@ -31,6 +31,15 @@ if ( jQuery !== 'undefined' ) {
 	};
 
 
+	// fallback (default) event handling
+	$( 'body' ).live( 'relevant', function( event ) {
+		$( event.target ).show( 0 );
+	});
+	$( 'body' ).live( 'irrelevant', function( event ) {
+		$( event.target ).hide( 0 );
+	});
+
+
 	$.fn.forcesRelevance = function( method ) {
 
 		// Method calling logic
