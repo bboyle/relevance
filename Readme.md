@@ -14,16 +14,16 @@ Simply put, you may consider a *relevant* element to be *visible*, whilst *irrel
 * `.forcesRelevance( 'relevant', true )` indicates an element should be made relevant (shown). No change for relevant elements, irrelevant elements will trigger a `relevant` event.
 * `.forcesRelevance( 'relevant', false )` indicates an element should be made irrelevant (hidden). No change for irrelevant elements, relevant elements will trigger an `irrelevant` event.
 * `.forcesRelevance( 'makeRelevant' )`
-* * enables descendent form elements
-* * removes `aria-hidden`
-* * removes `@hidden` attribute
-* * shows the element
-* * fires event `relevant-done`
+  * enables descendent form elements
+  * removes `aria-hidden`
+  * removes `@hidden` attribute
+  * shows the element
+  * fires event `relevant-done`
 * `.forcesRelevance( 'makeIrrelevant' )`
-* * hides element
-* * disables descendent form fields
-* * adds `@hidden` attribute
-* * adds `aria-hidden`
+  * hides element
+  * disables descendent form fields
+  * adds `@hidden` attribute
+  * adds `aria-hidden`
 
 ## Events
 
