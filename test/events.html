@@ -49,7 +49,7 @@
 								</label>
 								<input type="text" id="foo" name="foo" />
 							</li>
-							<li>
+							<li style="display: none" hidden="hidden">
 								<label for="bar">
 									<span class="label">Bar</span>
 								</label>
@@ -86,13 +86,26 @@
 
 	test( 'test fields are in test form', function() {
 
-		equal( $( 'form#test .group input#foo' ).length, 1, 'form#test contains .group input#foo' );
-		equal( $( 'form#test .group input#foo' ).is( ':visible' ), true, 'input#foo is visible' );
+		equal( $( 'input#foo' ).length, 1, 'input#foo exists' );
+		equal( $( 'input#bar' ).length, 1, 'input#bar exists' );
+		equal( $( 'input#foo' ).is( ':visible' ), true, 'input#foo is visible' );
+		equal( $( 'input#bar' ).is( ':hidden' ), true, 'input#foo is hidden' );
 
 	});
 
 
 	module( 'relevant events' );
+
+	test( 'relevant event is triggered for hidden elements', 1, function() {
+		
+		$( '#bar' ).bind( 'relevant', function() {
+			ok( true, 'relevant event detected' );
+		});
+
+		$( 'input#bar' ).forcesRelevance( 'relevant', true );
+
+	});
+
 
 	test( 'relevant event not triggered for visible elements', 0, function() {
 		
@@ -104,6 +117,9 @@
 
 	});
 
+
+	module( 'irrelevant events' );
+
 	test( 'irrelevant event is triggered for visible elements', 1, function() {
 		
 		$( '#foo' ).bind( 'irrelevant', function( event ) {
@@ -111,6 +127,16 @@
 		});
 
 		$( 'input#foo' ).forcesRelevance( 'relevant', false );
+
+	});
+
+	test( 'irrelevant event not triggered for hidden elements', 0, function() {
+		
+		$( '#bar' ).bind( 'irrelevant', function( event ) {
+			ok( true, 'irrelevant event detected' );
+		});
+
+		$( 'input#bar' ).forcesRelevance( 'relevant', false );
 
 	});
 
