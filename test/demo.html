@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+	<meta charset="UTF-8" />
+	<title>forces relevance demo</title>
+
+	<style>
+		body {
+			padding: 2em;
+			font-family: sans-serif;
+			background: #faf7f3;
+			color: #111;
+		}
+	</style>
+</head>
+
+<body>
+
+
+	<form id="test" action="javascript:">
+
+		<ol class="questions">
+
+			<li class="select1">
+				<fieldset>
+					<legend>
+						<span class="label">Toggle relevance</span>
+					</legend>
+					<ul class="choices">
+						<li>
+							<input id="toggleFoo" type="radio" name="toggle" value="foo" checked="checked" />
+							<label for="toggleFoo">Show foo</label>
+						</li>
+						<li>
+							<input id="toggleBar" type="radio" name="toggle" value="bar" />
+							<label for="toggleBar">Show bar</label>
+						</li>
+					</ul>
+				</fieldset>
+			</li>
+
+			<li class="group">
+				<fieldset>
+					<legend>
+						<span class="label">Fubar</span>
+					</legend>
+					<ol class="questions compact">
+						<li>
+							<label for="foo">
+								<span class="label">Foo</span>
+							</label>
+							<input type="text" id="foo" name="foo" />
+						</li>
+						<li>
+							<label for="bar">
+								<span class="label">Bar</span>
+							</label>
+							<input type="text" id="bar" name="bar" />
+						</li>
+					</ol>
+				</fieldset>
+			</li>
+
+			<li class="footer">
+				<ol class="submit">
+					<li>
+						<strong>
+							<input type="submit" value="Submit" />
+						</strong>
+					</li>
+				</ol>
+			</li>
+
+		</ol>
+
+	</form>
+
+
+<script src="../lib/jquery-1.4.4-min.js"></script>
+<script src="../src/jquery.forces.relevance.js"></script>
+
+<script><!-- //
+
+	// set defaults?
+	// $( document ).forcesRelevance( 'config', {
+		// hideAnimation: hide,
+		// hideTimeout: 0,
+		// showAnimation: slideDown,
+		// showTimeout: 350
+	// });
+
+	// toggle relevance of foo and bar
+	var toggleRelevance = function() {
+		var isFooRelevant = $( '#toggleFoo' )[0].checked;
+		$( '#foo' ).forcesRelevance( 'relevant', isFooRelevant );
+		$( '#bar' ).forcesRelevance( 'relevant', ! isFooRelevant );
+	}
+	// assign to radio button click handlers
+	$( 'input[name=toggle]' ).bind( 'change', toggleRelevance );
+
+
+	// custom UI for show/hide
+	$( '#foo, #bar' ).bind( 'relevant irrelevant', function( event ) {
+		
+		// find 'question' container
+		var question = $( event.target ).closest( 'li' );
+
+		// stop in progress animation
+		question.stop( true, true );
+
+		if ( event.type === 'relevant' ) {
+			// question.forcesRelevance( 'show', { animation: slideDown, timeout: 350, callback: fire event x-text-resize } )
+			question.slideDown( 350 );
+		} else {
+			// question.forcesRelevance( 'hide', { animation: hide, callback: fire event x-text-resize } )
+			question.hide( 0 );
+		}
+	});
+
+
+	// run once immediately
+	toggleRelevance();
+	// run ondocumentready
+	// $( toggleRelevance );
+
+// --></script>
+
+
+</body>
+</html>

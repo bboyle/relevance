@@ -7,7 +7,7 @@
 */
 
 if ( jQuery !== 'undefined' ) {
-(function( $ ) {
+(function( $, window ) {
 	'use strict';
 
 	var relevantEvent = $.Event( 'relevant' ),
@@ -32,11 +32,13 @@ if ( jQuery !== 'undefined' ) {
 
 
 	// fallback (default) event handling
-	$( 'body' ).live( 'relevant', function( event ) {
-		$( event.target ).show( 0 );
-	});
-	$( 'body' ).live( 'irrelevant', function( event ) {
-		$( event.target ).hide( 0 );
+	$( window.document ).bind( 'relevant irrelevant', function( event ) {
+		var target = $( event.target );
+		if ( event.type === 'relevant' ) {
+			target.show( 0 );
+		} else {
+			target.hide( 0 );
+		}
 	});
 
 
@@ -55,5 +57,5 @@ if ( jQuery !== 'undefined' ) {
 	};
 
 
-}( jQuery ));
+}( jQuery, window ));
 }
