@@ -13,20 +13,22 @@ Simply put, you may consider a *relevant* element to be *visible*, whilst *irrel
 
 * `.forcesRelevance( 'relevant', true )` indicates an element should be made relevant (shown). No change for relevant elements, irrelevant elements will trigger a `relevant` event.
 * `.forcesRelevance( 'relevant', false )` indicates an element should be made irrelevant (hidden). No change for irrelevant elements, relevant elements will trigger an `irrelevant` event.
-* `.forcesRelevance( 'makeRelevant' )`
+* `.forcesRelevance( 'show' )`
   * enables descendent form elements
   * removes `aria-hidden`
   * removes `@hidden` attribute
   * shows the element
   * fires event `relevant-done`
-* `.forcesRelevance( 'makeIrrelevant' )`
+* `.forcesRelevance( 'hide' )`
   * hides element
   * disables descendent form fields
   * adds `@hidden` attribute
   * adds `aria-hidden`
+  * fires event `irrelevant-done`
 
 ## Events
 
 If you catch and cancel the `relevant` or `irrelevant` event, nothing will happen.
-Events bubbles, so you may wish to catch them on a wrapper object.
+Events bubble, so you may wish to catch them on a wrapper object.
 
+As showing/hiding content can affect some layouts, you may wish to listen for the `relevant-done` and `irrelevant-done` events and then recalculate the layout. These events fire after show/hide animations are complete.
