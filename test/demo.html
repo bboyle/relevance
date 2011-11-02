@@ -110,10 +110,11 @@
 
 		if ( event.type === 'relevant' ) {
 			// question.forcesRelevance( 'show', { animation: slideDown, timeout: 350, callback: fire event x-text-resize } )
-			question.slideDown( 350 );
+			question.removeAttr( 'hidden' ).slideDown( 350 );
 		} else {
 			// question.forcesRelevance( 'hide', { animation: hide, callback: fire event x-text-resize } )
-			question.hide( 0 );
+			// question.hide( 0 );
+			question.attr( 'hidden', 'hidden' ).hide();
 		}
 	});
 
