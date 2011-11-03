@@ -49,11 +49,11 @@
 								</label>
 								<input type="text" id="foo" name="foo" />
 							</li>
-							<li style="display: none" hidden="hidden">
+							<li>
 								<label for="bar">
 									<span class="label">Bar</span>
 								</label>
-								<input type="text" id="bar" name="bar" />
+								<input type="text" id="bar" name="bar" style="display: none" hidden="hidden" />
 							</li>
 						</ol>
 					</fieldset>
@@ -79,6 +79,7 @@
 <script src="../lib/jquery-1.4.4-min.js"></script>
 <script src="../src/jquery.forces.relevance.js"></script>
 
+
 <script><!-- //
 
 
@@ -86,10 +87,10 @@
 
 	test( 'test fields are in test form', function() {
 
-		equal( $( 'input#foo' ).length, 1, 'input#foo exists' );
-		equal( $( 'input#bar' ).length, 1, 'input#bar exists' );
-		equal( $( 'input#foo' ).is( ':visible' ), true, 'input#foo is visible' );
-		equal( $( 'input#bar' ).is( ':hidden' ), true, 'input#foo is hidden' );
+		strictEqual( $( '#foo' ).length, 1, '#foo exists' );
+		strictEqual( $( '#bar' ).length, 1, '#bar exists' );
+		strictEqual( $( '#foo' ).is( ':visible' ), true, '#foo is visible' );
+		strictEqual( $( '#bar' ).is( ':hidden' ), true, '#bar is hidden' );
 
 	});
 
@@ -97,12 +98,17 @@
 	module( 'relevant events' );
 
 	test( 'relevant event is triggered for hidden elements', 1, function() {
+
+		var eventDetected = 0;
 		
 		$( '#bar' ).bind( 'relevant', function() {
-			ok( true, 'relevant event detected' );
+			eventDetected += 1;
+			strictEqual( eventDetected, 1, 'relevant event detected' );
 		});
 
-		$( 'input#bar' ).forcesRelevance( 'relevant', true );
+		$( '#bar' ).forcesRelevance( 'relevant', true );
+		// should not fire event now element is relevant
+		$( '#bar' ).forcesRelevance( 'relevant', true );
 
 	});
 
@@ -113,17 +119,26 @@
 			ok( false, 'relevant event detected' );
 		});
 
-		$( 'input#foo' ).forcesRelevance( 'relevant', true );
+		$( '#foo' ).forcesRelevance( 'relevant', true );
 
 	});
 
-	test( 'relevant event bubbles', 1, function() {
+	test( 'relevant event bubbles', 3, function() {
 
 		$( '#bar' ).parent().bind( 'relevant', function() {
-			ok( true, 'relevant event detected on #bar parent' );
+			ok( true, 'relevant event detected on #bar parent with .bind()' );
+		});
+		$( 'body' ).bind( 'relevant', function() {
+			ok( true, 'relevant event detected with body.bind()' );
+		});
+		$( document ).bind( 'relevant', function() {
+			ok( true, 'relevant event detected with document.bind()' );
 		});
 
-		$( 'input#bar' ).forcesRelevance( 'relevant', true );
+		$( '#bar' ).forcesRelevance( 'relevant', true );
+
+		$( '#foo, body' ).unbind( 'relevant.test' );
+		$( document ).unbind( 'relevant.test' );
 
 	});
 
@@ -132,11 +147,16 @@
 
 	test( 'irrelevant event is triggered for visible elements', 1, function() {
 		
+		var eventDetected = 0;
+
 		$( '#foo' ).bind( 'irrelevant', function( event ) {
-			ok( true, 'irrelevant event detected' );
+			eventDetected += 1;
+			strictEqual( eventDetected, 1, 'irrelevant event detected' );
 		});
 
-		$( 'input#foo' ).forcesRelevance( 'relevant', false );
+		$( '#foo' ).forcesRelevance( 'relevant', false );
+		// should not fire event now element is irrelevant
+		$( '#foo' ).forcesRelevance( 'relevant', false );
 
 	});
 
@@ -146,30 +166,78 @@
 			ok( true, 'irrelevant event detected' );
 		});
 
-		$( 'input#bar' ).forcesRelevance( 'relevant', false );
+		$( '#bar' ).forcesRelevance( 'relevant', false );
 
 	});
 
-	test( 'relevant event bubbles', 1, function() {
+	test( 'irrelevant event bubbles', 3, function() {
 
-		$( '#foo' ).parent().bind( 'irrelevant', function() {
-			ok( true, 'relevant event detected on #foo parent' );
+		$( '#foo' ).parent().bind( 'irrelevant.test', function() {
+			ok( true, 'irrelevant event detected on #foo parent' );
 		});
 
-		$( 'input#foo' ).forcesRelevance( 'relevant', true );
+		$( 'body' ).bind( 'irrelevant.test', function() {
+			ok( true, 'irrelevant event detected with body.bind()' );
+		});
+
+		$( document ).bind( 'irrelevant.test', function() {
+			ok( true, 'irrelevant event detected with document.bind()' );
+		});
+
+		$( '#foo' ).forcesRelevance( 'relevant', false );
+
+		$( '#foo, body' ).unbind( 'irrelevant.test' );
+		$( document ).unbind( 'irrelevant.test' );
 
 	});
 
 
+	module( 'relevant-done events' );
 
-	// test event bubbles and can be found with bind and/or live
-	// $( document ).live didn't seem to work?
-	// test event only triggered when state changes
-	// test state change actually shows/hides element
-	// test show/hide allows for custom animation and callback
-	// test if event is not caught and canceled, there is a default action that happens
-	// n.b. i would use $( document ).live for the default action, maybe $( body )
+	test( 'relevant-done event is triggered after showing an element', 4, function() {
 
+		var eventDetectedOnBar = 0,
+			eventDetectedOnFoo = 0;
+		
+		$( '#bar' ).bind( 'relevant-done', function() {
+			eventDetectedOnBar++;
+			ok( eventDetectedOnBar <= 2, 'relevant-done event detected on #bar' );
+		});
+
+		$( '#foo' ).bind( 'relevant-done', function() {
+			eventDetectedOnFoo++;
+			ok( eventDetectedOnFoo <= 2, 'relevant-done event detected on #foo' );
+		});
+
+		$( '#foo, #bar' ).forcesRelevance( 'show' );
+		// should still fire, even though elements are now relevant
+		$( '#foo, #bar' ).forcesRelevance( 'show' );
+
+	});
+
+
+	module( 'irrelevant-done events' );
+
+	test( 'irrelevant-done event is triggered after showing an element', 4, function() {
+
+		var eventDetectedOnBar = 0,
+			eventDetectedOnFoo = 0;
+		
+		$( '#bar' ).bind( 'irrelevant-done', function() {
+			eventDetectedOnBar++;
+			ok( eventDetectedOnBar <= 2, 'irrelevant-done event detected on #bar' );
+		});
+
+		$( '#foo' ).bind( 'irrelevant-done', function() {
+			eventDetectedOnFoo++;
+			ok( eventDetectedOnFoo <= 2, 'irrelevant-done event detected on #foo' );
+		});
+
+		$( '#foo, #bar' ).forcesRelevance( 'hide' );
+		// should still fire, even though elements are now relevant
+		$( '#foo, #bar' ).forcesRelevance( 'hide' );
+
+	});
 
 
 // --></script>
