@@ -7,7 +7,7 @@
 */
 
 if ( jQuery !== 'undefined' ) {
-(function( $, window ) {
+(function( $ ) {
 	'use strict';
 
 	var relevantEvent = $.Event( 'relevant' ),
@@ -15,9 +15,9 @@ if ( jQuery !== 'undefined' ) {
 
 	methods = {
 
-		// $( x ).forcesRelevance( "relevant", true )
-		// if the element is hidden, fire a "relevant" event
-		// $( x ).forcesRelevance( "relevant", false )
+		// $( x ).forcesRelevance( 'relevant', true )
+		// if the element is hidden, fire a 'relevant' event
+		// $( x ).forcesRelevance( 'relevant', false )
 		// if the element is visible, fire an "irrelevant" event
 		relevant : function( makeRelevant ) {
 			if ( ! makeRelevant ) {
@@ -26,13 +26,21 @@ if ( jQuery !== 'undefined' ) {
 				this.filter( ':hidden' ).trigger( relevantEvent );
 			}
 			return this;
+		},
+
+		// $( x ).forcesRelevance( 'show' )
+		// shows the element (does not check if element is already hidden)
+		// triggers 'relevant-done' after show is complete
+		show: function() {
+			// TODO use animation callback to trigger event
+			this.show().trigger( 'relevant-done' );
 		}
 
 	};
 
 
 	// fallback (default) event handling
-	$( window.document ).bind( 'relevant irrelevant', function( event ) {
+	$( document ).bind( 'relevant irrelevant', function( event ) {
 		var target = $( event.target );
 		if ( event.type === 'relevant' ) {
 			target.show( 0 );
@@ -57,5 +65,5 @@ if ( jQuery !== 'undefined' ) {
 	};
 
 
-}( jQuery, window ));
+}( jQuery ));
 }

@@ -79,6 +79,7 @@
 <script src="../lib/jquery-1.4.4-min.js"></script>
 <script src="../src/jquery.forces.relevance.js"></script>
 
+
 <script><!-- //
 
 
@@ -86,10 +87,10 @@
 
 	test( 'test fields are in test form', function() {
 
-		equal( $( 'input#foo' ).length, 1, 'input#foo exists' );
-		equal( $( 'input#bar' ).length, 1, 'input#bar exists' );
-		equal( $( 'input#foo' ).is( ':visible' ), true, 'input#foo is visible' );
-		equal( $( 'input#bar' ).is( ':hidden' ), true, 'input#foo is hidden' );
+		strictEqual( $( '#foo' ).length, 1, '#foo exists' );
+		strictEqual( $( '#bar' ).length, 1, '#bar exists' );
+		strictEqual( $( '#foo' ).is( ':visible' ), true, '#foo is visible' );
+		strictEqual( $( '#bar' ).is( ':hidden' ), true, '#bar is hidden' );
 
 	});
 
@@ -105,9 +106,9 @@
 			strictEqual( eventDetected, 1, 'relevant event detected' );
 		});
 
-		$( 'input#bar' ).forcesRelevance( 'relevant', true );
+		$( '#bar' ).forcesRelevance( 'relevant', true );
 		// should not fire event now element is relevant
-		$( 'input#bar' ).forcesRelevance( 'relevant', true );
+		$( '#bar' ).forcesRelevance( 'relevant', true );
 
 	});
 
@@ -118,7 +119,7 @@
 			ok( false, 'relevant event detected' );
 		});
 
-		$( 'input#foo' ).forcesRelevance( 'relevant', true );
+		$( '#foo' ).forcesRelevance( 'relevant', true );
 
 	});
 
@@ -134,7 +135,7 @@
 			ok( true, 'relevant event detected with document.bind()' );
 		});
 
-		$( 'input#bar' ).forcesRelevance( 'relevant', true );
+		$( '#bar' ).forcesRelevance( 'relevant', true );
 
 		$( '#foo, body' ).unbind( 'relevant.test' );
 		$( document ).unbind( 'relevant.test' );
@@ -153,9 +154,9 @@
 			strictEqual( eventDetected, 1, 'irrelevant event detected' );
 		});
 
-		$( 'input#foo' ).forcesRelevance( 'relevant', false );
+		$( '#foo' ).forcesRelevance( 'relevant', false );
 		// should not fire event now element is irrelevant
-		$( 'input#foo' ).forcesRelevance( 'relevant', false );
+		$( '#foo' ).forcesRelevance( 'relevant', false );
 
 	});
 
@@ -165,7 +166,7 @@
 			ok( true, 'irrelevant event detected' );
 		});
 
-		$( 'input#bar' ).forcesRelevance( 'relevant', false );
+		$( '#bar' ).forcesRelevance( 'relevant', false );
 
 	});
 
@@ -183,10 +184,34 @@
 			ok( true, 'irrelevant event detected with document.bind()' );
 		});
 
-		$( 'input#foo' ).forcesRelevance( 'relevant', false );
+		$( '#foo' ).forcesRelevance( 'relevant', false );
 
 		$( '#foo, body' ).unbind( 'irrelevant.test' );
 		$( document ).unbind( 'irrelevant.test' );
+
+	});
+
+
+	module( 'relevant-done events' );
+
+	test( 'relevant-done event is triggered after showing an element', 4, function() {
+
+		var eventDetectedOnBar = 0,
+			eventDetectedOnFoo = 0;
+		
+		$( '#bar' ).bind( 'relevant-done', function() {
+			eventDetectedOnBar++;
+			ok( eventDetectedOnBar <= 2, 'relevant-done event detected on #bar' );
+		});
+
+		$( '#foo' ).bind( 'relevant-done', function() {
+			eventDetectedOnFoo++;
+			ok( eventDetectedOnFoo <= 2, 'relevant-done event detected on #foo' );
+		});
+
+		$( '#bar, #foo' ).forcesRelevance( 'show' );
+		// should still fire, even though elements are now relevant
+		$( '#bar, #foo' ).forcesRelevance( 'show' );
 
 	});
 

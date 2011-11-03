@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+	<meta charset="UTF-8" />
+	<title>UI tests · forces relevance tests</title>
+
+	<link rel="stylesheet" href="../lib/qunit-git.css" />
+	<script src="../lib/qunit-git.js"></script>
+
+	<style>
+		body {
+			padding: 2em;
+			font-family: sans-serif;
+			background: #faf7f3;
+			color: #111;
+		}
+
+		#qunit-fixture {
+			position: static;
+		}
+	</style>
+</head>
+
+<body>
+
+
+
+<div id="qunit">
+	<h1 id="qunit-header">QUnit</h1>
+	<h2 id="qunit-banner"></h2>
+	<div id="qunit-testrunner-toolbar"></div>
+	<h2 id="qunit-userAgent"></h2>
+	<ol id="qunit-tests"></ol>
+	<div id="qunit-fixture">
+
+		<form id="test" action="javascript:">
+
+			<ol class="questions">
+
+				<li class="group">
+					<fieldset>
+						<legend>
+							<span class="label">Fubar</span>
+						</legend>
+						<ol class="questions compact">
+							<li>
+								<label for="foo">
+									<span class="label">Foo</span>
+								</label>
+								<input type="text" id="foo" name="foo" />
+							</li>
+							<li>
+								<label for="bar">
+									<span class="label">Bar</span>
+								</label>
+								<input type="text" id="bar" name="bar" style="display: none" hidden="hidden" />
+							</li>
+						</ol>
+					</fieldset>
+				</li>
+
+				<li class="footer">
+					<ol class="submit">
+						<li>
+							<strong>
+								<input type="submit" value="Submit" />
+							</strong>
+						</li>
+					</ol>
+				</li>
+
+			</ol>
+
+		</form>
+	</div>
+</div>
+
+
+<script src="../lib/jquery-1.4.4-min.js"></script>
+<script src="../src/jquery.forces.relevance.js"></script>
+
+
+<script><!-- //
+
+
+	module( 'environment' );
+
+	test( 'test fields are in test form', function() {
+
+		strictEqual( $( '#foo' ).length, 1, '#foo exists' );
+		strictEqual( $( '#bar' ).length, 1, '#bar exists' );
+		strictEqual( $( '#foo' ).is( ':visible' ), true, '#foo is visible' );
+		strictEqual( $( '#bar' ).is( ':hidden' ), true, '#bar is hidden' );
+
+	});
+
+
+	module( 'show method' );
+
+	test( 'element is shown', 4, function() {
+
+		$( '#foo, #bar' ).forcesRelevance( 'show' );
+		strictEqual( $( '#foo' ).is( ':visible' ), true, '#foo is visible' );
+		strictEqual( $( '#bar' ).is( ':visible' ), true, '#bar is visible' );
+
+		$( '#foo, #bar' ).forcesRelevance( 'show' );
+		strictEqual( $( '#foo' ).is( ':visible' ), true, '#foo is still visible' );
+		strictEqual( $( '#bar' ).is( ':visible' ), true, '#bar is still visible' );
+
+	});
+
+
+// --></script>
+
+
+</body>
+</html>
