@@ -10,10 +10,10 @@ if ( jQuery !== 'undefined' ) {
 (function( $ ) {
 	'use strict';
 
-	var relevantEvent = $.Event( 'relevant' ),
-		irrelevantEvent = $.Event( 'irrelevant' ),
-		relevantDoneEvent = $.Event( 'relevant-done' ),
-		irrelevantDoneEvent = $.Event( 'irrelevant-done' ),
+	var relevantEvent = 'relevant',
+		irrelevantEvent = 'irrelevant',
+		relevantDoneEvent = 'relevant-done',
+		irrelevantDoneEvent = 'irrelevant-done',
 		elementsToDisable = 'button, input, select, textarea',
 
 	methods = {
