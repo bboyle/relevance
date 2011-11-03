@@ -3,6 +3,12 @@
 Only show what is relevant, making the interface simpler for the user.
 Simply put, you may consider a *relevant* element to be *visible*, whilst *irrelevant* elements are *hidden*.
 
+### Accessibility
+
+As noted in the HTML5 spec, do not flag elements as irrelevant if you want to temporarily hide them (e.g. tabbed interfaces).
+Use `.hide()` from jquery core in those situations. Use this library when elements are irrelevant.
+Tabbed interfaces still use *progressive disclosure* techniques, but **should not** use this script.
+
 ## Related concepts
 
 * `relevant`, XForms
