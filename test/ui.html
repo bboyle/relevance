@@ -95,7 +95,7 @@
 	});
 
 
-	module( 'show/hide methods' );
+	module( 'visibility' );
 
 	test( 'elements are visible after show', 4, function() {
 
@@ -119,6 +119,26 @@
 		strictEqual( $( '#foo' ).is( ':hidden' ), true, '#foo is still hidden' );
 		strictEqual( $( '#bar' ).is( ':hidden' ), true, '#bar is still hidden' );
 
+	});
+
+
+	module( 'accessibility' );
+
+	test( 'aria hidden state is flagged', 6, function() {
+
+		$( '#foo, #bar' ).forcesRelevance( 'show' );
+		strictEqual( $( '#foo' )[0].getAttribute( 'aria-hidden' ), null, '#foo is not aria-hidden' );
+		strictEqual( $( '#bar' )[0].getAttribute( 'aria-hidden' ), null, '#bar is not aria-hidden' );
+
+		$( '#foo, #bar' ).forcesRelevance( 'hide' );
+		strictEqual( $( '#foo' ).attr( 'aria-hidden' ), 'true', '#foo is aria-hidden after hide()' );
+		strictEqual( $( '#bar' ).attr( 'aria-hidden' ), 'true', '#bar is aria-hidden after hide()' );
+
+		$( '#foo, #bar' ).forcesRelevance( 'show' );
+		strictEqual( $( '#foo' )[0].getAttribute( 'aria-hidden' ), null, '#foo is not aria-hidden after show()' );
+		strictEqual( $( '#bar' )[0].getAttribute( 'aria-hidden' ), null, '#bar is not aria-hidden after show()' );
+
+		
 	});
 
 
