@@ -118,7 +118,6 @@
 		$( '#foo, #bar' ).forcesRelevance( 'hide' );
 		strictEqual( $( '#foo' ).is( ':hidden' ), true, '#foo is still hidden' );
 		strictEqual( $( '#bar' ).is( ':hidden' ), true, '#bar is still hidden' );
-
 	});
 
 
@@ -156,6 +155,27 @@
 		$( '#foo, #bar' ).forcesRelevance( 'show' );
 		strictEqual( $( '#foo' )[0].getAttribute( 'hidden' ), null, '#foo is not hidden after show()' );
 		strictEqual( $( '#bar' )[0].getAttribute( 'hidden' ), null, '#bar is not hidden after show()' );
+
+	});
+
+
+	module( 'interoperability' );
+
+	test( 'input fields are disabled when irrelevant', 6, function() {
+
+		$( '#foo, #bar' ).forcesRelevance( 'show' );
+		// IE6 returns 'false', FF7 returns 'null'
+		ok( ! $( '#foo' )[0].getAttribute( 'disabled' ), '#foo is not disabled' );
+		ok( ! $( '#bar' )[0].getAttribute( 'disabled' ), '#bar is not disabled' );
+
+		$( '#foo, #bar' ).forcesRelevance( 'hide' );
+		// @disabled is true when set
+		strictEqual( $( '#foo' ).attr( 'disabled' ), true, '#foo is @disabled after hide()' );
+		strictEqual( $( '#bar' ).attr( 'disabled' ), true, '#bar is @disabled after hide()' );
+
+		$( '#foo, #bar' ).forcesRelevance( 'show' );
+		ok( ! $( '#foo' )[0].getAttribute( 'disabled' ), '#foo is not disabled after show()' );
+		ok( ! $( '#bar' )[0].getAttribute( 'disabled' ), '#bar is not disabled after show()' );
 
 	});
 

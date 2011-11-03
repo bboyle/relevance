@@ -209,9 +209,9 @@
 			ok( eventDetectedOnFoo <= 2, 'relevant-done event detected on #foo' );
 		});
 
-		$( '#bar, #foo' ).forcesRelevance( 'show' );
+		$( '#foo, #bar' ).forcesRelevance( 'show' );
 		// should still fire, even though elements are now relevant
-		$( '#bar, #foo' ).forcesRelevance( 'show' );
+		$( '#foo, #bar' ).forcesRelevance( 'show' );
 
 	});
 
@@ -233,9 +233,9 @@
 			ok( eventDetectedOnFoo <= 2, 'irrelevant-done event detected on #foo' );
 		});
 
-		$( '#bar, #foo' ).forcesRelevance( 'hide' );
+		$( '#foo, #bar' ).forcesRelevance( 'hide' );
 		// should still fire, even though elements are now relevant
-		$( '#bar, #foo' ).forcesRelevance( 'hide' );
+		$( '#foo, #bar' ).forcesRelevance( 'hide' );
 
 	});
 

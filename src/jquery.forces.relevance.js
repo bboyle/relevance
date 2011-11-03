@@ -12,6 +12,9 @@ if ( jQuery !== 'undefined' ) {
 
 	var relevantEvent = $.Event( 'relevant' ),
 		irrelevantEvent = $.Event( 'irrelevant' ),
+		relevantDoneEvent = $.Event( 'relevant-done' ),
+		irrelevantDoneEvent = $.Event( 'irrelevant-done' ),
+		elementsToDisable = 'button, input, select, textarea',
 
 	methods = {
 
@@ -19,7 +22,7 @@ if ( jQuery !== 'undefined' ) {
 		// if the element is hidden, fire a 'relevant' event
 		// $( x ).forcesRelevance( 'relevant', false )
 		// if the element is visible, fire an "irrelevant" event
-		relevant : function( makeRelevant ) {
+		relevant: function( makeRelevant ) {
 			if ( ! makeRelevant ) {
 				this.filter( ':visible' ).trigger( irrelevantEvent );
 			} else {
@@ -32,16 +35,40 @@ if ( jQuery !== 'undefined' ) {
 		// shows the element (does not check if element is already visible)
 		// triggers 'relevant-done' after showing is complete
 		show: function() {
-			// TODO use animation callback to trigger event
-			return this.show().removeAttr( 'hidden' ).removeAttr( 'aria-hidden' ).trigger( 'relevant-done' );
+
+			// enable elements before they are shown
+			this.add( this.find( elementsToDisable )).each(function() {
+				this.removeAttribute( 'disabled' );
+			});
+
+			// stop animation, remove @hidden and @aria-hidden, start showing
+			return this.stop( true, true ).removeAttr( 'hidden' ).removeAttr( 'aria-hidden' ).show( 0, function() {
+				// done
+				$( this ).trigger( relevantDoneEvent );
+			});
 		},
 
 		// $( x ).forcesRelevance( 'hide' )
 		// hides the element (does not check if element is already hidden)
 		// triggers 'irrelevant-done' after hiding is complete
 		hide: function() {
-			// TODO use animation callback to trigger event
-			return this.hide().attr( 'hidden', 'hidden' ).attr( 'aria-hidden', 'true' ).trigger( 'irrelevant-done' );
+
+			// stop animation, start hiding
+			return this.stop( true, true ).hide( 0, function() {
+				var $this = $( this );
+	
+				// disable elements (including self if appropriate)
+				$this.filter( elementsToDisable ).add( $this.find( elementsToDisable )).each(function() {
+					this.setAttribute( 'disabled', 'disabled' );
+				});
+
+				// once hidden, toggle irrelevant with @hidden and aria-hidden
+				this.setAttribute( 'hidden', 'hidden' );
+				this.setAttribute( 'aria-hidden', 'true' );
+
+				// done
+				$this.trigger( irrelevantDoneEvent );
+			});
 		}
 
 	};

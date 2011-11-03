@@ -20,17 +20,17 @@ Tabbed interfaces still use *progressive disclosure* techniques, but **should no
 * `.forcesRelevance( 'relevant', true )` indicates an element should be made relevant (shown). No change for relevant elements, irrelevant elements will trigger a `relevant` event.
 * `.forcesRelevance( 'relevant', false )` indicates an element should be made irrelevant (hidden). No change for irrelevant elements, relevant elements will trigger an `irrelevant` event.
 * `.forcesRelevance( 'show' )`
-  * enables descendent form elements
-  * removes `aria-hidden`
-  * removes `@hidden` attribute
-  * shows the element
-  * fires event `relevant-done`
+  # enables descendent form elements and self
+  # removes `@hidden` attribute
+  # removes `aria-hidden`
+  # shows the element
+  # fires event `relevant-done`
 * `.forcesRelevance( 'hide' )`
-  * hides element
-  * disables descendent form fields
-  * adds `@hidden` attribute
-  * adds `aria-hidden`
-  * fires event `irrelevant-done`
+  # hides element
+  # disables descendent form fields and self (if a form field)
+  # adds `@hidden` attribute
+  # adds `aria-hidden`
+  # fires event `irrelevant-done`
 
 ## Events
 
