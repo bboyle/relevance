@@ -89,6 +89,8 @@
 
 		strictEqual( $( '#foo' ).length, 1, '#foo exists' );
 		strictEqual( $( '#bar' ).length, 1, '#bar exists' );
+		strictEqual( $( '#foo' ).is( ':visible' ), true, '#foo is visible' );
+		strictEqual( $( '#bar' ).is( ':hidden' ), true, '#bar is hidden' );
 
 	});
 
@@ -119,6 +121,26 @@
 
 	});
 
+
+	module( 'default behaviour' );
+
+	test( 'toggle relevance', function() {
+
+		// make foo relevant
+		$( '#foo' ).forcesRelevance( 'relevant', true );
+		strictEqual( $( '#foo' ).is( ':visible' ), true, '#foo is visible' );
+		strictEqual( $( '#foo' )[0].getAttribute( 'aria-hidden' ), null, '#foo is not aria-hidden' );
+		strictEqual( $( '#foo' )[0].getAttribute( 'hidden' ), null, '#foo is not hidden' );
+		ok( ! $( '#foo' )[0].getAttribute( 'disabled' ), '#foo is not disabled' );
+
+		// make foo irrelevant		
+		$( '#foo' ).forcesRelevance( 'relevant', false );
+		strictEqual( $( '#foo' ).is( ':hidden' ), true, '#foo is hidden' );
+		strictEqual( $( '#foo' ).attr( 'aria-hidden' ), 'true', '#foo is aria-hidden when irrelevant' );
+		notStrictEqual( $( '#foo' )[0].getAttribute( 'hidden' ), null, '#foo is @hidden when irrelevant' );
+		strictEqual( $( '#foo' ).attr( 'disabled' ), true, '#foo is @disabled when irrelevant' );
+		
+	});
 
 
 // --></script>

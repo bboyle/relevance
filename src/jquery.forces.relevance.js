@@ -78,9 +78,9 @@ if ( jQuery !== 'undefined' ) {
 	$( document ).bind( 'relevant irrelevant', function( event ) {
 		var target = $( event.target );
 		if ( event.type === 'relevant' ) {
-			target.show( 0 );
+			target.forcesRelevance( 'show' );
 		} else {
-			target.hide( 0 );
+			target.forcesRelevance( 'hide' );
 		}
 	});
 
