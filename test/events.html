@@ -216,6 +216,30 @@
 	});
 
 
+	module( 'irrelevant-done events' );
+
+	test( 'irrelevant-done event is triggered after showing an element', 4, function() {
+
+		var eventDetectedOnBar = 0,
+			eventDetectedOnFoo = 0;
+		
+		$( '#bar' ).bind( 'irrelevant-done', function() {
+			eventDetectedOnBar++;
+			ok( eventDetectedOnBar <= 2, 'irrelevant-done event detected on #bar' );
+		});
+
+		$( '#foo' ).bind( 'irrelevant-done', function() {
+			eventDetectedOnFoo++;
+			ok( eventDetectedOnFoo <= 2, 'irrelevant-done event detected on #foo' );
+		});
+
+		$( '#bar, #foo' ).forcesRelevance( 'hide' );
+		// should still fire, even though elements are now relevant
+		$( '#bar, #foo' ).forcesRelevance( 'hide' );
+
+	});
+
+
 // --></script>
 
 

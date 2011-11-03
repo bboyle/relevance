@@ -95,9 +95,9 @@
 	});
 
 
-	module( 'show method' );
+	module( 'show/hide methods' );
 
-	test( 'element is shown', 4, function() {
+	test( 'elements are visible after show', 4, function() {
 
 		$( '#foo, #bar' ).forcesRelevance( 'show' );
 		strictEqual( $( '#foo' ).is( ':visible' ), true, '#foo is visible' );
@@ -106,6 +106,18 @@
 		$( '#foo, #bar' ).forcesRelevance( 'show' );
 		strictEqual( $( '#foo' ).is( ':visible' ), true, '#foo is still visible' );
 		strictEqual( $( '#bar' ).is( ':visible' ), true, '#bar is still visible' );
+
+	});
+
+	test( 'elements are hidden after hide', 4, function() {
+
+		$( '#foo, #bar' ).forcesRelevance( 'hide' );
+		strictEqual( $( '#foo' ).is( ':hidden' ), true, '#foo is hidden' );
+		strictEqual( $( '#bar' ).is( ':hidden' ), true, '#bar is hidden' );
+
+		$( '#foo, #bar' ).forcesRelevance( 'hide' );
+		strictEqual( $( '#foo' ).is( ':hidden' ), true, '#foo is still hidden' );
+		strictEqual( $( '#bar' ).is( ':hidden' ), true, '#bar is still hidden' );
 
 	});
 

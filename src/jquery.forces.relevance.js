@@ -29,11 +29,19 @@ if ( jQuery !== 'undefined' ) {
 		},
 
 		// $( x ).forcesRelevance( 'show' )
-		// shows the element (does not check if element is already hidden)
-		// triggers 'relevant-done' after show is complete
+		// shows the element (does not check if element is already visible)
+		// triggers 'relevant-done' after showing is complete
 		show: function() {
 			// TODO use animation callback to trigger event
 			this.show().trigger( 'relevant-done' );
+		},
+
+		// $( x ).forcesRelevance( 'hide' )
+		// hides the element (does not check if element is already hidden)
+		// triggers 'irrelevant-done' after hiding is complete
+		hide: function() {
+			// TODO use animation callback to trigger event
+			this.hide().trigger( 'irrelevant-done' );
 		}
 
 	};
