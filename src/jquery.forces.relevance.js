@@ -33,7 +33,7 @@ if ( jQuery !== 'undefined' ) {
 		// triggers 'relevant-done' after showing is complete
 		show: function() {
 			// TODO use animation callback to trigger event
-			this.show().removeAttr( 'aria-hidden' ).trigger( 'relevant-done' );
+			this.show().removeAttr( 'hidden' ).removeAttr( 'aria-hidden' ).trigger( 'relevant-done' );
 		},
 
 		// $( x ).forcesRelevance( 'hide' )
@@ -41,7 +41,7 @@ if ( jQuery !== 'undefined' ) {
 		// triggers 'irrelevant-done' after hiding is complete
 		hide: function() {
 			// TODO use animation callback to trigger event
-			this.hide().attr( 'aria-hidden', 'true' ).trigger( 'irrelevant-done' );
+			this.hide().attr( 'hidden', 'hidden' ).attr( 'aria-hidden', 'true' ).trigger( 'irrelevant-done' );
 		}
 
 	};

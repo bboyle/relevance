@@ -138,7 +138,25 @@
 		strictEqual( $( '#foo' )[0].getAttribute( 'aria-hidden' ), null, '#foo is not aria-hidden after show()' );
 		strictEqual( $( '#bar' )[0].getAttribute( 'aria-hidden' ), null, '#bar is not aria-hidden after show()' );
 
-		
+	});
+
+	test( 'html5 @hidden state is flagged', 6, function() {
+
+		$( '#foo, #bar' ).forcesRelevance( 'show' );
+		strictEqual( $( '#foo' )[0].getAttribute( 'hidden' ), null, '#foo is not hidden' );
+		strictEqual( $( '#bar' )[0].getAttribute( 'hidden' ), null, '#bar is not hidden' );
+
+		$( '#foo, #bar' ).forcesRelevance( 'hide' );
+		// in html5 browsers, the value will be true
+		// in older browsers, the value will be 'hidden'
+		// just ensure it is not null
+		notStrictEqual( $( '#foo' )[0].getAttribute( 'hidden' ), null, '#foo is @hidden after hide()' );
+		notStrictEqual( $( '#bar' )[0].getAttribute( 'hidden' ), null, '#bar is @hidden after hide()' );
+
+		$( '#foo, #bar' ).forcesRelevance( 'show' );
+		strictEqual( $( '#foo' )[0].getAttribute( 'hidden' ), null, '#foo is not hidden after show()' );
+		strictEqual( $( '#bar' )[0].getAttribute( 'hidden' ), null, '#bar is not hidden after show()' );
+
 	});
 
 
