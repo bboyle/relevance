@@ -101,7 +101,7 @@
 
 		$( '#foo, #bar' ).forcesRelevance( 'relevant', true ).attr( 'title', 'foo' );
 		strictEqual( $( '#foo' ).attr( 'title' ), 'foo', '#foo was chained' );
-		strictEqual( $( '#foo' ).attr( 'title' ), 'foo', '#bar was chained' );
+		strictEqual( $( '#bar' ).attr( 'title' ), 'foo', '#bar was chained' );
 
 	});
 
@@ -109,7 +109,7 @@
 
 		$( '#foo, #bar' ).forcesRelevance( 'show' ).attr( 'title', 'foo' );
 		strictEqual( $( '#foo' ).attr( 'title' ), 'foo', '#foo was chained' );
-		strictEqual( $( '#foo' ).attr( 'title' ), 'foo', '#bar was chained' );
+		strictEqual( $( '#bar' ).attr( 'title' ), 'foo', '#bar was chained' );
 
 	});
 
@@ -117,7 +117,7 @@
 
 		$( '#foo, #bar' ).forcesRelevance( 'hide' ).attr( 'title', 'foo' );
 		strictEqual( $( '#foo' ).attr( 'title' ), 'foo', '#foo was chained' );
-		strictEqual( $( '#foo' ).attr( 'title' ), 'foo', '#bar was chained' );
+		strictEqual( $( '#bar' ).attr( 'title' ), 'foo', '#bar was chained' );
 
 	});
 

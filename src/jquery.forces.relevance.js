@@ -42,7 +42,7 @@ if ( jQuery !== 'undefined' ) {
 			});
 
 			// stop animation, remove @hidden and @aria-hidden, start showing
-			return this.stop( true, true ).removeAttr( 'hidden' ).removeAttr( 'aria-hidden' ).show( 0, function() {
+			return this.stop( true, true ).removeAttr( 'hidden' ).removeAttr( 'aria-hidden' ).slideDown(function() {
 				// done
 				$( this ).trigger( relevantDoneEvent );
 			});
