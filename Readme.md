@@ -29,19 +29,19 @@ indicates an element should be made irrelevant (hidden). No change for irrelevan
 
 ## `.forcesRelevance( 'show' )`
 
-# enables descendent form elements and self
-# removes `@hidden` attribute
-# removes `aria-hidden`
-# shows the element (uses a `slideDown` transition)
-# fires event `relevant-done`
+- enables descendent form elements and self
+- removes `@hidden` attribute
+- removes `aria-hidden`
+- shows the element (uses a `slideDown` transition)
+- fires event `relevant-done`
 
 ## `.forcesRelevance( 'hide' )`
 
-# hides element (no animation, hiding is immediate)
-# disables descendent form fields and self (if a form field)
-# adds `@hidden` attribute
-# adds `aria-hidden`
-# fires event `irrelevant-done`
+- hides element (no animation, hiding is immediate)
+- disables descendent form fields and self (if a form field)
+- adds `@hidden` attribute
+- adds `aria-hidden`
+- fires event `irrelevant-done`
 
 ## Events
 
