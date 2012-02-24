@@ -10,10 +10,10 @@ if ( jQuery !== 'undefined' ) {
 (function( $ ) {
 	'use strict';
 
-	var relevantEvent = $.Event( 'relevant' ),
-		irrelevantEvent = $.Event( 'irrelevant' ),
-		relevantDoneEvent = $.Event( 'relevant-done' ),
-		irrelevantDoneEvent = $.Event( 'irrelevant-done' ),
+	var relevantEvent = 'relevant',
+		irrelevantEvent = 'irrelevant',
+		relevantDoneEvent = 'relevant-done',
+		irrelevantDoneEvent = 'irrelevant-done',
 		elementsToDisable = 'button, input, select, textarea',
 
 	methods = {
@@ -42,7 +42,7 @@ if ( jQuery !== 'undefined' ) {
 			});
 
 			// stop animation, remove @hidden and @aria-hidden, start showing
-			return this.stop( true, true ).removeAttr( 'hidden' ).removeAttr( 'aria-hidden' ).show( 0, function() {
+			return this.stop( true, true ).removeAttr( 'hidden' ).removeAttr( 'aria-hidden' ).slideDown(function() {
 				// done
 				$( this ).trigger( relevantDoneEvent );
 			});
@@ -78,9 +78,9 @@ if ( jQuery !== 'undefined' ) {
 	$( document ).bind( 'relevant irrelevant', function( event ) {
 		var target = $( event.target );
 		if ( event.type === 'relevant' ) {
-			target.show( 0 );
+			target.forcesRelevance( 'show' );
 		} else {
-			target.hide( 0 );
+			target.forcesRelevance( 'hide' );
 		}
 	});
 
