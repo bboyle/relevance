@@ -97,6 +97,14 @@
 
 	module( 'chaining' );
 
+	test( 'null', 2, function() {
+
+		$( '#foo, #bar' ).forcesRelevance().attr( 'title', 'foo' );
+		strictEqual( $( '#foo' ).attr( 'title' ), 'foo', '#foo was chained' );
+		strictEqual( $( '#bar' ).attr( 'title' ), 'foo', '#bar was chained' );
+
+	});
+
 	test( 'relevant', 2, function() {
 
 		$( '#foo, #bar' ).forcesRelevance( 'relevant', true ).attr( 'title', 'foo' );
@@ -126,20 +134,32 @@
 
 	test( 'toggle relevance', function() {
 
+		$( '#foo' )
+		.bind( 'irrelevant-done', function() {
+			start();
+
+			strictEqual( $( '#foo' ).is( ':hidden' ), true, '#foo is hidden' );
+			strictEqual( $( '#foo' ).attr( 'aria-hidden' ), 'true', '#foo is aria-hidden when irrelevant' );
+			ok( $( '#foo' )[0].getAttribute( 'hidden' ), '#foo is @hidden when irrelevant' );
+			strictEqual( $( '#foo' ).attr( 'disabled' ), true, '#foo is @disabled when irrelevant' );
+
+		})
+		.bind( 'relevant-done', function() {
+
+			strictEqual( $( '#foo' ).is( ':visible' ), true, '#foo is visible' );
+			strictEqual( $( '#foo' )[0].getAttribute( 'aria-hidden' ), null, '#foo is not aria-hidden' );
+			strictEqual( $( '#foo' )[0].getAttribute( 'hidden' ), null, '#foo is not hidden' );
+			ok( ! $( '#foo' )[0].getAttribute( 'disabled' ), '#foo is not disabled' );
+
+			stop();
+			// make foo irrelevant		
+			$( '#foo' ).forcesRelevance( 'relevant', false );
+		});
+
+
 		// make foo relevant
 		$( '#foo' ).forcesRelevance( 'relevant', true );
-		strictEqual( $( '#foo' ).is( ':visible' ), true, '#foo is visible' );
-		strictEqual( $( '#foo' )[0].getAttribute( 'aria-hidden' ), null, '#foo is not aria-hidden' );
-		strictEqual( $( '#foo' )[0].getAttribute( 'hidden' ), null, '#foo is not hidden' );
-		ok( ! $( '#foo' )[0].getAttribute( 'disabled' ), '#foo is not disabled' );
 
-		// make foo irrelevant		
-		$( '#foo' ).forcesRelevance( 'relevant', false );
-		strictEqual( $( '#foo' ).is( ':hidden' ), true, '#foo is hidden' );
-		strictEqual( $( '#foo' ).attr( 'aria-hidden' ), 'true', '#foo is aria-hidden when irrelevant' );
-		notStrictEqual( $( '#foo' )[0].getAttribute( 'hidden' ), null, '#foo is @hidden when irrelevant' );
-		strictEqual( $( '#foo' ).attr( 'disabled' ), true, '#foo is @disabled when irrelevant' );
-		
 	});
 
 
