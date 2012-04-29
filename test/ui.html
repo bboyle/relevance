@@ -25,12 +25,7 @@
 
 
 
-<div id="qunit">
-	<h1 id="qunit-header">QUnit</h1>
-	<h2 id="qunit-banner"></h2>
-	<div id="qunit-testrunner-toolbar"></div>
-	<h2 id="qunit-userAgent"></h2>
-	<ol id="qunit-tests"></ol>
+	<div id="qunit"></div>
 	<div id="qunit-fixture">
 
 		<form id="test" action="javascript:">
@@ -73,10 +68,9 @@
 
 		</form>
 	</div>
-</div>
 
 
-<script src="../lib/jquery-1.4.4-min.js"></script>
+<script src="../lib/jquery-1.7.2.min.js"></script>
 <script src="../src/jquery.forces.relevance.js"></script>
 
 
@@ -170,8 +164,8 @@
 
 		$( '#foo, #bar' ).forcesRelevance( 'hide' );
 		// @disabled is true when set
-		strictEqual( $( '#foo' ).attr( 'disabled' ), true, '#foo is @disabled after hide()' );
-		strictEqual( $( '#bar' ).attr( 'disabled' ), true, '#bar is @disabled after hide()' );
+		strictEqual( $( '#foo' ).prop( 'disabled' ), true, '#foo is @disabled after hide()' );
+		strictEqual( $( '#bar' ).prop( 'disabled' ), true, '#bar is @disabled after hide()' );
 
 		$( '#foo, #bar' ).forcesRelevance( 'show' );
 		ok( ! $( '#foo' )[0].getAttribute( 'disabled' ), '#foo is not disabled after show()' );

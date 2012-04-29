@@ -25,12 +25,7 @@
 
 
 
-<div id="qunit">
-	<h1 id="qunit-header">QUnit</h1>
-	<h2 id="qunit-banner"></h2>
-	<div id="qunit-testrunner-toolbar"></div>
-	<h2 id="qunit-userAgent"></h2>
-	<ol id="qunit-tests"></ol>
+	<div id="qunit"></div>
 	<div id="qunit-fixture">
 
 		<form id="test" action="javascript:">
@@ -73,10 +68,9 @@
 
 		</form>
 	</div>
-</div>
 
 
-<script src="../lib/jquery-1.4.4-min.js"></script>
+<script src="../lib/jquery-1.7.2.min.js"></script>
 <script src="../src/jquery.forces.relevance.js"></script>
 
 
@@ -132,31 +126,37 @@
 
 	module( 'default behaviour' );
 
-	test( 'toggle relevance', function() {
+	test( 'toggle relevance', 8, function() {
 
 		$( '#foo' )
-		.bind( 'irrelevant-done', function() {
+		.on( 'irrelevant-done', function() {
+			// start qunit
 			start();
 
 			strictEqual( $( '#foo' ).is( ':hidden' ), true, '#foo is hidden' );
 			strictEqual( $( '#foo' ).attr( 'aria-hidden' ), 'true', '#foo is aria-hidden when irrelevant' );
-			ok( $( '#foo' )[0].getAttribute( 'hidden' ), '#foo is @hidden when irrelevant' );
-			strictEqual( $( '#foo' ).attr( 'disabled' ), true, '#foo is @disabled when irrelevant' );
+			ok( $( '#foo' )[ 0 ].getAttribute( 'hidden' ), '#foo is @hidden when irrelevant' );
+			strictEqual( $( '#foo' ).prop( 'disabled' ), true, '#foo is @disabled when irrelevant' );
 
 		})
-		.bind( 'relevant-done', function() {
+		.on( 'relevant-done', function() {
+			// start qunit
+			start();
 
 			strictEqual( $( '#foo' ).is( ':visible' ), true, '#foo is visible' );
-			strictEqual( $( '#foo' )[0].getAttribute( 'aria-hidden' ), null, '#foo is not aria-hidden' );
-			strictEqual( $( '#foo' )[0].getAttribute( 'hidden' ), null, '#foo is not hidden' );
-			ok( ! $( '#foo' )[0].getAttribute( 'disabled' ), '#foo is not disabled' );
+			strictEqual( $( '#foo' )[ 0 ].getAttribute( 'aria-hidden' ), null, '#foo is not aria-hidden' );
+			strictEqual( $( '#foo' )[ 0 ].getAttribute( 'hidden' ), null, '#foo is not hidden' );
+			ok( ! $( '#foo' )[ 0 ].getAttribute( 'disabled' ), '#foo is not disabled' );
 
-			stop();
-			// make foo irrelevant		
-			$( '#foo' ).forcesRelevance( 'relevant', false );
 		});
 
+		// stop qunit (until event triggers)
+		stop();
+		// make foo irrelevant
+		$( '#foo' ).forcesRelevance( 'relevant', false );
 
+		// stop qunit (until event triggers)
+		stop();
 		// make foo relevant
 		$( '#foo' ).forcesRelevance( 'relevant', true );
 
