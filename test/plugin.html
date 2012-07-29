@@ -123,6 +123,14 @@
 
 	});
 
+	test( 'instructions', 2, function() {
+
+		$( '#foo, #bar' ).forcesRelevance( 'instructions' ).attr( 'title', 'foo' );
+		strictEqual( $( '#foo' ).attr( 'title' ), 'foo', '#foo was chained' );
+		strictEqual( $( '#bar' ).attr( 'title' ), 'foo', '#bar was chained' );
+
+	});
+
 
 	module( 'default behaviour' );
 

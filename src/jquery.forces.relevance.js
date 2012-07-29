@@ -69,6 +69,12 @@ if ( jQuery !== 'undefined' ) {
 				// done
 				$this.trigger( irrelevantDoneEvent );
 			});
+		},
+
+		// $( x ).forcesRelevance( 'instructions', options )
+		// sets up relevance handling based on text instructions
+		instructions: function( options ) {
+			return this;
 		}
 
 	};
