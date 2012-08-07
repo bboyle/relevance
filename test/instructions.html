@@ -323,6 +323,13 @@
 <script><!-- //
 
 
+	var relevanceLifecycle = {
+		setup: function() {
+			$( '#test' ).forcesRelevance( 'instructions' );
+		}
+	};
+
+
 	module( 'environment' );
 
 	test( 'test fields are in test form', 6, function() {
@@ -344,30 +351,72 @@
 	});
 
 
-	module( 'after .forcesRelevance( \'instructions\' )' );
+	module( 'after .forcesRelevance( \'instructions\' )', relevanceLifecycle );
 
 	test( 'initial irrelevant elements are hidden', 1, function() {
-
-		// TODO move this into module setUp
-		$( '#test' ).forcesRelevance( 'instructions' );
 
 		strictEqual( $( '.relevance' ).filter( ':visible' ).length, 0, 'no `.relevance` instructions visible' );
 
 	});
 
-	test( 'initial relevant elements are shown', 1, function() {
+	test( 'initial relevant elements are shown', 6, function() {
 		
-		// TODO test radio buttons
-		// TODO test select
+		// test radio buttons
+		strictEqual( $( '#job-title' ).filter( ':hidden' ).length, 1, '#job-title is hidden' );
+		strictEqual( $( '#job-title' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#job-title section is hidden' );
+		strictEqual( $( '#retirement-date' ).filter( ':hidden' ).length, 1, '#retirement-date is hidden' );
+		strictEqual( $( '#retirement-date' ).closest( '.questions > li' ).filter( ':hidden' ).length, 1, '#retirement-date question is hidden' );
+		
+		// test select
+		strictEqual( $( '#permit-expiry-date' ).filter( ':hidden' ).length, 1, '#permit-expiry-date is hidden' );
+		strictEqual( $( '#permit-expiry-date' ).closest( '.questions > li' ).filter( ':hidden' ).length, 1, '#permit-expiry-date question is hidden' );
+
+
 		// TODO test checkbox
 
 	});
 
-	test( 'relevance can be toggled', 1, function() {
+	test( 'question relevance can be toggled by radio buttons', 6, function() {
 
-		// TODO test radio buttons
-		// TODO test select
-		// TODO test checkbox
+		// initially hidden
+		strictEqual( $( '#retirement-date' ).filter( ':hidden' ).length, 1, '#retirement-date is hidden' );
+		strictEqual( $( '#retirement-date' ).closest( '.questions > li' ).filter( ':hidden' ).length, 1, '#retirement-date question is hidden' );
+
+		// toggle relevance by clicking radio button
+		$( '#have-you-received-an-early-retirement-yes' ).click();
+
+		// should now be visible
+		strictEqual( $( '#retirement-date' ).filter( ':visible' ).length, 1, '#retirement-date is visible' );
+		strictEqual( $( '#retirement-date' ).closest( '.questions > li' ).filter( ':visible' ).length, 1, '#retirement-date question is visible' );
+
+		// toggle relevance by clicking radio button
+		$( '#have-you-received-an-early-retirement-no' ).click();
+
+		// should be hidden again
+		strictEqual( $( '#retirement-date' ).filter( ':hidden' ).length, 1, '#retirement-date is hidden' );
+		strictEqual( $( '#retirement-date' ).closest( '.questions > li' ).filter( ':hidden' ).length, 1, '#retirement-date question is hidden' );
+
+	});
+
+	test( 'group relevance can be toggled by radio buttons', 6, function() {
+
+		// initially hidden
+		strictEqual( $( '#job-title' ).filter( ':hidden' ).length, 1, '#job-title is hidden' );
+		strictEqual( $( '#job-title' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#job-title section is hidden' );
+
+		// toggle relevance by clicking radio button
+		$( '#are-you-currently-employed-by-the-queensland-government-yes' ).click();
+
+		// should now be visible
+		strictEqual( $( '#job-title' ).filter( ':visible' ).length, 1, '#job-title is visible' );
+		strictEqual( $( '#job-title' ).closest( '.section' ).filter( ':visible' ).length, 1, '#job-title section is visible' );
+
+		// toggle relevance by clicking radio button
+		$( '#are-you-currently-employed-by-the-queensland-government-no' ).click();
+
+		// should be hidden again
+		strictEqual( $( '#job-title' ).filter( ':hidden' ).length, 1, '#job-title is hidden' );
+		strictEqual( $( '#job-title' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#job-title section is hidden' );
 
 	});
 
