@@ -111,8 +111,8 @@ if ( jQuery !== 'undefined' ) {
 					toggle.data( 'forces-relevance', dependencyMap );
 
 					// setup relevance handler
-					$( 'input', toggle ).on( 'click', recalculateRelevance );
-					$( 'select', toggle ).on( 'change', recalculateRelevance );
+					$( 'input', toggle ).bind( 'click', recalculateRelevance );
+					$( 'select', toggle ).bind( 'change', recalculateRelevance );
 				}
 
 				// push this item onto the map

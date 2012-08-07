@@ -37,7 +37,8 @@
 	</target>
 
 	<target name="get-jquery" description="--> get jquery from googleapis">
-		<get src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" dest="${lib.dir}/jquery-1.7.2.min.js"/>
+		<get src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" dest="${lib.dir}/jquery-1.4.4-min.js"/>
+		<get src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" dest="${lib.dir}/jquery-1.7.2-min.js"/>
 	</target>
 
 	<target name="dependencies" depends="resolve,get-qunit,get-jquery" description="--> get all dependences"/>
