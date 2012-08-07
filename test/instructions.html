@@ -371,7 +371,6 @@
 		strictEqual( $( '#permit-expiry-date' ).filter( ':hidden' ).length, 1, '#permit-expiry-date is hidden' );
 		strictEqual( $( '#permit-expiry-date' ).closest( '.questions > li' ).filter( ':hidden' ).length, 1, '#permit-expiry-date question is hidden' );
 
-
 		// TODO test checkbox
 
 	});
@@ -395,6 +394,28 @@
 		// should be hidden again
 		strictEqual( $( '#retirement-date' ).filter( ':hidden' ).length, 1, '#retirement-date is hidden' );
 		strictEqual( $( '#retirement-date' ).closest( '.questions > li' ).filter( ':hidden' ).length, 1, '#retirement-date question is hidden' );
+
+	});
+
+	test( 'question relevance can be toggled by select list', 6, function() {
+
+		// initially hidden
+		strictEqual( $( '#permit-expiry-date' ).filter( ':hidden' ).length, 1, '#permit-expiry-date is hidden' );
+		strictEqual( $( '#permit-expiry-date' ).closest( '.questions > li' ).filter( ':hidden' ).length, 1, '#permit-expiry-date question is hidden' );
+
+		// toggle relevance by changing selection
+		$( '#work-status' ).each(function() { this.selectedIndex = 5; }).trigger( 'change' );
+
+		// should now be visible
+		strictEqual( $( '#permit-expiry-date' ).filter( ':visible' ).length, 1, '#permit-expiry-date is visible' );
+		strictEqual( $( '#permit-expiry-date' ).closest( '.questions > li' ).filter( ':visible' ).length, 1, '#permit-expiry-date question is visible' );
+
+		// toggle relevance by changing selection
+		$( '#work-status' ).each(function() { this.selectedIndex = 1; }).trigger( 'change' );
+
+		// should be hidden again
+		strictEqual( $( '#permit-expiry-date' ).filter( ':hidden' ).length, 1, '#permit-expiry-date is hidden' );
+		strictEqual( $( '#permit-expiry-date' ).closest( '.questions > li' ).filter( ':hidden' ).length, 1, '#permit-expiry-date question is hidden' );
 
 	});
 

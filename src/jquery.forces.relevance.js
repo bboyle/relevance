@@ -98,7 +98,7 @@ if ( jQuery !== 'undefined' ) {
 
 				// by default, we assume:
 				// 'this' is an instruction within a question/section represented by .closest( 'li' )
-				// the previous question (li, it should NOT be nested in a section) value must match the value in the instruction
+				// the previous question (li, it should NOT be nested in a previous section) value must match the value in the instruction
 				// the toggle question is radio buttons, a checkbox or a select list
 
 				// we could write a function for this relevance rule, but we would be writing multiple functions for the same question
@@ -112,7 +112,7 @@ if ( jQuery !== 'undefined' ) {
 
 					// setup relevance handler
 					$( 'input', toggle ).on( 'click', recalculateRelevance );
-					// $( 'select', toggle ).on( 'blur', recalculateRelevance );
+					$( 'select', toggle ).on( 'change', recalculateRelevance );
 				}
 
 				// push this item onto the map
