@@ -357,7 +357,7 @@
 
 	});
 
-	test( 'initial relevant elements are shown', 6, function() {
+	test( 'initial relevant elements are shown', 8, function() {
 		
 		// test radio buttons
 		strictEqual( $( '#job-title' ).filter( ':hidden' ).length, 1, '#job-title is hidden' );
@@ -369,7 +369,9 @@
 		strictEqual( $( '#permit-expiry-date' ).filter( ':hidden' ).length, 1, '#permit-expiry-date is hidden' );
 		strictEqual( $( '#permit-expiry-date' ).closest( '.questions > li' ).filter( ':hidden' ).length, 1, '#permit-expiry-date question is hidden' );
 
-		// TODO test checkbox
+		// test checkbox
+		strictEqual( $( '#postal-address' ).filter( ':hidden' ).length, 1, '#postal-address is hidden' );
+		strictEqual( $( '#postal-address' ).closest( '.atomic' ).filter( ':hidden' ).length, 1, '#postal-address group is hidden' );
 
 	});
 
@@ -436,6 +438,29 @@
 		// should be hidden again
 		strictEqual( $( '#job-title' ).filter( ':hidden' ).length, 1, '#job-title is hidden' );
 		strictEqual( $( '#job-title' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#job-title section is hidden' );
+
+	});
+
+
+	test( 'group relevance can be toggled by checkbox', 6, function() {
+
+		// initially hidden
+		strictEqual( $( '#postal-address' ).filter( ':hidden' ).length, 1, '#postal-address is hidden' );
+		strictEqual( $( '#postal-address' ).closest( '.atomic' ).filter( ':hidden' ).length, 1, '#postal-address group is hidden' );
+
+		// toggle relevance by clicking radio button
+		$( '#use-my-residential-address-as-my-postal-address' ).click();
+
+		// should now be visible
+		strictEqual( $( '#postal-address' ).filter( ':visible' ).length, 1, '#postal-address is visible' );
+		strictEqual( $( '#postal-address' ).closest( '.atomic' ).filter( ':visible' ).length, 1, '#postal-address group is visible' );
+
+		// toggle relevance by clicking radio button
+		$( '#use-my-residential-address-as-my-postal-address' ).click();
+
+		// should be hidden again
+		strictEqual( $( '#postal-address' ).filter( ':hidden' ).length, 1, '#postal-address is hidden' );
+		strictEqual( $( '#postal-address' ).closest( '.atomic' ).filter( ':hidden' ).length, 1, '#postal-address group is hidden' );
 
 	});
 
