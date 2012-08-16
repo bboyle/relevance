@@ -18,11 +18,15 @@ if ( jQuery !== 'undefined' ) {
 
 		recalculateRelevance = function() {
 			var $this = $( this ),
+				value = $this.val() || $this.find( 'input' ).filter( ':checked' ).val(),
 				question = $this.closest( '.questions > li' ),
-				value = $this.val(),
-				// TODO how to find dependency map without assuming .questions > li?
 				dependencyMap = question.data( 'forces-relevance' )
 			;
+
+			// 
+			if ( ! dependencyMap || dependencyMap.length < 1 ) {
+				return;
+			}
 
 			// checkbox, test if it was checked or unchecked
 			if ( /^checkbox$/i.test( this.type )) {
@@ -47,7 +51,6 @@ if ( jQuery !== 'undefined' ) {
 			if ( ! makeRelevant ) {
 				this.filter( ':visible' ).trigger( irrelevantEvent ).each(function() {
 					var dependencyMap = $( this ).data( 'forces-relevance' );
-
 					// hide any dependent elements
 					if ( dependencyMap && dependencyMap.length > 0 ) {
 						$.each( dependencyMap, function( index, element ) {
@@ -56,7 +59,10 @@ if ( jQuery !== 'undefined' ) {
 					}
 				});
 			} else {
-				this.filter( ':hidden' ).trigger( relevantEvent );
+				this.filter( ':hidden' ).trigger( relevantEvent ).each(function() {
+					// recalculate relevance for dependencies
+					recalculateRelevance.call( this );
+				});
 			}
 			return this;
 		},

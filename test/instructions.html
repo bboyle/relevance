@@ -335,9 +335,9 @@
 							<small class="hint relevance">(If you chose ‘Yes’ above)</small>
 						</legend>
 						<ul class="choices">
-							<li><input type="radio" name="pets" id="pets-cat" value="Cat" /><label for="pets-cat">Cat</label></li>
-							<li><input type="radio" name="pets" id="pets-dog" value="Dog" /><label for="pets-dog">Dog</label></li>
-							<li><input type="radio" name="pets" id="pets-bird" value="Bird" /><label for="pets-bird">Bird</label></li>
+							<li><input type="checkbox" name="pets" id="pets-cat" value="Cat" /><label for="pets-cat">Cat</label></li>
+							<li><input type="checkbox" name="pets" id="pets-dog" value="Dog" /><label for="pets-dog">Dog</label></li>
+							<li><input type="checkbox" name="pets" id="pets-bird" value="Bird" /><label for="pets-bird">Bird</label></li>
 						</ul>
 					</fieldset>
 				</li>
@@ -559,7 +559,7 @@
 		strictEqual( $( '#bird-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#bird-owners section is hidden' );
 	});
 
-	test( 'hiding a gating question hides the dependencies', 10, function() {
+	test( 'hiding a gating question hides the dependencies', 16, function() {
 
 		$( '#pet-owner-yes' ).click();
 		$( '#pets-cat' )[ 0 ].click();
@@ -576,6 +576,15 @@
 		strictEqual( $( '#pets' ).filter( ':hidden' ).length, 1, '#pets is hidden' );
 		strictEqual( $( '#pets' ).closest( '.questions > li' ).filter( ':hidden' ).length, 1, '#pets question is hidden' );
 		strictEqual( $( '#cat-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#cat-owners section is hidden' );
+		strictEqual( $( '#dog-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#dog-owners section is hidden' );
+		strictEqual( $( '#bird-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#bird-owners section is hidden' );
+
+		// toggle pet ownership, should also show cat question
+		$( '#pet-owner-yes' ).click();
+		strictEqual( $( '#pets' ).filter( ':visible' ).length, 1, '#pets is visible' );
+		strictEqual( $( '#pets' ).closest( '.questions > li' ).filter( ':visible' ).length, 1, '#pets question is visible' );
+		strictEqual( $( '#pets-cat' )[ 0 ].checked, true, 'remembers pets-cat is checked' );
+		strictEqual( $( '#cat-owners' ).closest( '.section' ).filter( ':visible' ).length, 1, '#cat-owners section is visible' );
 		strictEqual( $( '#dog-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#dog-owners section is hidden' );
 		strictEqual( $( '#bird-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#bird-owners section is hidden' );
 
