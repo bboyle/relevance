@@ -18,25 +18,27 @@ if ( jQuery !== 'undefined' ) {
 
 		recalculateRelevance = function() {
 			var $this = $( this ),
-				value = $this.val() || $this.find( 'input' ).filter( ':checked' ).val(),
+				values,
 				question = $this.closest( '.questions > li' ),
 				dependencyMap = question.data( 'forces-relevance' )
 			;
 
-			// 
+			// bail out if not setup
 			if ( ! dependencyMap || dependencyMap.length < 1 ) {
 				return;
 			}
 
 			// checkbox, test if it was checked or unchecked
 			if ( /^checkbox$/i.test( this.type )) {
-				if ( ! this.checked ) {
-					value = null;
-				}
+				values = $.map( $( this.form.elements[ this.name ] ).filter( ':checked' ), function( element ) {
+					return element.value;
+				});
+			} else {
+				values = [ $this.val() || $this.find( 'input' ).filter( ':checked' ).val() ];
 			}
 
 			$.each( dependencyMap, function( index, element ) {
-				element.question.forcesRelevance( 'relevant', ( element.value === value ) === element.bool );
+				element.question.forcesRelevance( 'relevant', ( $.inArray( element.value, values ) >= 0 ) === element.bool );
 			});
 		},
 
@@ -115,7 +117,11 @@ if ( jQuery !== 'undefined' ) {
 				var $this = $( this ),
 					value = $this.text().replace( /^[\S\s]*chose \W([\w\s]+)\W above[\S\s]*$/, '$1' ),
 					question = $this.closest( 'li' ),
-					toggle = question.prev( 'li' ).eq( 0 ),
+					toggle = question.prevAll( 'li' ),
+					i, answers,
+					answerMap = function( element ) {
+						return element.value;
+					},
 					bool = true,
 					dependencyMap
 				;
@@ -127,8 +133,24 @@ if ( jQuery !== 'undefined' ) {
 
 				// pattern: (If different to <PREVIOUS QUESTION>)
 				if ( /If different to/.test( value )) {
+					// assume previous 'li' is the toggle
+					toggle = toggle.eq( 0 );
 					value = toggle.find( ':checkbox' ).val();
 					bool = false;
+				} else {
+					// which of the previous questions is the toggle?
+					i = 0;
+					while ( i < toggle.length ) {
+						// skip sections
+						if ( ! toggle.eq( i ).is( '.section' )) {
+							// does this item have the answer we need?
+							answers = $.map( toggle.eq( i ).find( 'option,:radio,:checkbox' ), answerMap );
+							if ( $.inArray( value, answers ) >= 0 ) {
+								toggle = toggle.eq( i );
+							}
+						}
+						i++;
+					}
 				}
 
 				// we could write a function for this relevance rule, but we would be writing multiple functions for the same question
@@ -153,7 +175,8 @@ if ( jQuery !== 'undefined' ) {
 				});
 
 				// initial relevance
-				question.forcesRelevance( 'relevant', ( toggle.find( 'input' ).filter( ':checked' ).val() === value ) === bool );
+				answers = $.map( toggle.find( 'select,:checked' ), answerMap );
+				question.forcesRelevance( 'relevant', ( $.inArray( value, answers ) >= 0 ) === bool );
 			});
 
 			return this;
