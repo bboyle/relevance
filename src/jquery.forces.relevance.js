@@ -18,13 +18,21 @@ if ( jQuery !== 'undefined' ) {
 
 		recalculateRelevance = function() {
 			var $this = $( this ),
-				checkedValue = $this.val() || $this.find( ':checked' ).val(),
+				question = $this.closest( '.questions > li' ),
+				value = $this.val(),
 				// TODO how to find dependency map without assuming .questions > li?
-				dependencyMap = $this.closest( '.questions > li' ).data( 'forces-relevance' )
+				dependencyMap = question.data( 'forces-relevance' )
 			;
 
+			// checkbox, test if it was checked or unchecked
+			if ( /^checkbox$/i.test( this.type )) {
+				if ( ! this.checked ) {
+					value = null;
+				}
+			}
+
 			$.each( dependencyMap, function( index, element ) {
-				element.question.forcesRelevance( 'relevant', element.value === checkedValue );
+				element.question.forcesRelevance( 'relevant', ( element.value === value ) === element.bool );
 			});
 		},
 
@@ -93,6 +101,7 @@ if ( jQuery !== 'undefined' ) {
 					value = $this.text().replace( /^[\S\s]*chose \W([\w\s]+)\W above[\S\s]*$/, '$1' ),
 					question = $this.closest( 'li' ),
 					toggle = question.prev( 'li' ).eq( 0 ),
+					bool = true,
 					dependencyMap
 				;
 
@@ -100,6 +109,12 @@ if ( jQuery !== 'undefined' ) {
 				// 'this' is an instruction within a question/section represented by .closest( 'li' )
 				// the previous question (li, it should NOT be nested in a previous section) value must match the value in the instruction
 				// the toggle question is radio buttons, a checkbox or a select list
+
+				// pattern: (If different to <PREVIOUS QUESTION>)
+				if ( /If different to/.test( value )) {
+					value = toggle.find( ':checkbox' ).val();
+					bool = false;
+				}
 
 				// we could write a function for this relevance rule, but we would be writing multiple functions for the same question
 				// is that too inefficient? probably. we should not keep adding event handlers.
@@ -118,11 +133,12 @@ if ( jQuery !== 'undefined' ) {
 				// push this item onto the map
 				dependencyMap.push({
 					question : question,
-					value : value
+					value : value,
+					bool : bool
 				});
 
 				// initial relevance
-				question.forcesRelevance( 'relevant', toggle.find( 'input' ).filter( ':checked' ).val() === value );
+				question.forcesRelevance( 'relevant', ( toggle.find( 'input' ).filter( ':checked' ).val() === value ) === bool );
 			});
 
 			return this;

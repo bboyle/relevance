@@ -441,22 +441,23 @@
 
 	});
 
-
-	test( 'group relevance can be toggled by checkbox', 6, function() {
+	test( 'group relevance can be toggled by checkbox', 8, function() {
 
 		// initially hidden
 		strictEqual( $( '#postal-address' ).filter( ':hidden' ).length, 1, '#postal-address is hidden' );
 		strictEqual( $( '#postal-address' ).closest( '.atomic' ).filter( ':hidden' ).length, 1, '#postal-address group is hidden' );
 
-		// toggle relevance by clicking radio button
-		$( '#use-my-residential-address-as-my-postal-address' ).click();
+		// toggle relevance by clicking checkbox
+		$( '#use-my-residential-address-as-my-postal-address' )[ 0 ].click();
+		strictEqual( $( '#use-my-residential-address-as-my-postal-address' )[ 0 ].checked, false, 'checkbox is not checked' );
 
 		// should now be visible
 		strictEqual( $( '#postal-address' ).filter( ':visible' ).length, 1, '#postal-address is visible' );
 		strictEqual( $( '#postal-address' ).closest( '.atomic' ).filter( ':visible' ).length, 1, '#postal-address group is visible' );
 
-		// toggle relevance by clicking radio button
-		$( '#use-my-residential-address-as-my-postal-address' ).click();
+		// toggle relevance by clicking checkbox
+		$( '#use-my-residential-address-as-my-postal-address' )[ 0 ].click();
+		strictEqual( $( '#use-my-residential-address-as-my-postal-address' )[ 0 ].checked, true, 'checkbox is checked' );
 
 		// should be hidden again
 		strictEqual( $( '#postal-address' ).filter( ':hidden' ).length, 1, '#postal-address is hidden' );
