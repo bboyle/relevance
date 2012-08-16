@@ -15,6 +15,11 @@
 			color: #111;
 		}
 
+		.relevance {
+			color: red;
+			font-weight: bold;
+		}
+
 		#qunit-fixture {
 			position: static;
 		}
@@ -311,6 +316,62 @@
 					</fieldset>
 				</li>
 
+				<li>
+					<fieldset id="pet-owner">
+						<legend>
+							<span class="label">Do you own a pet?</span>
+						</legend>
+						<ul class="choices">
+							<li><input type="radio" name="pet-owner" id="pet-owner-yes" value="Yes" /><label for="pet-owner-yes">Yes</label></li>
+							<li><input type="radio" name="pet-owner" id="pet-owner-no" value="No" /><label for="pet-owner-no">No</label></li>
+						</ul>
+					</fieldset>
+				</li>
+
+				<li>
+					<fieldset id="pets">
+						<legend>
+							<span class="label">Which pets do you own?</span>
+							<small class="hint relevance">(If you chose ‘Yes’ above)</small>
+						</legend>
+						<ul class="choices">
+							<li><input type="radio" name="pets" id="pets-cat" value="Cat" /><label for="pets-cat">Cat</label></li>
+							<li><input type="radio" name="pets" id="pets-dog" value="Dog" /><label for="pets-dog">Dog</label></li>
+							<li><input type="radio" name="pets" id="pets-bird" value="Bird" /><label for="pets-bird">Bird</label></li>
+						</ul>
+					</fieldset>
+				</li>
+
+				<li class="section">
+					<fieldset id="cat-owners">
+						<legend>
+							<span class="h2">Cat owners</span>
+							<small class="hint relevance">(If you chose ‘Cat’ above)</small>
+						</legend>
+						<p>Questions for cat owners go here.</p>
+					</fieldset>
+				</li>
+
+				<li class="section">
+					<fieldset id="dog-owners">
+						<legend>
+							<span class="h2">Dog owners</span>
+							<small class="hint relevance">(If you chose ‘Dog’ above)</small>
+						</legend>
+						<p>Questions for dog owners go here.</p>
+					</fieldset>
+				</li>
+
+				<li class="section">
+					<fieldset id="bird-owners">
+						<legend>
+							<span class="h2">Bird owners</span>
+							<small class="hint relevance">(If you chose ‘Bird’ above)</small>
+						</legend>
+						<p>Questions for bird owners go here.</p>
+					</fieldset>
+				</li>
+
 			</ol>
 		</form>
 	</div>
@@ -330,14 +391,18 @@
 
 	module( 'environment' );
 
-	test( 'test fields are in test form', 6, function() {
+	test( 'test fields are in test form', 10, function() {
 
 		strictEqual( $( 'form#test' ).length, 1, 'form#test exists' );
-		strictEqual( $( '.relevance', '#test' ).length, 4, '4 `.relevance` instructions found' );
-		strictEqual( $( '.relevance', '#test' ).eq( 0 ).text(), '(If different to home address)', '4 `.relevance` instructions found' );
-		strictEqual( $( '.relevance', '#test' ).eq( 1 ).text(), '(If you chose ‘Current working visa’ above)', '4 `.relevance` instructions found' );
-		strictEqual( $( '.relevance', '#test' ).eq( 2 ).text(), '(If you chose ‘Yes’ above)', '4 `.relevance` instructions found' );
-		strictEqual( $( '.relevance', '#test' ).eq( 3 ).text(), '(If you chose ‘Yes’ above)', '4 `.relevance` instructions found' );
+		strictEqual( $( '.relevance', '#test' ).length, 8, '8 `.relevance` instructions found' );
+		strictEqual( $( '.relevance', '#test' ).eq( 0 ).text(), '(If different to home address)', 'correct instruction text' );
+		strictEqual( $( '.relevance', '#test' ).eq( 1 ).text(), '(If you chose ‘Current working visa’ above)', 'correct instruction text' );
+		strictEqual( $( '.relevance', '#test' ).eq( 2 ).text(), '(If you chose ‘Yes’ above)', 'correct instruction text' );
+		strictEqual( $( '.relevance', '#test' ).eq( 3 ).text(), '(If you chose ‘Yes’ above)', 'correct instruction text' );
+		strictEqual( $( '.relevance', '#test' ).eq( 4 ).text(), '(If you chose ‘Yes’ above)', 'correct instruction text' );
+		strictEqual( $( '.relevance', '#test' ).eq( 5 ).text(), '(If you chose ‘Cat’ above)', 'correct instruction text' );
+		strictEqual( $( '.relevance', '#test' ).eq( 6 ).text(), '(If you chose ‘Dog’ above)', 'correct instruction text' );
+		strictEqual( $( '.relevance', '#test' ).eq( 7 ).text(), '(If you chose ‘Bird’ above)', 'correct instruction text' );
 
 	});
 
@@ -345,7 +410,7 @@
 	module( 'before .forcesRelevance( \'instructions\' )' );
 
 	test( 'all sections are relevant', 1, function() {
-		strictEqual( $( '.relevance' ).filter( ':visible' ).length, 4, '4 `.relevance` instructions visible' );
+		strictEqual( $( '.relevance' ).filter( ':visible' ).length, 8, '8 `.relevance` instructions visible' );
 	});
 
 
@@ -462,6 +527,57 @@
 		// should be hidden again
 		strictEqual( $( '#postal-address' ).filter( ':hidden' ).length, 1, '#postal-address is hidden' );
 		strictEqual( $( '#postal-address' ).closest( '.atomic' ).filter( ':hidden' ).length, 1, '#postal-address group is hidden' );
+
+	});
+
+
+	module( 'nested relevance', relevanceLifecycle );
+
+	test( 'sequential relevance', 15, function() {
+
+		// initially hidden
+		strictEqual( $( '#pets' ).filter( ':hidden' ).length, 1, '#pets is hidden' );
+		strictEqual( $( '#pets' ).closest( '.questions > li' ).filter( ':hidden' ).length, 1, '#pets question is hidden' );
+		strictEqual( $( '#cat-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#cat-owners section is hidden' );
+		strictEqual( $( '#dog-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#dog-owners section is hidden' );
+		strictEqual( $( '#bird-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#bird-owners section is hidden' );
+
+		// toggle relevance by clicking radio button
+		$( '#pet-owner-yes' ).click();
+		strictEqual( $( '#pets' ).filter( ':visible' ).length, 1, '#pets is visible' );
+		strictEqual( $( '#pets' ).closest( '.questions > li' ).filter( ':visible' ).length, 1, '#pets question is visible' );
+		strictEqual( $( '#cat-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#cat-owners section is hidden' );
+		strictEqual( $( '#dog-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#dog-owners section is hidden' );
+		strictEqual( $( '#bird-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#bird-owners section is hidden' );
+
+		// toggle nested relevance by clicking checkboxes
+		$( '#pets-cat' )[ 0 ].click();
+		strictEqual( $( '#pets' ).filter( ':visible' ).length, 1, '#pets is visible' );
+		strictEqual( $( '#pets' ).closest( '.questions > li' ).filter( ':visible' ).length, 1, '#pets question is visible' );
+		strictEqual( $( '#cat-owners' ).closest( '.section' ).filter( ':visible' ).length, 1, '#cat-owners section is visible' );
+		strictEqual( $( '#dog-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#dog-owners section is hidden' );
+		strictEqual( $( '#bird-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#bird-owners section is hidden' );
+	});
+
+	test( 'hiding a gating question hides the dependencies', 10, function() {
+
+		$( '#pet-owner-yes' ).click();
+		$( '#pets-cat' )[ 0 ].click();
+
+		// toggle nested relevance by clicking checkboxes
+		strictEqual( $( '#pets' ).filter( ':visible' ).length, 1, '#pets is visible' );
+		strictEqual( $( '#pets' ).closest( '.questions > li' ).filter( ':visible' ).length, 1, '#pets question is visible' );
+		strictEqual( $( '#cat-owners' ).closest( '.section' ).filter( ':visible' ).length, 1, '#cat-owners section is visible' );
+		strictEqual( $( '#dog-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#dog-owners section is hidden' );
+		strictEqual( $( '#bird-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#bird-owners section is hidden' );
+
+		// toggle pet ownership, should also hide cat question
+		$( '#pet-owner-no' ).click();
+		strictEqual( $( '#pets' ).filter( ':hidden' ).length, 1, '#pets is hidden' );
+		strictEqual( $( '#pets' ).closest( '.questions > li' ).filter( ':hidden' ).length, 1, '#pets question is hidden' );
+		strictEqual( $( '#cat-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#cat-owners section is hidden' );
+		strictEqual( $( '#dog-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#dog-owners section is hidden' );
+		strictEqual( $( '#bird-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#bird-owners section is hidden' );
 
 	});
 

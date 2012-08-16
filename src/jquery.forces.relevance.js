@@ -45,7 +45,16 @@ if ( jQuery !== 'undefined' ) {
 		// if the element is visible, fire an "irrelevant" event
 		relevant: function( makeRelevant ) {
 			if ( ! makeRelevant ) {
-				this.filter( ':visible' ).trigger( irrelevantEvent );
+				this.filter( ':visible' ).trigger( irrelevantEvent ).each(function() {
+					var dependencyMap = $( this ).data( 'forces-relevance' );
+
+					// hide any dependent elements
+					if ( dependencyMap && dependencyMap.length > 0 ) {
+						$.each( dependencyMap, function( index, element ) {
+							element.question.forcesRelevance( 'relevant', false );
+						});
+					}
+				});
 			} else {
 				this.filter( ':hidden' ).trigger( relevantEvent );
 			}
