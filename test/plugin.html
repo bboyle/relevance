@@ -70,9 +70,7 @@
 	</div>
 
 
-<script src="../lib/jquery-1.7.2.min.js"></script>
-<script src="../src/jquery.forces.relevance.js"></script>
-
+<script src="qunit-helpers.js"></script>
 
 <script><!-- //
 
@@ -118,6 +116,14 @@
 	test( 'hide', 2, function() {
 
 		$( '#foo, #bar' ).forcesRelevance( 'hide' ).attr( 'title', 'foo' );
+		strictEqual( $( '#foo' ).attr( 'title' ), 'foo', '#foo was chained' );
+		strictEqual( $( '#bar' ).attr( 'title' ), 'foo', '#bar was chained' );
+
+	});
+
+	test( 'instructions', 2, function() {
+
+		$( '#foo, #bar' ).forcesRelevance( 'instructions' ).attr( 'title', 'foo' );
 		strictEqual( $( '#foo' ).attr( 'title' ), 'foo', '#foo was chained' );
 		strictEqual( $( '#bar' ).attr( 'title' ), 'foo', '#bar was chained' );
 

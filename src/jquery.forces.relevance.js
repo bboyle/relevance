@@ -16,6 +16,33 @@ if ( jQuery !== 'undefined' ) {
 		irrelevantDoneEvent = 'irrelevant-done',
 		elementsToDisable = 'button, input, select, textarea',
 
+		recalculateRelevance = function() {
+			var $this = $( this ),
+				values,
+				question = $this.closest( '.questions > li' ),
+				dependencyMap = question.data( 'forces-relevance' )
+			;
+
+			// bail out if not setup
+			if ( ! dependencyMap || dependencyMap.length < 1 ) {
+				return;
+			}
+
+			// checkbox, test if it was checked or unchecked
+			if ( /^checkbox$/i.test( this.type )) {
+				values = $.map( $( this.form.elements[ this.name ] ).filter( ':checked' ), function( element ) {
+					return element.value;
+				});
+			} else {
+				values = [ $this.val() || $this.find( 'input' ).filter( ':checked' ).val() ];
+			}
+
+			$.each( dependencyMap, function( index, element ) {
+				element.question.forcesRelevance( 'relevant', ( $.inArray( element.value, values ) >= 0 ) === element.bool );
+			});
+		},
+
+
 	methods = {
 
 		// $( x ).forcesRelevance( 'relevant', true )
@@ -24,9 +51,20 @@ if ( jQuery !== 'undefined' ) {
 		// if the element is visible, fire an "irrelevant" event
 		relevant: function( makeRelevant ) {
 			if ( ! makeRelevant ) {
-				this.filter( ':visible' ).trigger( irrelevantEvent );
+				this.filter( ':visible' ).trigger( irrelevantEvent ).each(function() {
+					var dependencyMap = $( this ).data( 'forces-relevance' );
+					// hide any dependent elements
+					if ( dependencyMap && dependencyMap.length > 0 ) {
+						$.each( dependencyMap, function( index, element ) {
+							element.question.forcesRelevance( 'relevant', false );
+						});
+					}
+				});
 			} else {
-				this.filter( ':hidden' ).trigger( relevantEvent );
+				this.filter( ':hidden' ).trigger( relevantEvent ).each(function() {
+					// recalculate relevance for dependencies
+					recalculateRelevance.call( this );
+				});
 			}
 			return this;
 		},
@@ -69,6 +107,79 @@ if ( jQuery !== 'undefined' ) {
 				// done
 				$this.trigger( irrelevantDoneEvent );
 			});
+		},
+
+		// $( x ).forcesRelevance( 'instructions', options )
+		// sets up relevance handling based on text instructions
+		instructions: function( options ) {
+
+			this.find( '.relevance' ).each(function() {
+				var $this = $( this ),
+					value = $this.text().replace( /^[\S\s]*chose \W([\w\s]+)\W above[\S\s]*$/, '$1' ),
+					question = $this.closest( 'li' ),
+					toggle = question.prevAll( 'li' ),
+					i, answers,
+					answerMap = function( element ) {
+						return element.value;
+					},
+					bool = true,
+					dependencyMap
+				;
+
+				// by default, we assume:
+				// 'this' is an instruction within a question/section represented by .closest( 'li' )
+				// the previous question (li, it should NOT be nested in a previous section) value must match the value in the instruction
+				// the toggle question is radio buttons, a checkbox or a select list
+
+				// pattern: (If different to <PREVIOUS QUESTION>)
+				if ( /If different to/.test( value )) {
+					// assume previous 'li' is the toggle
+					toggle = toggle.eq( 0 );
+					value = toggle.find( ':checkbox' ).val();
+					bool = false;
+				} else {
+					// which of the previous questions is the toggle?
+					i = 0;
+					while ( i < toggle.length ) {
+						// skip sections
+						if ( ! toggle.eq( i ).is( '.section' )) {
+							// does this item have the answer we need?
+							answers = $.map( toggle.eq( i ).find( 'option,:radio,:checkbox' ), answerMap );
+							if ( $.inArray( value, answers ) >= 0 ) {
+								toggle = toggle.eq( i );
+							}
+						}
+						i++;
+					}
+				}
+
+				// we could write a function for this relevance rule, but we would be writing multiple functions for the same question
+				// is that too inefficient? probably. we should not keep adding event handlers.
+				// need to store a dependency map.
+				// when values change, check their dependency map.
+				dependencyMap = toggle.data( 'forces-relevance' );
+				if ( typeof dependencyMap !== 'object' ) {
+					dependencyMap = [];
+					toggle.data( 'forces-relevance', dependencyMap );
+
+					// setup relevance handler
+					$( 'input', toggle ).bind( 'click', recalculateRelevance );
+					$( 'select', toggle ).bind( 'change', recalculateRelevance );
+				}
+
+				// push this item onto the map
+				dependencyMap.push({
+					question : question,
+					value : value,
+					bool : bool
+				});
+
+				// initial relevance
+				answers = $.map( toggle.find( 'select,:checked' ), answerMap );
+				question.forcesRelevance( 'relevant', ( $.inArray( value, answers ) >= 0 ) === bool );
+			});
+
+			return this;
 		}
 
 	};

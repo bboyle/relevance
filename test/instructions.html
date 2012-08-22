@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+	<meta charset="UTF-8" />
+	<title>instruction tests · forces relevance tests</title>
+
+	<link rel="stylesheet" href="../lib/qunit-git.css" />
+	<script src="../lib/qunit-git.js"></script>
+
+	<style>
+		body {
+			padding: 2em;
+			font-family: sans-serif;
+			background: #faf7f3;
+			color: #111;
+		}
+
+		.relevance {
+			color: red;
+			font-weight: bold;
+		}
+
+		#qunit-fixture {
+			position: static;
+		}
+	</style>
+</head>
+
+<body>
+
+
+
+	<div id="qunit"></div>
+	<div id="qunit-fixture">
+
+		<form id="test" action="javascript:">
+			<ol class="questions">
+
+				<li class="section">
+					<fieldset>
+						<legend>
+							<span class="h2">Personal details</span>
+						</legend>
+						<ol class="questions">
+
+							<li class="atomic group">
+								<fieldset>
+									<legend>
+										<span class="label">Home address</span>
+									</legend>
+									<ol class="questions">
+										<li>
+											<label for="residential-address">
+												<span class="label">Street address</span>
+												<abbr class="required" title="(required)">*</abbr>
+											</label>
+											<textarea id="residential-address" name="residential-address" rows="2" cols="20" required="required"></textarea>
+										</li>
+										<li class="group">
+											<ol class="questions compact">
+												<li>
+													<label for="residential-address3">
+														<span class="label">Town or suburb</span>
+														<abbr class="required" title="(required)">*</abbr>
+													</label>
+													<input id="residential-address3" name="residential-address" size="20" value="" required="required" type="text" />
+												</li>
+												<li>
+													<label for="residential-address-qld">
+														<span class="label">State</span>
+														<abbr class="required" title="(required)">*</abbr>
+													</label>
+													<select id="residential-address-qld" name="residential-address" required="required">
+														<option>ACT</option>
+														<option>NSW</option>
+														<option>NT</option>
+														<option selected="selected">QLD</option>
+														<option>SA</option>
+														<option>TAS</option>
+														<option>VIC</option>
+														<option>WA</option>
+													</select>
+												</li>
+												<li>
+													<label for="residential-address4">
+														<span class="label">Postcode</span>
+														<abbr class="required" title="(required)">*</abbr>
+													</label>
+													<input id="residential-address4" name="residential-address" size="5" value="" required="required" type="text" />
+												</li>
+											</ol>
+										</li>
+										<li>
+											<label for="residential-address-australia">
+												<span class="label">Country</span>
+												<abbr class="required" title="(required)">*</abbr>
+											</label>
+											<select id="residential-address-australia" name="residential-address" required="required">
+												<option selected="selected">Australia</option>
+											</select>
+										</li>
+									</ol>
+								</fieldset>
+							</li>
+
+							<li>
+								<input id="use-my-residential-address-as-my-postal-address" name="use-my-residential-address-as-my-postal-address" value="true" type="checkbox" checked="checked" />
+								<label for="use-my-residential-address-as-my-postal-address">Use my home address as my postal address.</label>
+							</li>
+
+							<li class="atomic group">
+								<fieldset>
+									<legend>
+										<span class="label">Postal address</span>
+										<small class="hint relevance">(If different to home address)</small>
+									</legend>
+									<ol class="questions">
+										<li>
+											<label for="postal-address">
+												<span class="label">Street address or PO box</span>
+												<abbr class="required" title="(required)">*</abbr>
+											</label>
+											<textarea id="postal-address" name="postal-address" rows="2" cols="20"></textarea>
+										</li>
+										<li class="group">
+											<ol class="questions compact">
+												<li>
+													<label for="postal-address3">
+														<span class="label">Town or suburb</span>
+														<abbr class="required" title="(required)">*</abbr>
+													</label>
+													<input id="postal-address3" name="postal-address" size="20" value="" type="text" />
+												</li>
+												<li>
+													<label for="postal-address-qld">
+														<span class="label">State</span>
+														<abbr class="required" title="(required)">*</abbr>
+													</label>
+													<select id="postal-address-qld" name="postal-address">
+														<option>ACT</option>
+														<option>NSW</option>
+														<option>NT</option>
+														<option selected="selected">QLD</option>
+														<option>SA</option>
+														<option>TAS</option>
+														<option>VIC</option>
+														<option>WA</option>
+													</select>
+												</li>
+												<li>
+													<label for="postal-address4">
+														<span class="label">Postcode</span>
+														<abbr class="required" title="(required)">*</abbr>
+													</label>
+													<input id="postal-address4" name="postal-address" size="5" value="" type="text" />
+												</li>
+											</ol>
+										</li>
+										<li>
+											<label for="postal-address-australia">
+												<span class="label">Country</span>
+												<abbr class="required" title="(required)">*</abbr>
+											</label>
+											<select id="postal-address-australia" name="postal-address">
+												<option selected="selected">Australia</option>
+											</select>
+										</li>
+									</ol>
+								</fieldset>
+							</li>
+
+						</ol>
+					</fieldset>
+				</li>
+
+				<li class="section">
+					<fieldset>
+						<legend>
+							<span class="h2">What is your Australian work status?</span>
+						</legend>
+						<ol class="questions">
+
+							<li>
+								<label for="work-status">
+									<span class="label">What is your current work status?</span>
+									<abbr title="(required)">*</abbr>
+									<small class="hint">You must be legally entitled to work in Australia to apply for a Queensland Government job.</small>
+								</label>
+								<select id="work-status" required="required">
+									<option value="" class="placeholder">Please select&hellip;</option>
+									<option>Australian citizen</option>
+									<option>Australian resident</option>
+									<option>New Zealand citizen</option>
+									<option>New Zealand resident</option>
+									<option>Current working visa</option>
+									<option>Other</option>
+								</select>
+							</li>
+
+							<li>
+								<label for="permit-expiry-date">
+									<span class="label">Permit expiry date</span>
+									<abbr class="required" title="(required)">*</abbr>
+									<small class="hint relevance">(If you chose ‘Current working visa’ above)</small>
+								</label>
+								<input id="permit-expiry-date" name="permit-expiry-date" size="20" required="required" type="date" />
+							</li>
+
+						</ol>
+					</fieldset>
+				</li>
+
+				<li class="section">
+					<fieldset>
+						<legend>
+							<span class="h2">Queensland Government employee</span>
+						</legend>
+						<ol class="questions">
+							<li>
+								<fieldset>
+									<legend>
+										<span class="label">Are you currently employed by the Queensland Government?</span>
+										<abbr class="required" title="(required)">*</abbr>
+									</legend>
+									<ul class="choices compact">
+										<li><input id="are-you-currently-employed-by-the-queensland-government-yes" name="are-you-currently-employed-by-the-queensland-government" value="Yes" required="required" type="radio" /><label for="are-you-currently-employed-by-the-queensland-government-yes">Yes</label></li>
+										<li><input id="are-you-currently-employed-by-the-queensland-government-no" name="are-you-currently-employed-by-the-queensland-government" value="No" required="required" type="radio" /><label for="are-you-currently-employed-by-the-queensland-government-no">No</label></li>
+									</ul>
+								</fieldset>
+							</li>
+							<li class="section">
+								<fieldset>
+									<legend>
+										<span class="h3">Current job</span>
+										<small class="hint relevance">(If you chose ‘Yes’ above)</small>
+									</legend>
+									<ol class="questions">
+										<li>
+											<label for="job-title">
+												<span class="label">Job title</span>
+											</label>
+											<input name="job-title" id="job-title" />
+										</li>
+										<li>
+											<label for="classification">
+												<span class="label">Classification</span>
+											</label>
+											<select name="classification" id="classification">
+												<option value="" class="placeholder">Please select&hellip;</option>
+												<option></option>
+											</select>
+										</li>
+										<li>
+											<label for="person-id">
+												<span class="label">Government ID number</span>
+											</label>
+											<input name="person-id" id="person-id" />
+										</li>
+										<li>
+											<label for="department-organisation">
+												<span class="label">Department or organisation</span>
+											</label>
+											<select name="department-organisation" id="department-organisation">
+												<option value="" class="placeholder">Please select&hellip;</option>
+												<option></option>
+											</select>
+										</li>
+										<li>
+											<label for="location">
+												<span class="label">Location</span>
+											</label>
+											<input name="location" id="location" size="30" />
+										</li>
+										<li>
+											<label for="job-type">
+												<span class="label">Job type</span>
+											</label>
+											<select name="job-type" id="job-type">
+												<option value="" class="placeholder">Please select&hellip;</option>
+												<option>Permanent full-time</option>
+												<option>Permanent part-time</option>
+												<option>Temporary full-time</option>
+												<option>Temporary part-time</option>
+												<option>Contract</option>
+												<option>Casual</option>
+											</select>
+										</li>
+
+									</ol>
+								</fieldset>
+							</li>
+
+							<li>
+								<fieldset>
+									<legend>
+										<span class="label">Have you received an early retirement, redundancy or retrenchment benefit from a Queensland Government entity within the last 12 months or a voluntary separation payment within the last 3 years?</span>
+										<abbr class="required" title="(required)">*</abbr>
+									</legend>
+									<ul class="choices compact">
+										<li><input id="have-you-received-an-early-retirement-yes" name="have-you-received-an-early-retirement" value="Yes" required="required" type="radio" /><label for="have-you-received-an-early-retirement-yes">Yes</label></li>
+										<li><input id="have-you-received-an-early-retirement-no" name="have-you-received-an-early-retirement" value="No" required="required" type="radio" /><label for="have-you-received-an-early-retirement-no">No</label></li>
+									</ul>
+								</fieldset>
+							</li>
+
+							<li>
+								<label for="retirement-date">
+									<span class="label">Date of receipt</span>
+									<abbr class="required" title="(required)">*</abbr>
+									<small class="hint relevance">(If you chose ‘Yes’ above)</small>
+								</label>
+								<input id="retirement-date" name="retirement-date" size="20" required="required" type="date" />
+							</li>
+
+						</ol>
+					</fieldset>
+				</li>
+
+				<li>
+					<fieldset id="pet-owner">
+						<legend>
+							<span class="label">Do you own a pet?</span>
+						</legend>
+						<ul class="choices">
+							<li><input type="radio" name="pet-owner" id="pet-owner-yes" value="Yes" /><label for="pet-owner-yes">Yes</label></li>
+							<li><input type="radio" name="pet-owner" id="pet-owner-no" value="No" /><label for="pet-owner-no">No</label></li>
+						</ul>
+					</fieldset>
+				</li>
+
+				<li>
+					<fieldset id="pets">
+						<legend>
+							<span class="label">Which pets do you own?</span>
+							<small class="hint relevance">(If you chose ‘Yes’ above)</small>
+						</legend>
+						<ul class="choices">
+							<li><input type="checkbox" name="pets" id="pets-cat" value="Cat" /><label for="pets-cat">Cat</label></li>
+							<li><input type="checkbox" name="pets" id="pets-dog" value="Dog" /><label for="pets-dog">Dog</label></li>
+							<li><input type="checkbox" name="pets" id="pets-bird" value="Bird" /><label for="pets-bird">Bird</label></li>
+						</ul>
+					</fieldset>
+				</li>
+
+				<li class="section">
+					<fieldset id="cat-owners">
+						<legend>
+							<span class="h2">Cat owners</span>
+							<small class="hint relevance">(If you chose ‘Cat’ above)</small>
+						</legend>
+						<p>Questions for cat owners go here.</p>
+					</fieldset>
+				</li>
+
+				<li class="section">
+					<fieldset id="dog-owners">
+						<legend>
+							<span class="h2">Dog owners</span>
+							<small class="hint relevance">(If you chose ‘Dog’ above)</small>
+						</legend>
+						<p>Questions for dog owners go here.</p>
+					</fieldset>
+				</li>
+
+				<li class="section">
+					<fieldset id="bird-owners">
+						<legend>
+							<span class="h2">Bird owners</span>
+							<small class="hint relevance">(If you chose ‘Bird’ above)</small>
+						</legend>
+						<p>Questions for bird owners go here.</p>
+					</fieldset>
+				</li>
+
+			</ol>
+		</form>
+	</div>
+
+
+<script src="qunit-helpers.js"></script>
+
+<script><!-- //
+
+
+	var relevanceLifecycle = {
+		setup: function() {
+			$( '#test' ).forcesRelevance( 'instructions' );
+		}
+	};
+
+
+	module( 'environment' );
+
+	test( 'test fields are in test form', 10, function() {
+
+		strictEqual( $( 'form#test' ).length, 1, 'form#test exists' );
+		strictEqual( $( '.relevance', '#test' ).length, 8, '8 `.relevance` instructions found' );
+		strictEqual( $( '.relevance', '#test' ).eq( 0 ).text(), '(If different to home address)', 'correct instruction text' );
+		strictEqual( $( '.relevance', '#test' ).eq( 1 ).text(), '(If you chose ‘Current working visa’ above)', 'correct instruction text' );
+		strictEqual( $( '.relevance', '#test' ).eq( 2 ).text(), '(If you chose ‘Yes’ above)', 'correct instruction text' );
+		strictEqual( $( '.relevance', '#test' ).eq( 3 ).text(), '(If you chose ‘Yes’ above)', 'correct instruction text' );
+		strictEqual( $( '.relevance', '#test' ).eq( 4 ).text(), '(If you chose ‘Yes’ above)', 'correct instruction text' );
+		strictEqual( $( '.relevance', '#test' ).eq( 5 ).text(), '(If you chose ‘Cat’ above)', 'correct instruction text' );
+		strictEqual( $( '.relevance', '#test' ).eq( 6 ).text(), '(If you chose ‘Dog’ above)', 'correct instruction text' );
+		strictEqual( $( '.relevance', '#test' ).eq( 7 ).text(), '(If you chose ‘Bird’ above)', 'correct instruction text' );
+
+	});
+
+
+	module( 'before .forcesRelevance( \'instructions\' )' );
+
+	test( 'all sections are relevant', 1, function() {
+		strictEqual( $( '.relevance' ).filter( ':visible' ).length, 8, '8 `.relevance` instructions visible' );
+	});
+
+
+	module( 'after .forcesRelevance( \'instructions\' )', relevanceLifecycle );
+
+	test( 'initial irrelevant elements are hidden', 1, function() {
+
+		strictEqual( $( '.relevance' ).filter( ':visible' ).length, 0, 'no `.relevance` instructions visible' );
+
+	});
+
+	test( 'initial relevant elements are shown', 8, function() {
+		
+		// test radio buttons
+		strictEqual( $( '#job-title' ).filter( ':hidden' ).length, 1, '#job-title is hidden' );
+		strictEqual( $( '#job-title' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#job-title section is hidden' );
+		strictEqual( $( '#retirement-date' ).filter( ':hidden' ).length, 1, '#retirement-date is hidden' );
+		strictEqual( $( '#retirement-date' ).closest( '.questions > li' ).filter( ':hidden' ).length, 1, '#retirement-date question is hidden' );
+		
+		// test select
+		strictEqual( $( '#permit-expiry-date' ).filter( ':hidden' ).length, 1, '#permit-expiry-date is hidden' );
+		strictEqual( $( '#permit-expiry-date' ).closest( '.questions > li' ).filter( ':hidden' ).length, 1, '#permit-expiry-date question is hidden' );
+
+		// test checkbox
+		strictEqual( $( '#postal-address' ).filter( ':hidden' ).length, 1, '#postal-address is hidden' );
+		strictEqual( $( '#postal-address' ).closest( '.atomic' ).filter( ':hidden' ).length, 1, '#postal-address group is hidden' );
+
+	});
+
+	test( 'question relevance can be toggled by radio buttons', 6, function() {
+
+		// initially hidden
+		strictEqual( $( '#retirement-date' ).filter( ':hidden' ).length, 1, '#retirement-date is hidden' );
+		strictEqual( $( '#retirement-date' ).closest( '.questions > li' ).filter( ':hidden' ).length, 1, '#retirement-date question is hidden' );
+
+		// toggle relevance by clicking radio button
+		$( '#have-you-received-an-early-retirement-yes' ).click();
+
+		// should now be visible
+		strictEqual( $( '#retirement-date' ).filter( ':visible' ).length, 1, '#retirement-date is visible' );
+		strictEqual( $( '#retirement-date' ).closest( '.questions > li' ).filter( ':visible' ).length, 1, '#retirement-date question is visible' );
+
+		// toggle relevance by clicking radio button
+		$( '#have-you-received-an-early-retirement-no' ).click();
+
+		// should be hidden again
+		strictEqual( $( '#retirement-date' ).filter( ':hidden' ).length, 1, '#retirement-date is hidden' );
+		strictEqual( $( '#retirement-date' ).closest( '.questions > li' ).filter( ':hidden' ).length, 1, '#retirement-date question is hidden' );
+
+	});
+
+	test( 'question relevance can be toggled by select list', 6, function() {
+
+		// initially hidden
+		strictEqual( $( '#permit-expiry-date' ).filter( ':hidden' ).length, 1, '#permit-expiry-date is hidden' );
+		strictEqual( $( '#permit-expiry-date' ).closest( '.questions > li' ).filter( ':hidden' ).length, 1, '#permit-expiry-date question is hidden' );
+
+		// toggle relevance by changing selection
+		$( '#work-status' ).each(function() { this.selectedIndex = 5; }).trigger( 'change' );
+
+		// should now be visible
+		strictEqual( $( '#permit-expiry-date' ).filter( ':visible' ).length, 1, '#permit-expiry-date is visible' );
+		strictEqual( $( '#permit-expiry-date' ).closest( '.questions > li' ).filter( ':visible' ).length, 1, '#permit-expiry-date question is visible' );
+
+		// toggle relevance by changing selection
+		$( '#work-status' ).each(function() { this.selectedIndex = 1; }).trigger( 'change' );
+
+		// should be hidden again
+		strictEqual( $( '#permit-expiry-date' ).filter( ':hidden' ).length, 1, '#permit-expiry-date is hidden' );
+		strictEqual( $( '#permit-expiry-date' ).closest( '.questions > li' ).filter( ':hidden' ).length, 1, '#permit-expiry-date question is hidden' );
+
+	});
+
+	test( 'group relevance can be toggled by radio buttons', 6, function() {
+
+		// initially hidden
+		strictEqual( $( '#job-title' ).filter( ':hidden' ).length, 1, '#job-title is hidden' );
+		strictEqual( $( '#job-title' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#job-title section is hidden' );
+
+		// toggle relevance by clicking radio button
+		$( '#are-you-currently-employed-by-the-queensland-government-yes' ).click();
+
+		// should now be visible
+		strictEqual( $( '#job-title' ).filter( ':visible' ).length, 1, '#job-title is visible' );
+		strictEqual( $( '#job-title' ).closest( '.section' ).filter( ':visible' ).length, 1, '#job-title section is visible' );
+
+		// toggle relevance by clicking radio button
+		$( '#are-you-currently-employed-by-the-queensland-government-no' ).click();
+
+		// should be hidden again
+		strictEqual( $( '#job-title' ).filter( ':hidden' ).length, 1, '#job-title is hidden' );
+		strictEqual( $( '#job-title' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#job-title section is hidden' );
+
+	});
+
+	test( 'group relevance can be toggled by checkbox', 8, function() {
+
+		// initially hidden
+		strictEqual( $( '#postal-address' ).filter( ':hidden' ).length, 1, '#postal-address is hidden' );
+		strictEqual( $( '#postal-address' ).closest( '.atomic' ).filter( ':hidden' ).length, 1, '#postal-address group is hidden' );
+
+		// toggle relevance by clicking checkbox
+		$( '#use-my-residential-address-as-my-postal-address' )[ 0 ].click();
+		strictEqual( $( '#use-my-residential-address-as-my-postal-address' )[ 0 ].checked, false, 'checkbox is not checked' );
+
+		// should now be visible
+		strictEqual( $( '#postal-address' ).filter( ':visible' ).length, 1, '#postal-address is visible' );
+		strictEqual( $( '#postal-address' ).closest( '.atomic' ).filter( ':visible' ).length, 1, '#postal-address group is visible' );
+
+		// toggle relevance by clicking checkbox
+		$( '#use-my-residential-address-as-my-postal-address' )[ 0 ].click();
+		strictEqual( $( '#use-my-residential-address-as-my-postal-address' )[ 0 ].checked, true, 'checkbox is checked' );
+
+		// should be hidden again
+		strictEqual( $( '#postal-address' ).filter( ':hidden' ).length, 1, '#postal-address is hidden' );
+		strictEqual( $( '#postal-address' ).closest( '.atomic' ).filter( ':hidden' ).length, 1, '#postal-address group is hidden' );
+
+	});
+
+
+	test( 'multiple checkboxes can control multiple elements', 15, function() {
+
+		$( '#pet-owner-yes' ).click();
+
+		// initial state
+		strictEqual( $( '#pets' ).filter( ':visible' ).length, 1, '#pets is visible' );
+		strictEqual( $( '#pets' ).closest( '.questions > li' ).filter( ':visible' ).length, 1, '#pets question is visible' );
+		strictEqual( $( '#cat-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#cat-owners section is hidden' );
+		strictEqual( $( '#dog-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#dog-owners section is hidden' );
+		strictEqual( $( '#bird-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#bird-owners section is hidden' );
+
+		// tick dogs
+		$( '#pets-dog' )[ 0 ].click();
+		strictEqual( $( '#pets' ).filter( ':visible' ).length, 1, '#pets is visible' );
+		strictEqual( $( '#pets' ).closest( '.questions > li' ).filter( ':visible' ).length, 1, '#pets question is visible' );
+		strictEqual( $( '#cat-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#cat-owners section is hidden' );
+		strictEqual( $( '#dog-owners' ).closest( '.section' ).filter( ':visible' ).length, 1, '#dog-owners section is visible' );
+		strictEqual( $( '#bird-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#bird-owners section is hidden' );
+
+		// tick birds
+		$( '#pets-bird' )[ 0 ].click();
+		strictEqual( $( '#pets' ).filter( ':visible' ).length, 1, '#pets is visible' );
+		strictEqual( $( '#pets' ).closest( '.questions > li' ).filter( ':visible' ).length, 1, '#pets question is visible' );
+		strictEqual( $( '#cat-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#cat-owners section is hidden' );
+		strictEqual( $( '#dog-owners' ).closest( '.section' ).filter( ':visible' ).length, 1, '#dog-owners section is visible' );
+		strictEqual( $( '#bird-owners' ).closest( '.section' ).filter( ':visible' ).length, 1, '#bird-owners section is visible' );
+
+	});
+
+
+	module( 'nested relevance', relevanceLifecycle );
+
+	test( 'sequential relevance', 15, function() {
+
+		// initially hidden
+		strictEqual( $( '#pets' ).filter( ':hidden' ).length, 1, '#pets is hidden' );
+		strictEqual( $( '#pets' ).closest( '.questions > li' ).filter( ':hidden' ).length, 1, '#pets question is hidden' );
+		strictEqual( $( '#cat-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#cat-owners section is hidden' );
+		strictEqual( $( '#dog-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#dog-owners section is hidden' );
+		strictEqual( $( '#bird-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#bird-owners section is hidden' );
+
+		// toggle relevance by clicking radio button
+		$( '#pet-owner-yes' ).click();
+		strictEqual( $( '#pets' ).filter( ':visible' ).length, 1, '#pets is visible' );
+		strictEqual( $( '#pets' ).closest( '.questions > li' ).filter( ':visible' ).length, 1, '#pets question is visible' );
+		strictEqual( $( '#cat-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#cat-owners section is hidden' );
+		strictEqual( $( '#dog-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#dog-owners section is hidden' );
+		strictEqual( $( '#bird-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#bird-owners section is hidden' );
+
+		// toggle nested relevance by clicking checkboxes
+		$( '#pets-cat' )[ 0 ].click();
+		strictEqual( $( '#pets' ).filter( ':visible' ).length, 1, '#pets is visible' );
+		strictEqual( $( '#pets' ).closest( '.questions > li' ).filter( ':visible' ).length, 1, '#pets question is visible' );
+		strictEqual( $( '#cat-owners' ).closest( '.section' ).filter( ':visible' ).length, 1, '#cat-owners section is visible' );
+		strictEqual( $( '#dog-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#dog-owners section is hidden' );
+		strictEqual( $( '#bird-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#bird-owners section is hidden' );
+	});
+
+	test( 'hiding a gating question hides the dependencies', 16, function() {
+
+		$( '#pet-owner-yes' ).click();
+		$( '#pets-cat' )[ 0 ].click();
+
+		// toggle nested relevance by clicking checkboxes
+		strictEqual( $( '#pets' ).filter( ':visible' ).length, 1, '#pets is visible' );
+		strictEqual( $( '#pets' ).closest( '.questions > li' ).filter( ':visible' ).length, 1, '#pets question is visible' );
+		strictEqual( $( '#cat-owners' ).closest( '.section' ).filter( ':visible' ).length, 1, '#cat-owners section is visible' );
+		strictEqual( $( '#dog-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#dog-owners section is hidden' );
+		strictEqual( $( '#bird-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#bird-owners section is hidden' );
+
+		// toggle pet ownership, should also hide cat question
+		$( '#pet-owner-no' ).click();
+		strictEqual( $( '#pets' ).filter( ':hidden' ).length, 1, '#pets is hidden' );
+		strictEqual( $( '#pets' ).closest( '.questions > li' ).filter( ':hidden' ).length, 1, '#pets question is hidden' );
+		strictEqual( $( '#cat-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#cat-owners section is hidden' );
+		strictEqual( $( '#dog-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#dog-owners section is hidden' );
+		strictEqual( $( '#bird-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#bird-owners section is hidden' );
+
+		// toggle pet ownership, should also show cat question
+		$( '#pet-owner-yes' ).click();
+		strictEqual( $( '#pets' ).filter( ':visible' ).length, 1, '#pets is visible' );
+		strictEqual( $( '#pets' ).closest( '.questions > li' ).filter( ':visible' ).length, 1, '#pets question is visible' );
+		strictEqual( $( '#pets-cat' )[ 0 ].checked, true, 'remembers pets-cat is checked' );
+		strictEqual( $( '#cat-owners' ).closest( '.section' ).filter( ':visible' ).length, 1, '#cat-owners section is visible' );
+		strictEqual( $( '#dog-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#dog-owners section is hidden' );
+		strictEqual( $( '#bird-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#bird-owners section is hidden' );
+
+	});
+
+
+// --></script>
+
+
+</body>
+</html>
