@@ -335,9 +335,9 @@
 							<small class="hint relevance">(If you chose ‘Yes’ above)</small>
 						</legend>
 						<ul class="choices">
+							<li><input type="checkbox" name="pets" id="pets-bird" value="Bird" /><label for="pets-bird">Bird</label></li>
 							<li><input type="checkbox" name="pets" id="pets-cat" value="Cat" /><label for="pets-cat">Cat</label></li>
 							<li><input type="checkbox" name="pets" id="pets-dog" value="Dog" /><label for="pets-dog">Dog</label></li>
-							<li><input type="checkbox" name="pets" id="pets-bird" value="Bird" /><label for="pets-bird">Bird</label></li>
 						</ul>
 					</fieldset>
 				</li>
@@ -480,7 +480,6 @@
 		strictEqual( $( '#bar' ).filter( ':hidden' ).length, 1, '#bar is hidden' );
 		// baz cannot be relevant because bar is not relevant
 		strictEqual( $( '#baz' ).filter( ':hidden' ).length, 1, '#baz is hidden' );
-
 	});
 
 	test( 'question relevance can be toggled by radio buttons', 6, function() {
@@ -632,34 +631,34 @@
 		strictEqual( $( '#bird-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#bird-owners section is hidden' );
 	});
 
-	test( 'hiding a gating question hides the dependencies', 16, function() {
+	test( 'hiding a gating question hides the dependencies', 14, function() {
 
 		$( '#pet-owner-yes' ).click();
-		$( '#pets-cat' )[ 0 ].click();
+		$( '#pets-bird' )[ 0 ].click();
+		$( '#pets-dog' )[ 0 ].click();
 
 		// toggle nested relevance by clicking checkboxes
 		strictEqual( $( '#pets' ).filter( ':visible' ).length, 1, '#pets is visible' );
 		strictEqual( $( '#pets' ).closest( '.questions > li' ).filter( ':visible' ).length, 1, '#pets question is visible' );
-		strictEqual( $( '#cat-owners' ).closest( '.section' ).filter( ':visible' ).length, 1, '#cat-owners section is visible' );
-		strictEqual( $( '#dog-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#dog-owners section is hidden' );
-		strictEqual( $( '#bird-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#bird-owners section is hidden' );
+		strictEqual( $( '#cat-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#cat-owners section is hidden' );
+		strictEqual( $( '#dog-owners, #bird-owners' ).closest( '.section' ).filter( ':visible' ).length, 2, '#dog-owners, #bird-owners sections are visible' );
 
 		// toggle pet ownership, should also hide cat question
 		$( '#pet-owner-no' ).click();
 		strictEqual( $( '#pets' ).filter( ':hidden' ).length, 1, '#pets is hidden' );
 		strictEqual( $( '#pets' ).closest( '.questions > li' ).filter( ':hidden' ).length, 1, '#pets question is hidden' );
-		strictEqual( $( '#cat-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#cat-owners section is hidden' );
-		strictEqual( $( '#dog-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#dog-owners section is hidden' );
-		strictEqual( $( '#bird-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#bird-owners section is hidden' );
+		strictEqual( $( '#cat-owners, #dog-owners, #bird-owners' ).closest( '.section' ).filter( ':hidden' ).length, 3, '#cat-owners, #dog-owners, #bird-owners sections are hidden' );
 
 		// toggle pet ownership, should also show cat question
 		$( '#pet-owner-yes' ).click();
 		strictEqual( $( '#pets' ).filter( ':visible' ).length, 1, '#pets is visible' );
 		strictEqual( $( '#pets' ).closest( '.questions > li' ).filter( ':visible' ).length, 1, '#pets question is visible' );
-		strictEqual( $( '#pets-cat' )[ 0 ].checked, true, 'remembers pets-cat is checked' );
-		strictEqual( $( '#cat-owners' ).closest( '.section' ).filter( ':visible' ).length, 1, '#cat-owners section is visible' );
-		strictEqual( $( '#dog-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#dog-owners section is hidden' );
-		strictEqual( $( '#bird-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#bird-owners section is hidden' );
+		strictEqual( $( '#pets-dog' )[ 0 ].checked, true, 'remembers pets-dog is checked' );
+		strictEqual( $( '#pets-bird' )[ 0 ].checked, true, 'remembers pets-bird is checked' );
+		strictEqual( $( '#cat-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#cat-owners section is hidden' );
+		// remember that dogs and birds are checked
+		strictEqual( $( '#dog-owners' ).closest( '.section' ).filter( ':visible' ).length, 1, '#dog-owners section is visible' );
+		strictEqual( $( '#bird-owners' ).closest( '.section' ).filter( ':visible' ).length, 1, '#bird-owners section is visible' );
 
 	});
 
@@ -678,8 +677,8 @@
 		// baz should be relevant
 		strictEqual( $( '#bar' ).val(), 'Baz', '#bar == Baz' );
 		strictEqual( $( '#baz' ).filter( ':visible' ).length, 1, '#baz is relevant' );
-	});
 
+	});
 
 // --></script>
 
