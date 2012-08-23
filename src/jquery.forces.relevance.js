@@ -34,7 +34,7 @@ if ( jQuery !== 'undefined' ) {
 					return element.value;
 				});
 			} else {
-				values = [ $this.val() || $this.find( 'input' ).filter( ':checked' ).val() ];
+				values = [ $this.val() || $this.find( 'select' ).val() || $this.find( 'input' ).filter( ':checked' ).val() ];
 			}
 
 			$.each( dependencyMap, function( index, element ) {

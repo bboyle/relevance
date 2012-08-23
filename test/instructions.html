@@ -663,6 +663,23 @@
 
 	});
 
+	test( 'dependencies are recalculated when a field becomes relevant', 6, function() {
+
+		// bar and baz is hidden
+		strictEqual( $( '#bar, #baz' ).filter( ':hidden' ).length, 2, '#bar and #baz are not relevant' );
+		// baz would be relevant if bar was relevant
+		strictEqual( $( '#bar' ).val(), 'Baz', '#bar == Baz' );
+
+		// make bar relevant by changing selection on foo
+		$( '#foo' ).each(function() { this.selectedIndex = 1; }).trigger( 'change' );
+		strictEqual( $( '#foo' ).val(), 'Bar', '#foo == Bar' );
+		strictEqual( $( '#bar' ).filter( ':visible' ).length, 1, '#bar is relevant' );
+
+		// baz should be relevant
+		strictEqual( $( '#bar' ).val(), 'Baz', '#bar == Baz' );
+		strictEqual( $( '#baz' ).filter( ':visible' ).length, 1, '#baz is relevant' );
+	});
+
 
 // --></script>
 
