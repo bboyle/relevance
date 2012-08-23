@@ -176,7 +176,7 @@ if ( jQuery !== 'undefined' ) {
 
 				// initial relevance
 				answers = $.map( toggle.find( 'select,:checked' ), answerMap );
-				question.forcesRelevance( 'relevant', ( $.inArray( value, answers ) >= 0 ) === bool );
+				question.forcesRelevance( 'relevant', toggle.is( ':visible' ) && ( $.inArray( value, answers ) >= 0 ) === bool );
 			});
 
 			return this;

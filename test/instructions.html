@@ -372,6 +372,37 @@
 					</fieldset>
 				</li>
 
+
+				<!-- issue #6
+				initial instruction relevance does not handle dependent relevance
+				https://github.com/Forces/relevance/issues/6 -->
+				<li>
+					<label for="foo">
+						<span class="label">Foo</span>
+					</label>
+					<select id="foo">
+						<option selected="selected">Foo</option>
+						<option>Bar</option>
+					</select>
+				</li>
+				<li>
+					<label for="bar">
+						<span class="label">Bar</span>
+						<small class="relevance">(If you chose ‘Bar’ above)</small>
+					</label>
+					<select id="bar">
+						<option>Bar</option>
+						<option selected="selected">Baz</option>
+					</select>
+				</li>
+				<li>
+					<label for="baz">
+						<span class="label">Baz</span>
+						<small class="relevance">(If you chose ‘Baz’ above)</small>
+					</label>
+					<input id="baz" />
+				</li>
+
 			</ol>
 		</form>
 	</div>
@@ -391,10 +422,10 @@
 
 	module( 'environment' );
 
-	test( 'test fields are in test form', 10, function() {
+	test( 'test fields are in test form', 14, function() {
 
 		strictEqual( $( 'form#test' ).length, 1, 'form#test exists' );
-		strictEqual( $( '.relevance', '#test' ).length, 8, '8 `.relevance` instructions found' );
+		strictEqual( $( '.relevance', '#test' ).length, 10, '10 `.relevance` instructions found' );
 		strictEqual( $( '.relevance', '#test' ).eq( 0 ).text(), '(If different to home address)', 'correct instruction text' );
 		strictEqual( $( '.relevance', '#test' ).eq( 1 ).text(), '(If you chose ‘Current working visa’ above)', 'correct instruction text' );
 		strictEqual( $( '.relevance', '#test' ).eq( 2 ).text(), '(If you chose ‘Yes’ above)', 'correct instruction text' );
@@ -403,6 +434,13 @@
 		strictEqual( $( '.relevance', '#test' ).eq( 5 ).text(), '(If you chose ‘Cat’ above)', 'correct instruction text' );
 		strictEqual( $( '.relevance', '#test' ).eq( 6 ).text(), '(If you chose ‘Dog’ above)', 'correct instruction text' );
 		strictEqual( $( '.relevance', '#test' ).eq( 7 ).text(), '(If you chose ‘Bird’ above)', 'correct instruction text' );
+		strictEqual( $( '.relevance', '#test' ).eq( 8 ).text(), '(If you chose ‘Bar’ above)', 'correct instruction text' );
+		strictEqual( $( '.relevance', '#test' ).eq( 9 ).text(), '(If you chose ‘Baz’ above)', 'correct instruction text' );
+
+		// dependence
+		strictEqual( $( '#foo' ).val(), 'Foo', '#foo != Bar' );
+		// baz would be relevant, if bar was relevant
+		strictEqual( $( '#bar' ).val(), 'Baz', '#bar == Baz' );
 
 	});
 
@@ -410,7 +448,7 @@
 	module( 'before .forcesRelevance( \'instructions\' )' );
 
 	test( 'all sections are relevant', 1, function() {
-		strictEqual( $( '.relevance' ).filter( ':visible' ).length, 8, '8 `.relevance` instructions visible' );
+		strictEqual( $( '.relevance' ).filter( ':visible' ).length, 10, '10 `.relevance` instructions visible' );
 	});
 
 
@@ -418,11 +456,12 @@
 
 	test( 'initial irrelevant elements are hidden', 1, function() {
 
+		console.log( $( '.relevance' ).filter( ':visible' ));
 		strictEqual( $( '.relevance' ).filter( ':visible' ).length, 0, 'no `.relevance` instructions visible' );
 
 	});
 
-	test( 'initial relevant elements are shown', 8, function() {
+	test( 'initial relevant elements are shown', 10, function() {
 		
 		// test radio buttons
 		strictEqual( $( '#job-title' ).filter( ':hidden' ).length, 1, '#job-title is hidden' );
@@ -437,6 +476,11 @@
 		// test checkbox
 		strictEqual( $( '#postal-address' ).filter( ':hidden' ).length, 1, '#postal-address is hidden' );
 		strictEqual( $( '#postal-address' ).closest( '.atomic' ).filter( ':hidden' ).length, 1, '#postal-address group is hidden' );
+
+		// test dependence
+		strictEqual( $( '#bar' ).filter( ':hidden' ).length, 1, '#bar is hidden' );
+		// baz cannot be relevant because bar is not relevant
+		strictEqual( $( '#baz' ).filter( ':hidden' ).length, 1, '#baz is hidden' );
 
 	});
 
