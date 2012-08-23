@@ -34,7 +34,7 @@ if ( jQuery !== 'undefined' ) {
 					return element.value;
 				});
 			} else {
-				values = [ $this.val() || $this.find( 'input' ).filter( ':checked' ).val() ];
+				values = [ $this.val() || $this.find( 'select' ).val() || $this.find( 'input' ).filter( ':checked' ).val() ];
 			}
 
 			$.each( dependencyMap, function( index, element ) {
@@ -176,7 +176,7 @@ if ( jQuery !== 'undefined' ) {
 
 				// initial relevance
 				answers = $.map( toggle.find( 'select,:checked' ), answerMap );
-				question.forcesRelevance( 'relevant', ( $.inArray( value, answers ) >= 0 ) === bool );
+				question.forcesRelevance( 'relevant', toggle.is( ':visible' ) && ( $.inArray( value, answers ) >= 0 ) === bool );
 			});
 
 			return this;
