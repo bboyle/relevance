@@ -16,6 +16,10 @@ if ( jQuery !== 'undefined' ) {
 		irrelevantDoneEvent = 'irrelevant-done',
 		elementsToDisable = 'button, input, select, textarea',
 
+		answerMap = function( element ) {
+			return element.value;
+		},
+
 		recalculateRelevance = function() {
 			var $this = $( this ),
 				values,
@@ -34,7 +38,12 @@ if ( jQuery !== 'undefined' ) {
 					return element.value;
 				});
 			} else {
-				values = [ $this.val() || $this.find( 'select' ).val() || $this.find( 'input' ).filter( ':checked' ).val() ];
+				values = $this.val() || $this.find( 'select' ).val();
+				if ( values === undefined ) {
+					values = $.map( $this.find( 'input' ).filter( ':checked' ), answerMap );
+				} else {
+					values = [ values ];
+				}
 			}
 
 			$.each( dependencyMap, function( index, element ) {
@@ -119,9 +128,6 @@ if ( jQuery !== 'undefined' ) {
 					question = $this.closest( 'li' ),
 					toggle = question.prevAll( 'li' ),
 					i, answers,
-					answerMap = function( element ) {
-						return element.value;
-					},
 					bool = true,
 					dependencyMap
 				;
