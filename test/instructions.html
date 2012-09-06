@@ -20,6 +20,11 @@
 			font-weight: bold;
 		}
 
+		.relevancy {
+			color: purple;
+			font-weight: bold;
+		}
+
 		#qunit-fixture {
 			position: static;
 		}
@@ -405,6 +410,75 @@
 
 			</ol>
 		</form>
+
+
+		<!-- custom instruction formats -->
+		<form id="test-custom">
+			<div class="Choice">
+				<div class="row">
+					<fieldset id="pet-owner2">
+						<legend>
+							<span class="label">Do you own a pet?</span>
+						</legend>
+						<ul class="choices">
+							<li><input type="radio" name="pet-owner2" id="pet-owner2-yes" value="Yes" /><label for="pet-owner2-yes">Yes</label></li>
+							<li><input type="radio" name="pet-owner2" id="pet-owner2-no" value="No" /><label for="pet-owner2-no">No</label></li>
+						</ul>
+					</fieldset>
+				</div>
+			</div>
+
+
+			<div class="Choice">
+				<!-- <p class="relevancy">Please answer the following question only if you answered 'Yes' to question 2.</p> -->
+				<p class="relevancy">(If you chose 'Yes' above)</p>
+				<div class="row">
+					<fieldset id="pets2">
+						<legend>Which pets do you own?</legend>
+						<ul class="choices">
+							<li><input type="checkbox" name="pets2" id="pets2-bird" value="Bird" /><label for="pets2-bird">Bird</label></li>
+							<li><input type="checkbox" name="pets2" id="pets2-cat" value="Cat" /><label for="pets2-cat">Cat</label></li>
+							<li><input type="checkbox" name="pets2" id="pets2-dog" value="Dog" /><label for="pets2-dog">Dog</label></li>
+						</ul>
+					</fieldset>
+				</div>
+			</div>
+
+
+			<div class="Text" id="pets2-no">
+				<!-- <p class="relevancy">Please answer the following question only if you answered 'No' to question 2.</p> -->
+				<p class="relevancy">(If you chose 'No' above)</p>
+				<div class="row">
+					<fieldset>
+						<legend>Why don't you own a pet?</legend>
+						<textarea name="why-no-pet" id="why-no-pet"></textarea>
+					</fieldset>
+				</div>
+			</div>
+
+			<fieldset class="group" id="cat-owners2">
+				<legend>Cat</legend>
+				<!-- <p class="relevancy">Please answer the questions in this group only if you answered 'Cat' to question 3.</p> -->
+				<p class="relevancy">(If you chose 'Cat' above)</p>
+				<p>Questions for cat owners go here.</p>
+			</fieldset>
+
+			<fieldset class="group" id="dog-owners2">
+				<legend>Dog</legend>
+				<!-- <p class="relevancy">Please answer the questions in this group only if you answered 'Dog' to question 3.</p> -->
+				<p class="relevancy">(If you chose 'Dog' above)</p>
+				<p>Questions for dog owners go here.</p>
+			</fieldset>
+
+			<fieldset class="group" id="bird-owners2">
+				<legend>Bird</legend>
+				<!-- <p class="relevancy">Please answer the questions in this group only if you answered 'Bird' to question 3.</p> -->
+				<p class="relevancy">(If you chose 'Bird' above)</p>
+				<p>Questions for bird owners go here.</p>
+			</fieldset>
+
+		</form>
+
 	</div>
 
 
@@ -414,10 +488,27 @@
 
 
 	var relevanceLifecycle = {
-		setup: function() {
-			$( '#test' ).forcesRelevance( 'instructions' );
+			setup: function() {
+				$( '#test' ).forcesRelevance( 'instructions' );
+			}
+		},
+
+		customRelevanceLifecycle = {
+			setup: function() {
+				$( '#test-custom' ).forcesRelevance( 'instructions', {
+					instructionSelector : '.relevancy',
+					questionSelector : '.Choice, .Text, .group'
+				});
+			},
+			teardown: function() {
+				// reset options
+				$( '#test-custom' ).forcesRelevance( 'instructions', {
+					instructionSelector: '.relevance',
+					questionSelector: '.questions > li'
+				});
+			}
 		}
-	};
+	;
 
 
 	module( 'environment' );
@@ -444,20 +535,38 @@
 
 	});
 
+	test( 'test fields are in custom form', 7, function() {
+
+		strictEqual( $( 'form#test-custom' ).length, 1, 'form#test-custom exists' );
+		strictEqual( $( '.relevancy', '#test-custom' ).length, 5, '5 `.relevance` instructions found' );
+		strictEqual( $( '.relevancy', '#test-custom' ).eq( 0 ).text(), '(If you chose \'Yes\' above)', 'correct instruction text' );
+		strictEqual( $( '.relevancy', '#test-custom' ).eq( 1 ).text(), '(If you chose \'No\' above)', 'correct instruction text' );
+		strictEqual( $( '.relevancy', '#test-custom' ).eq( 2 ).text(), '(If you chose \'Cat\' above)', 'correct instruction text' );
+		strictEqual( $( '.relevancy', '#test-custom' ).eq( 3 ).text(), '(If you chose \'Dog\' above)', 'correct instruction text' );
+		strictEqual( $( '.relevancy', '#test-custom' ).eq( 4 ).text(), '(If you chose \'Bird\' above)', 'correct instruction text' );
+
+	});
+
 
 	module( 'before .forcesRelevance( \'instructions\' )' );
 
 	test( 'all sections are relevant', 1, function() {
-		strictEqual( $( '.relevance' ).filter( ':visible' ).length, 10, '10 `.relevance` instructions visible' );
+		strictEqual( $( '.relevance', '#test' ).filter( ':visible' ).length, 10, '10 `.relevance` instructions visible' );
+	});
+
+	test( 'custom sections are relevant', 1, function() {
+		strictEqual( $( '.relevancy', '#test-custom' ).filter( ':visible' ).length, 5, '5 `.relevancy` instructions visible' );
 	});
 
 
 	module( 'after .forcesRelevance( \'instructions\' )', relevanceLifecycle );
 
 	test( 'initial irrelevant elements are hidden', 1, function() {
+		strictEqual( $( '.relevance', '#test' ).filter( ':visible' ).length, 0, 'no `.relevance` instructions visible' );
+	});
 
-		strictEqual( $( '.relevance' ).filter( ':visible' ).length, 0, 'no `.relevance` instructions visible' );
-
+	test( 'custom sections are ignored', 1, function() {
+		strictEqual( $( '.relevancy', '#test-custom' ).filter( ':visible' ).length, 5, '5 `.relevancy` instructions visible' );
 	});
 
 	test( 'initial relevant elements are shown', 10, function() {
@@ -677,6 +786,44 @@
 		// baz should be relevant
 		strictEqual( $( '#bar' ).val(), 'Baz', '#bar == Baz' );
 		strictEqual( $( '#baz' ).filter( ':visible' ).length, 1, '#baz is relevant' );
+
+	});
+
+
+	module( 'custom instructions', customRelevanceLifecycle );
+
+	test( 'irrelevant elements are hidden', 1, function() {
+		strictEqual( $( '.relevancy', '#test-custom' ).filter( ':visible' ).length, 0, 'no `.relevancy` instructions visible' );
+	});
+
+	test( 'relevance can be toggled', 14, function() {
+
+		$( '#pet-owner2-yes' ).click();
+		$( '#pets2-bird' )[ 0 ].click();
+		$( '#pets2-dog' )[ 0 ].click();
+
+		// toggle nested relevance by clicking checkboxes
+		strictEqual( $( '#pets2' ).filter( ':visible' ).length, 1, '#pets2 is visible' );
+		strictEqual( $( '#cat-owners2' ).filter( ':hidden' ).length, 1, '#cat-owners2 section is hidden' );
+		strictEqual( $( '#dog-owners2, #bird-owners2' ).filter( ':visible' ).length, 2, '#dog-owners2, #bird-owners2 sections are visible' );
+		strictEqual( $( '#pets2-no' ).filter( ':hidden' ).length, 1, '#pets2-no is hidden' );
+
+		// toggle pet ownership, should also hide cat question
+		$( '#pet-owner2-no' ).click();
+		strictEqual( $( '#pets2' ).filter( ':hidden' ).length, 1, '#pets2 is hidden' );
+		strictEqual( $( '#cat-owners2, #dog-owners2, #bird-owners2' ).filter( ':hidden' ).length, 3, '#cat-owners2, #dog-owners2, #bird-owners2 sections are hidden' );
+		strictEqual( $( '#pets2-no' ).filter( ':visible' ).length, 1, '#pets2-no is visible' );
+
+		// toggle pet ownership, should also show cat question
+		$( '#pet-owner2-yes' ).click();
+		strictEqual( $( '#pets2' ).filter( ':visible' ).length, 1, '#pets is visible' );
+		strictEqual( $( '#pets2-dog' )[ 0 ].checked, true, 'remembers pets2-dog is checked' );
+		strictEqual( $( '#pets2-bird' )[ 0 ].checked, true, 'remembers pets2-bird is checked' );
+		strictEqual( $( '#cat-owners2' ).filter( ':hidden' ).length, 1, '#cat-owners2 section is hidden' );
+		strictEqual( $( '#pets2-no' ).filter( ':hidden' ).length, 1, '#pets2-no is hidden' );
+		// remember that dogs and birds are checked
+		strictEqual( $( '#dog-owners2' ).filter( ':visible' ).length, 1, '#dog-owners2 section is visible' );
+		strictEqual( $( '#bird-owners2' ).filter( ':visible' ).length, 1, '#bird-owners2 section is visible' );
 
 	});
 
