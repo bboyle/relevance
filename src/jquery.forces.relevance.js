@@ -15,6 +15,12 @@ if ( jQuery !== 'undefined' ) {
 		relevantDoneEvent = 'relevant-done',
 		irrelevantDoneEvent = 'irrelevant-done',
 		elementsToDisable = 'button, input, select, textarea',
+		// config
+		selectors = {
+			// instruction-based relevance
+			instructionSelector: '.relevance',
+			questionSelector: '.questions > li'
+		},
 
 		answerMap = function( element ) {
 			return element.value;
@@ -23,7 +29,7 @@ if ( jQuery !== 'undefined' ) {
 		recalculateRelevance = function() {
 			var $this = $( this ),
 				values,
-				question = $this.closest( '.questions > li' ),
+				question = $this.closest( selectors.questionSelector ),
 				dependencyMap = question.data( 'forces-relevance' )
 			;
 
@@ -120,22 +126,19 @@ if ( jQuery !== 'undefined' ) {
 
 		// $( x ).forcesRelevance( 'instructions', options )
 		// sets up relevance handling based on text instructions
+		// options ::= { instructions: '.relevance', questions: '.questions > li' }
 		instructions: function( options ) {
+			$.extend( selectors, options );
 
-			this.find( '.relevance' ).each(function() {
+			this.find( selectors.instructionSelector ).each(function() {
 				var $this = $( this ),
 					value = $this.text().replace( /^[\S\s]*chose \W([\w\s]+)\W above[\S\s]*$/, '$1' ),
-					question = $this.closest( 'li' ),
-					toggle = question.prevAll( 'li' ),
+					question = $this.closest( selectors.questionSelector ),
+					toggle = question.prevAll( selectors.questionSelector ),
 					i, answers,
 					bool = true,
 					dependencyMap
 				;
-
-				// by default, we assume:
-				// 'this' is an instruction within a question/section represented by .closest( 'li' )
-				// the previous question (li, it should NOT be nested in a previous section) value must match the value in the instruction
-				// the toggle question is radio buttons, a checkbox or a select list
 
 				// pattern: (If different to <PREVIOUS QUESTION>)
 				if ( /If different to/.test( value )) {
