@@ -124,6 +124,14 @@ if ( jQuery !== 'undefined' ) {
 			});
 		},
 
+		// $( x ).forcesRelevance( 'relevantWhen', { name: radio/checkbox/select, value: requiredValue })
+		// sets up dependent relevance
+		// example: $( '#red' ).forcesRelevance( 'relevantWhen', { name: 'rgb', value: 'red' })
+		// #red will be shown/hidden when '@name=rgb' value changes.
+		relevantWhen: function( nameValue ) {
+			return this;
+		},
+
 		// $( x ).forcesRelevance( 'instructions', options )
 		// sets up relevance handling based on text instructions
 		// options ::= { instructions: '.relevance', questions: '.questions > li' }

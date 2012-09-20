@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+	<meta charset="UTF-8" />
+	<title>relevantWhen tests · forces relevance tests</title>
+
+	<link rel="stylesheet" href="../lib/qunit-git.css" />
+	<script src="../lib/qunit-git.js"></script>
+
+	<style>
+		body {
+			padding: 2em;
+			font-family: sans-serif;
+			background: #faf7f3;
+			color: #111;
+		}
+
+		#red {
+			background: red;
+		}
+		#green {
+			background: green;
+		}
+		#blue {
+			background: blue;
+		}
+		#cyan {
+			background: #0ff;
+		}
+		#magenta {
+			background: #f0f;
+		}
+		#yellow {
+			background: yellow;
+		}
+		#black {
+			background: black;
+		}
+
+
+	</style>
+</head>
+
+<body>
+
+
+
+	<div id="qunit"></div>
+	<div id="qunit-fixture">
+
+		<form id="test" action="javascript:">
+			<div>
+				<input type="radio" name="rgb" value="red" />
+				<input type="radio" name="rgb" value="green" />
+				<input type="radio" name="rgb" value="blue" />
+
+				<input type="checkbox" name="cmyk" value="cyan" />
+				<input type="checkbox" name="cmyk" value="magenta" />
+				<input type="checkbox" name="cmyk" value="yellow" />
+				<input type="checkbox" name="cmyk" value="black" />
+
+				<!-- items within form -->
+				<div id="red">
+					<input id="red1" />
+					<input id="red2" />
+				</div>
+
+				<label for="green">Green</label>
+				<input id="green" name="green" />
+	
+				<label for="blue">Blue</label>
+				<input id="blue" name="blue" />
+	
+			</div>
+		</form>
+
+		<!-- custom sections outside of form -->
+		<div id="cyan">Cyan</div>
+		<div id="magenta">Magenta</div>
+		<div id="yellow">Yellow</div>
+		<div id="black">Black</div>
+
+
+	</div>
+
+
+<script src="qunit-helpers.js"></script>
+
+<script><!-- //
+
+
+	module( 'environment' );
+
+	test( 'test elements are in test form', 13, function() {
+
+		strictEqual( $( 'form#test' ).length, 1, 'form#test exists' );
+		// rgb radio buttons exist
+		strictEqual( $( ':radio', 'form#test' ).length, 3, '3 radio buttons in form#test exists' );
+		strictEqual( $( ':radio', 'form#test' ).eq( 0 ).val(), 'red', 'red radio button in form#test exists' );
+		strictEqual( $( ':radio', 'form#test' ).eq( 1 ).val(), 'green', 'green radio button in form#test exists' );
+		strictEqual( $( ':radio', 'form#test' ).eq( 2 ).val(), 'blue', 'blue radio button in form#test exists' );
+		// red, green, blue items exist
+		strictEqual( $( '#red', 'form#test' ).length, 1, '#red exists in form#test' );
+		strictEqual( $( '#green', 'form#test' ).length, 1, '#green exists in form#test' );
+		strictEqual( $( '#blue', 'form#test' ).length, 1, '#blue exists in form#test' );
+		// cymk checkboxes exist
+		strictEqual( $( ':checkbox', 'form#test' ).length, 4, '4 checkboxes in form#test exists' );
+		strictEqual( $( ':checkbox', 'form#test' ).eq( 0 ).val(), 'cyan', 'cyan checkbox in form#test exists' );
+		strictEqual( $( ':checkbox', 'form#test' ).eq( 1 ).val(), 'magenta', 'magenta checkbox in form#test exists' );
+		strictEqual( $( ':checkbox', 'form#test' ).eq( 2 ).val(), 'yellow', 'yellow checkbox in form#test exists' );
+		strictEqual( $( ':checkbox', 'form#test' ).eq( 3 ).val(), 'black', 'black checkbox in form#test exists' );
+
+	});
+
+	test( 'test elements are after form', 4, function() {
+
+		// cymk sections are after form
+		strictEqual( $( 'form#test' ).nextAll( '#cyan' ).length, 1, '#cyan is after form#test' );
+		strictEqual( $( 'form#test' ).nextAll( '#magenta' ).length, 1, '#magenta is after form#test' );
+		strictEqual( $( 'form#test' ).nextAll( '#yellow' ).length, 1, '#yellow is after form#test' );
+		strictEqual( $( 'form#test' ).nextAll( '#black' ).length, 1, '#black is after form#test' );
+
+	});
+
+	test( 'elements are initially visible', 4, function() {
+
+		strictEqual( $( ':radio', '#test' ).filter( ':visible' ).length, 3, 'RGB radio buttons are visible' );
+		strictEqual( $( '#red, #green, #blue' ).filter( ':visible' ).length, 3, 'RGB elements are visible' );
+		strictEqual( $( ':checkbox', '#test' ).filter( ':visible' ).length, 4, 'CMYK checkboxes are visible' );
+		strictEqual( $( '#cyan, #magenta, #yellow, #black' ).filter( ':visible' ).length, 4, 'CMYK elements are visible' );
+
+
+	});
+
+
+	module( 'relevantWhen within form' );
+
+	test( 'can setup relevance using relevantWhen', 4, function() {
+
+		strictEqual( $( '#red' ).filter( ':visible' ).length, 1, '#red are visible' );
+
+		// setup relevance
+		$( '#red' ).forcesRelevance( 'relevantWhen', { name: 'rgb', value: 'red' });
+		strictEqual( $( '#red' ).filter( ':visible' ).length, 0, '#red is hidden after relevantWhen setup' );
+
+		// click 'red' radio button
+		$( ':radio', 'form#test' ).eq( 0 ).click();
+		strictEqual( $( '#red' ).filter( ':visible' ).length, 1, '#red is visible after choosing "red" value' );
+
+		// click 'green' radio button
+		$( ':radio', 'form#test' ).eq( 1 ).click();
+		strictEqual( $( '#red' ).filter( ':visible' ).length, 0, '#red is hidden after choosing "green" value' );
+
+	});
+
+
+
+// --></script>
+
+
+</body>
+</html>
