@@ -51,7 +51,7 @@
 		<form id="test" action="javascript:">
 			<div>
 				<input type="radio" name="rgb" value="red" />
-				<input type="radio" name="rgb" value="green" />
+				<input type="radio" name="rgb" value="green" checked="checked" />
 				<input type="radio" name="rgb" value="blue" />
 
 				<input type="checkbox" name="cmyk" value="cyan" />
@@ -135,24 +135,36 @@
 
 	module( 'relevantWhen within form' );
 
-	test( 'can setup relevance using relevantWhen', 4, function() {
+	test( 'can setup relevance using relevantWhen', 10, function() {
 
-		strictEqual( $( '#red' ).filter( ':visible' ).length, 1, '#red are visible' );
+		strictEqual( $( '#red, #green, #blue' ).filter( ':visible' ).length, 3, '#red, #green, #blue are visible' );
 
 		// setup relevance
 		$( '#red' ).forcesRelevance( 'relevantWhen', { name: 'rgb', value: 'red' });
-		strictEqual( $( '#red' ).filter( ':visible' ).length, 0, '#red is hidden after relevantWhen setup' );
+		$( '#green' ).forcesRelevance( 'relevantWhen', { name: 'rgb', value: 'green' });
+		$( '#blue' ).forcesRelevance( 'relevantWhen', { name: 'rgb', value: 'blue' });
+		strictEqual( $( '#red' ).filter( ':hidden' ).length, 1, '#red is hidden after relevantWhen setup' );
+		strictEqual( $( '#green' ).filter( ':visible' ).length, 1, '#green is visible after relevantWhen setup' );
+		strictEqual( $( '#blue' ).filter( ':hidden' ).length, 1, '#blue is hidden after relevantWhen setup' );
 
 		// click 'red' radio button
 		$( ':radio', 'form#test' ).eq( 0 ).click();
 		strictEqual( $( '#red' ).filter( ':visible' ).length, 1, '#red is visible after choosing "red" value' );
+		strictEqual( $( '#green' ).filter( ':hidden' ).length, 1, '#green is hidden after choosing "red" value' );
+		strictEqual( $( '#blue' ).filter( ':hidden' ).length, 1, '#blue is hidden after choosing "red" value' );
 
 		// click 'green' radio button
 		$( ':radio', 'form#test' ).eq( 1 ).click();
-		strictEqual( $( '#red' ).filter( ':visible' ).length, 0, '#red is hidden after choosing "green" value' );
+		strictEqual( $( '#red' ).filter( ':hidden' ).length, 1, '#red is hidden after choosing "green" value' );
+		strictEqual( $( '#green' ).filter( ':visible' ).length, 1, '#green is visible after choosing "green" value' );
+		strictEqual( $( '#blue' ).filter( ':hidden' ).length, 1, '#blue is hidden after choosing "green" value' );
 
 	});
 
+
+	// TODO test chaining, e.g. both #red and #green toggled when relevant = blue
+	// TODO update relevantWhen rule. e.g. relevantWhen rgb = red, then relevantWhen rgb = green
+	// TODO multiple rules (NOT SUPPORTED) e.g. magenta: relevantWhen rgb = red and/or(?) relevantWhen rgb = blue
 
 
 // --></script>

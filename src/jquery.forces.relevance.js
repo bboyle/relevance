@@ -128,7 +128,32 @@ if ( jQuery !== 'undefined' ) {
 		// sets up dependent relevance
 		// example: $( '#red' ).forcesRelevance( 'relevantWhen', { name: 'rgb', value: 'red' })
 		// #red will be shown/hidden when '@name=rgb' value changes.
-		relevantWhen: function( nameValue ) {
+		relevantWhen: function( config ) {
+			var form, data;
+
+			// find the form that has this control
+			form = this.closest( 'form' );
+			// get dependency map (create it if needed)
+			data = form.data( 'forces-relevance' );
+			if ( typeof data !== 'object' ) {
+				data = {};
+				form.data( 'forces-relevance', data );
+			}
+			if ( typeof data.dependencyMap !== 'object' ) {
+				data.dependencyMap = {};
+			}
+			if ( typeof data.dependencyMap[ config.name ] !== 'object' ) {
+				data.dependencyMap[ config.name ] = [];
+			}
+			// add or update relevance rule
+			data.dependencyMap[ config.name ].push({
+				object: this,
+				value: config.value
+			});
+
+			// initial relevance
+			this.forcesRelevance( 'relevant', $( form[ 0 ].elements[ config.name ] ).filter( 'select,:checked' ).val() === config.value );
+
 			return this;
 		},
 
