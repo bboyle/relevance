@@ -22,11 +22,22 @@ if ( jQuery !== 'undefined' ) {
 			questionSelector: '.questions > li'
 		},
 
-		answerMap = function( element ) {
+		valueMap = function( element ) {
 			return element.value;
 		},
 
 		recalculateRelevance = function() {
+			// assume dependency map exists
+			var map = $( this.form ).data( 'forces-relevance' ).dependencyMap[ this.name ],
+				values = $.map( $( this.form.elements[ this.name ]).filter( 'select,:checked' ), valueMap )
+			;
+
+			$.each( map, function( index, element ) {
+				element.items.forcesRelevance( 'relevant', $.inArray( element.value, values ) >= 0 );
+			});
+		},
+
+		recalculateRelevanceOld = function() {
 			var $this = $( this ),
 				values,
 				question = $this.closest( selectors.questionSelector ),
@@ -46,7 +57,7 @@ if ( jQuery !== 'undefined' ) {
 			} else {
 				values = $this.val() || $this.find( 'select' ).val();
 				if ( values === undefined ) {
-					values = $.map( $this.find( 'input' ).filter( ':checked' ), answerMap );
+					values = $.map( $this.find( 'input' ).filter( ':checked' ), valueMap );
 				} else {
 					values = [ values ];
 				}
@@ -78,7 +89,7 @@ if ( jQuery !== 'undefined' ) {
 			} else {
 				this.filter( ':hidden' ).trigger( relevantEvent ).each(function() {
 					// recalculate relevance for dependencies
-					recalculateRelevance.call( this );
+					recalculateRelevanceOld.call( this );
 				});
 			}
 			return this;
@@ -144,15 +155,23 @@ if ( jQuery !== 'undefined' ) {
 			}
 			if ( typeof data.dependencyMap[ config.name ] !== 'object' ) {
 				data.dependencyMap[ config.name ] = [];
+				// setup event handlers for config.name
+				$( form[ 0 ].elements[ config.name ] )
+					.filter( ':radio,:checkbox' )
+						.bind( 'click', recalculateRelevance )
+					.end()
+					.filter( 'select' )
+						.bind( 'change', recalculateRelevance )
+				;
 			}
 			// add or update relevance rule
 			data.dependencyMap[ config.name ].push({
-				object: this,
+				items: this,
 				value: config.value
 			});
 
 			// initial relevance
-			this.forcesRelevance( 'relevant', $( form[ 0 ].elements[ config.name ] ).filter( 'select,:checked' ).val() === config.value );
+			this.forcesRelevance( 'relevant', $.inArray( config.value, $.map( $( form[ 0 ].elements[ config.name ] ).filter( 'select,:checked' ), valueMap )) >= 0 );
 
 			return this;
 		},
@@ -186,7 +205,7 @@ if ( jQuery !== 'undefined' ) {
 						// skip sections
 						if ( ! toggle.eq( i ).is( '.section' )) {
 							// does this item have the answer we need?
-							answers = $.map( toggle.eq( i ).find( 'option,:radio,:checkbox' ), answerMap );
+							answers = $.map( toggle.eq( i ).find( 'option,:radio,:checkbox' ), valueMap );
 							if ( $.inArray( value, answers ) >= 0 ) {
 								toggle = toggle.eq( i );
 							}
@@ -205,8 +224,8 @@ if ( jQuery !== 'undefined' ) {
 					toggle.data( 'forces-relevance', dependencyMap );
 
 					// setup relevance handler
-					$( 'input', toggle ).bind( 'click', recalculateRelevance );
-					$( 'select', toggle ).bind( 'change', recalculateRelevance );
+					$( 'input', toggle ).bind( 'click', recalculateRelevanceOld );
+					$( 'select', toggle ).bind( 'change', recalculateRelevanceOld );
 				}
 
 				// push this item onto the map
@@ -217,7 +236,7 @@ if ( jQuery !== 'undefined' ) {
 				});
 
 				// initial relevance
-				answers = $.map( toggle.find( 'select,:checked' ), answerMap );
+				answers = $.map( toggle.find( 'select,:checked' ), valueMap );
 				question.forcesRelevance( 'relevant', toggle.is( ':visible' ) && ( $.inArray( value, answers ) >= 0 ) === bool );
 			});
 

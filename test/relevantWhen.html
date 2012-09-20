@@ -54,9 +54,9 @@
 				<input type="radio" name="rgb" value="green" checked="checked" />
 				<input type="radio" name="rgb" value="blue" />
 
-				<input type="checkbox" name="cmyk" value="cyan" />
+				<input type="checkbox" name="cmyk" value="cyan" checked="checked" />
 				<input type="checkbox" name="cmyk" value="magenta" />
-				<input type="checkbox" name="cmyk" value="yellow" />
+				<input type="checkbox" name="cmyk" value="yellow" checked="checked" />
 				<input type="checkbox" name="cmyk" value="black" />
 
 				<!-- items within form -->
@@ -148,21 +148,21 @@
 		strictEqual( $( '#blue' ).filter( ':hidden' ).length, 1, '#blue is hidden after relevantWhen setup' );
 
 		// click 'red' radio button
-		$( ':radio', 'form#test' ).eq( 0 ).click();
+		$( ':radio[value="red"]', 'form#test' )[ 0 ].click();
 		strictEqual( $( '#red' ).filter( ':visible' ).length, 1, '#red is visible after choosing "red" value' );
 		strictEqual( $( '#green' ).filter( ':hidden' ).length, 1, '#green is hidden after choosing "red" value' );
 		strictEqual( $( '#blue' ).filter( ':hidden' ).length, 1, '#blue is hidden after choosing "red" value' );
 
-		// click 'green' radio button
-		$( ':radio', 'form#test' ).eq( 1 ).click();
-		strictEqual( $( '#red' ).filter( ':hidden' ).length, 1, '#red is hidden after choosing "green" value' );
-		strictEqual( $( '#green' ).filter( ':visible' ).length, 1, '#green is visible after choosing "green" value' );
-		strictEqual( $( '#blue' ).filter( ':hidden' ).length, 1, '#blue is hidden after choosing "green" value' );
+		// click 'blue' radio button
+		$( ':radio[value="blue"]', 'form#test' )[ 0 ].click();
+		strictEqual( $( '#red' ).filter( ':hidden' ).length, 1, '#red is hidden after choosing "blue" value' );
+		strictEqual( $( '#green' ).filter( ':hidden' ).length, 1, '#green is hidden after choosing "blue" value' );
+		strictEqual( $( '#blue' ).filter( ':visible' ).length, 1, '#blue is visible after choosing "blue" value' );
 
 	});
 
-
 	// TODO test chaining, e.g. both #red and #green toggled when relevant = blue
+	// TODO test initial relevance using checkboxes (e.g. cyan and yellow both checked, is yellow visible?)
 	// TODO update relevantWhen rule. e.g. relevantWhen rgb = red, then relevantWhen rgb = green
 	// TODO multiple rules (NOT SUPPORTED) e.g. magenta: relevantWhen rgb = red and/or(?) relevantWhen rgb = blue
 
