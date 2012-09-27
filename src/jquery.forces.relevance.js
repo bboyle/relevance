@@ -79,6 +79,7 @@ if ( jQuery !== 'undefined' ) {
 			if ( ! makeRelevant ) {
 				this.filter( ':visible' ).trigger( irrelevantEvent ).each(function() {
 					var dependencyMap = $( this ).data( 'forces-relevance' );
+					// TODO refactor: were any select,:radio,:checkbox hidden? if so, did they have dependencies?
 					// hide any dependent elements
 					if ( dependencyMap && dependencyMap.length > 0 ) {
 						$.each( dependencyMap, function( index, element ) {
@@ -138,9 +139,11 @@ if ( jQuery !== 'undefined' ) {
 		// $( x ).forcesRelevance( 'relevantWhen', { name: radio/checkbox/select, value: requiredValue })
 		// sets up dependent relevance
 		// example: $( '#red' ).forcesRelevance( 'relevantWhen', { name: 'rgb', value: 'red' })
+		// example: $( '#red' ).forcesRelevance( 'relevantWhen', { id: 'rgb-red', value: 'red' })
 		// #red will be shown/hidden when '@name=rgb' value changes.
 		relevantWhen: function( config ) {
-			var form, data;
+			var form, data,
+				name = config.name || document.getElementById( config.id ).name;
 
 			// find the form that has this control
 			form = this.closest( 'form' );
@@ -153,10 +156,10 @@ if ( jQuery !== 'undefined' ) {
 			if ( typeof data.dependencyMap !== 'object' ) {
 				data.dependencyMap = {};
 			}
-			if ( typeof data.dependencyMap[ config.name ] !== 'object' ) {
-				data.dependencyMap[ config.name ] = [];
-				// setup event handlers for config.name
-				$( form[ 0 ].elements[ config.name ] )
+			if ( typeof data.dependencyMap[ name ] !== 'object' ) {
+				data.dependencyMap[ name ] = [];
+				// setup event handlers for name
+				$( form[ 0 ].elements[ name ] )
 					.filter( ':radio,:checkbox' )
 						.bind( 'click', recalculateRelevance )
 					.end()
@@ -165,13 +168,13 @@ if ( jQuery !== 'undefined' ) {
 				;
 			}
 			// add or update relevance rule
-			data.dependencyMap[ config.name ].push({
+			data.dependencyMap[ name ].push({
 				items: this,
 				value: config.value
 			});
 
 			// initial relevance
-			this.forcesRelevance( 'relevant', $.inArray( config.value, $.map( $( form[ 0 ].elements[ config.name ] ).filter( 'select,:checked' ), valueMap )) >= 0 );
+			this.forcesRelevance( 'relevant', $.inArray( config.value, $.map( $( form[ 0 ].elements[ name ] ).filter( 'select,:checked' ), valueMap )) >= 0 );
 
 			return this;
 		},
