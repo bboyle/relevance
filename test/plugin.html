@@ -131,7 +131,7 @@
 
 	test( 'relevantWhen', 2, function() {
 
-		$( '#foo, #bar' ).forcesRelevance( 'relevantWhen' ).attr( 'title', 'foo' );
+		$( '#foo, #bar' ).forcesRelevance( 'relevantWhen', {} ).attr( 'title', 'foo' );
 		strictEqual( $( '#foo' ).attr( 'title' ), 'foo', '#foo was chained' );
 		strictEqual( $( '#bar' ).attr( 'title' ), 'foo', '#bar was chained' );
 

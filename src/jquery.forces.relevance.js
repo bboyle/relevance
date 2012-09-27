@@ -15,57 +15,59 @@ if ( jQuery !== 'undefined' ) {
 		relevantDoneEvent = 'relevant-done',
 		irrelevantDoneEvent = 'irrelevant-done',
 		elementsToDisable = 'button, input, select, textarea',
-		// config
-		selectors = {
-			// instruction-based relevance
-			instructionSelector: '.relevance',
-			questionSelector: '.questions > li'
-		},
 
 		valueMap = function( element ) {
 			return element.value;
 		},
 
+		// when changing a control that alters relevance of other elements…
 		recalculateRelevance = function() {
 			// assume dependency map exists
 			var map = $( this.form ).data( 'forces-relevance' ).dependencyMap[ this.name ],
-				values = $.map( $( this.form.elements[ this.name ]).filter( 'select,:checked' ), valueMap )
+				values = $.map( $( this.form.elements[ this.name ]).filter( 'select,:checked' ).filter( ':visible' ), valueMap )
 			;
 
-			$.each( map, function( index, element ) {
-				element.items.forcesRelevance( 'relevant', $.inArray( element.value, values ) >= 0 );
+			$.each( map, function( index, config ) {
+				config.items.forcesRelevance( 'relevant', $.inArray( config.value, values ) >= 0 !== config.negate );
 			});
 		},
 
-		recalculateRelevanceOld = function() {
-			var $this = $( this ),
-				values,
-				question = $this.closest( selectors.questionSelector ),
-				dependencyMap = question.data( 'forces-relevance' )
-			;
+		// when an element changes relevance, check descendent controls that alter relevance in turn…
+		recalculateDependents = function( isRelevant ) {
+			var form, dependencyMap, targets;
 
-			// bail out if not setup
-			if ( ! dependencyMap || dependencyMap.length < 1 ) {
-				return;
-			}
+			// any change to relevant toggles?
+			form = this.closest( 'form' );
+			if ( form.length ) {
+				dependencyMap = form.data( 'forces-relevance' );
+				if ( typeof dependencyMap === 'object' ) {
+					dependencyMap = dependencyMap.dependencyMap;
+					if ( typeof dependencyMap === 'object' ) {
+						// get descendent-or-self select, radio and checkbox
+						targets = this.add( this.find( 'select,input' )).filter( 'select,:radio,:checkbox' );
+						// get unique @name for select, radio and checkbox
+						targets = $.unique( $.map( targets, function( elementOfArray ) {
+							return elementOfArray.name;
+						}));
+						$.each( targets, function( index, name ) {
+							var map = dependencyMap[ name ],
+								values;
 
-			// checkbox, test if it was checked or unchecked
-			if ( /^checkbox$/i.test( this.type )) {
-				values = $.map( $( this.form.elements[ this.name ] ).filter( ':checked' ), function( element ) {
-					return element.value;
-				});
-			} else {
-				values = $this.val() || $this.find( 'select' ).val();
-				if ( values === undefined ) {
-					values = $.map( $this.find( 'input' ).filter( ':checked' ), valueMap );
-				} else {
-					values = [ values ];
+							if ( typeof map === 'object' ) {
+								$.each( map, function( index, config ) {
+									if ( isRelevant === false ) {
+										config.items.forcesRelevance( 'relevant', false );
+										
+									} else {
+										values = $.map( $( form[ 0 ].elements[ name ]).filter( 'select,:checked' ).filter( ':visible' ), valueMap );
+										config.items.forcesRelevance( 'relevant', $.inArray( config.value, values ) >= 0 !== config.negate );
+									}
+								});
+							}
+						});
+					}
 				}
 			}
-
-			$.each( dependencyMap, function( index, element ) {
-				element.question.forcesRelevance( 'relevant', ( $.inArray( element.value, values ) >= 0 ) === element.bool );
-			});
 		},
 
 
@@ -76,22 +78,17 @@ if ( jQuery !== 'undefined' ) {
 		// $( x ).forcesRelevance( 'relevant', false )
 		// if the element is visible, fire an "irrelevant" event
 		relevant: function( makeRelevant ) {
+			var targets;
 			if ( ! makeRelevant ) {
-				this.filter( ':visible' ).trigger( irrelevantEvent ).each(function() {
-					var dependencyMap = $( this ).data( 'forces-relevance' );
-					// TODO refactor: were any select,:radio,:checkbox hidden? if so, did they have dependencies?
-					// hide any dependent elements
-					if ( dependencyMap && dependencyMap.length > 0 ) {
-						$.each( dependencyMap, function( index, element ) {
-							element.question.forcesRelevance( 'relevant', false );
-						});
-					}
-				});
+				targets = this.filter( ':visible' ).trigger( irrelevantEvent );
+				if ( targets.length ) {
+					recalculateDependents.call( targets, false );
+				}
 			} else {
-				this.filter( ':hidden' ).trigger( relevantEvent ).each(function() {
-					// recalculate relevance for dependencies
-					recalculateRelevanceOld.call( this );
-				});
+				targets = this.filter( ':hidden' ).trigger( relevantEvent );
+				if ( targets.length ) {
+					recalculateDependents.call( targets );
+				}
 			}
 			return this;
 		},
@@ -136,14 +133,22 @@ if ( jQuery !== 'undefined' ) {
 			});
 		},
 
-		// $( x ).forcesRelevance( 'relevantWhen', { name: radio/checkbox/select, value: requiredValue })
+		// $( x ).forcesRelevance( 'relevantWhen', { name: radio/checkbox/select, value: requiredValue, negate: false | true })
 		// sets up dependent relevance
 		// example: $( '#red' ).forcesRelevance( 'relevantWhen', { name: 'rgb', value: 'red' })
 		// example: $( '#red' ).forcesRelevance( 'relevantWhen', { id: 'rgb-red', value: 'red' })
 		// #red will be shown/hidden when '@name=rgb' value changes.
 		relevantWhen: function( config ) {
-			var form, data,
-				name = config.name || document.getElementById( config.id ).name;
+			var form, data, name;
+
+			if ( config.name ) {
+				name = config.name;
+			} else if ( config.id ) {
+				name = document.getElementById( config.id ).name;
+			} else if ( config.container ) {
+				name = $( config.container ).find( 'select,:radio,:checkbox' ).attr( 'name' );
+			}
+			config.negate = config.negate === true;
 
 			// find the form that has this control
 			form = this.closest( 'form' );
@@ -170,11 +175,12 @@ if ( jQuery !== 'undefined' ) {
 			// add or update relevance rule
 			data.dependencyMap[ name ].push({
 				items: this,
-				value: config.value
+				value: config.value,
+				negate: config.negate
 			});
 
 			// initial relevance
-			this.forcesRelevance( 'relevant', $.inArray( config.value, $.map( $( form[ 0 ].elements[ name ] ).filter( 'select,:checked' ), valueMap )) >= 0 );
+			this.forcesRelevance( 'relevant', $.inArray( config.value, $.map( $( form[ 0 ].elements[ name ] ).filter( 'select,:checked' ).filter( ':visible' ), valueMap )) >= 0 !== config.negate );
 
 			return this;
 		},
@@ -183,15 +189,18 @@ if ( jQuery !== 'undefined' ) {
 		// sets up relevance handling based on text instructions
 		// options ::= { instructions: '.relevance', questions: '.questions > li' }
 		instructions: function( options ) {
-			$.extend( selectors, options );
+			options = $.extend( {
+				instructionSelector: '.relevance',
+				questionSelector: '.questions > li'
+			}, options );
 
-			this.find( selectors.instructionSelector ).each(function() {
+			this.find( options.instructionSelector ).each(function() {
 				var $this = $( this ),
 					value = $this.text().replace( /^[\S\s]*chose \W([\w\s]+)\W above[\S\s]*$/, '$1' ),
-					question = $this.closest( selectors.questionSelector ),
-					toggle = question.prevAll( selectors.questionSelector ),
+					question = $this.closest( options.questionSelector ),
+					toggle = question.prevAll( options.questionSelector ),
 					i, answers,
-					bool = true,
+					negate = false,
 					dependencyMap
 				;
 
@@ -200,7 +209,7 @@ if ( jQuery !== 'undefined' ) {
 					// assume previous 'li' is the toggle
 					toggle = toggle.eq( 0 );
 					value = toggle.find( ':checkbox' ).val();
-					bool = false;
+					negate = true;
 				} else {
 					// which of the previous questions is the toggle?
 					i = 0;
@@ -216,31 +225,9 @@ if ( jQuery !== 'undefined' ) {
 						i++;
 					}
 				}
+				toggle = toggle.add( toggle.find( 'select,input' )).filter( 'select,:radio,:checkbox' );
 
-				// we could write a function for this relevance rule, but we would be writing multiple functions for the same question
-				// is that too inefficient? probably. we should not keep adding event handlers.
-				// need to store a dependency map.
-				// when values change, check their dependency map.
-				dependencyMap = toggle.data( 'forces-relevance' );
-				if ( typeof dependencyMap !== 'object' ) {
-					dependencyMap = [];
-					toggle.data( 'forces-relevance', dependencyMap );
-
-					// setup relevance handler
-					$( 'input', toggle ).bind( 'click', recalculateRelevanceOld );
-					$( 'select', toggle ).bind( 'change', recalculateRelevanceOld );
-				}
-
-				// push this item onto the map
-				dependencyMap.push({
-					question : question,
-					value : value,
-					bool : bool
-				});
-
-				// initial relevance
-				answers = $.map( toggle.find( 'select,:checked' ), valueMap );
-				question.forcesRelevance( 'relevant', toggle.is( ':visible' ) && ( $.inArray( value, answers ) >= 0 ) === bool );
+				question.forcesRelevance( 'relevantWhen', { name: toggle.attr( 'name' ), value: value, negate: negate });
 			});
 
 			return this;

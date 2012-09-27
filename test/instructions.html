@@ -191,7 +191,7 @@
 									<abbr title="(required)">*</abbr>
 									<small class="hint">You must be legally entitled to work in Australia to apply for a Queensland Government job.</small>
 								</label>
-								<select id="work-status" required="required">
+								<select id="work-status" name="workStatus" required="required">
 									<option value="" class="placeholder">Please select&hellip;</option>
 									<option>Australian citizen</option>
 									<option>Australian resident</option>
@@ -385,7 +385,7 @@
 					<label for="foo">
 						<span class="label">Foo</span>
 					</label>
-					<select id="foo">
+					<select id="foo" name="foo">
 						<option selected="selected">Foo</option>
 						<option>Bar</option>
 					</select>
@@ -395,7 +395,7 @@
 						<span class="label">Bar</span>
 						<small class="relevance">(If you chose ‘Bar’ above)</small>
 					</label>
-					<select id="bar">
+					<select id="bar" name="bar">
 						<option>Bar</option>
 						<option selected="selected">Baz</option>
 					</select>
@@ -598,14 +598,14 @@
 		strictEqual( $( '#retirement-date' ).closest( '.questions > li' ).filter( ':hidden' ).length, 1, '#retirement-date question is hidden' );
 
 		// toggle relevance by clicking radio button
-		$( '#have-you-received-an-early-retirement-yes' ).click();
+		$( '#have-you-received-an-early-retirement-yes' )[ 0 ].click();
 
 		// should now be visible
 		strictEqual( $( '#retirement-date' ).filter( ':visible' ).length, 1, '#retirement-date is visible' );
 		strictEqual( $( '#retirement-date' ).closest( '.questions > li' ).filter( ':visible' ).length, 1, '#retirement-date question is visible' );
 
 		// toggle relevance by clicking radio button
-		$( '#have-you-received-an-early-retirement-no' ).click();
+		$( '#have-you-received-an-early-retirement-no' )[ 0 ].click();
 
 		// should be hidden again
 		strictEqual( $( '#retirement-date' ).filter( ':hidden' ).length, 1, '#retirement-date is hidden' );
@@ -642,14 +642,14 @@
 		strictEqual( $( '#job-title' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#job-title section is hidden' );
 
 		// toggle relevance by clicking radio button
-		$( '#are-you-currently-employed-by-the-queensland-government-yes' ).click();
+		$( '#are-you-currently-employed-by-the-queensland-government-yes' )[ 0 ].click();
 
 		// should now be visible
 		strictEqual( $( '#job-title' ).filter( ':visible' ).length, 1, '#job-title is visible' );
 		strictEqual( $( '#job-title' ).closest( '.section' ).filter( ':visible' ).length, 1, '#job-title section is visible' );
 
 		// toggle relevance by clicking radio button
-		$( '#are-you-currently-employed-by-the-queensland-government-no' ).click();
+		$( '#are-you-currently-employed-by-the-queensland-government-no' )[ 0 ].click();
 
 		// should be hidden again
 		strictEqual( $( '#job-title' ).filter( ':hidden' ).length, 1, '#job-title is hidden' );
@@ -684,7 +684,7 @@
 
 	test( 'multiple checkboxes can control multiple elements', 15, function() {
 
-		$( '#pet-owner-yes' ).click();
+		$( '#pet-owner-yes' )[ 0 ].click();
 
 		// initial state
 		strictEqual( $( '#pets' ).filter( ':visible' ).length, 1, '#pets is visible' );
@@ -724,7 +724,7 @@
 		strictEqual( $( '#bird-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#bird-owners section is hidden' );
 
 		// toggle relevance by clicking radio button
-		$( '#pet-owner-yes' ).click();
+		$( '#pet-owner-yes' )[ 0 ].click();
 		strictEqual( $( '#pets' ).filter( ':visible' ).length, 1, '#pets is visible' );
 		strictEqual( $( '#pets' ).closest( '.questions > li' ).filter( ':visible' ).length, 1, '#pets question is visible' );
 		strictEqual( $( '#cat-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#cat-owners section is hidden' );
@@ -742,7 +742,7 @@
 
 	test( 'hiding a gating question hides the dependencies', 14, function() {
 
-		$( '#pet-owner-yes' ).click();
+		$( '#pet-owner-yes' )[ 0 ].click();
 		$( '#pets-bird' )[ 0 ].click();
 		$( '#pets-dog' )[ 0 ].click();
 
@@ -752,14 +752,14 @@
 		strictEqual( $( '#cat-owners' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#cat-owners section is hidden' );
 		strictEqual( $( '#dog-owners, #bird-owners' ).closest( '.section' ).filter( ':visible' ).length, 2, '#dog-owners, #bird-owners sections are visible' );
 
-		// toggle pet ownership, should also hide cat question
-		$( '#pet-owner-no' ).click();
+		// toggle pet ownership, should also hide dog and bird questions
+		$( '#pet-owner-no' )[ 0 ].click();
 		strictEqual( $( '#pets' ).filter( ':hidden' ).length, 1, '#pets is hidden' );
 		strictEqual( $( '#pets' ).closest( '.questions > li' ).filter( ':hidden' ).length, 1, '#pets question is hidden' );
 		strictEqual( $( '#cat-owners, #dog-owners, #bird-owners' ).closest( '.section' ).filter( ':hidden' ).length, 3, '#cat-owners, #dog-owners, #bird-owners sections are hidden' );
 
-		// toggle pet ownership, should also show cat question
-		$( '#pet-owner-yes' ).click();
+		// toggle pet ownership, should also show dog and bird question
+		$( '#pet-owner-yes' )[ 0 ].click();
 		strictEqual( $( '#pets' ).filter( ':visible' ).length, 1, '#pets is visible' );
 		strictEqual( $( '#pets' ).closest( '.questions > li' ).filter( ':visible' ).length, 1, '#pets question is visible' );
 		strictEqual( $( '#pets-dog' )[ 0 ].checked, true, 'remembers pets-dog is checked' );
@@ -798,7 +798,7 @@
 
 	test( 'relevance can be toggled', 14, function() {
 
-		$( '#pet-owner2-yes' ).click();
+		$( '#pet-owner2-yes' )[ 0 ].click();
 		$( '#pets2-bird' )[ 0 ].click();
 		$( '#pets2-dog' )[ 0 ].click();
 
@@ -809,13 +809,13 @@
 		strictEqual( $( '#pets2-no' ).filter( ':hidden' ).length, 1, '#pets2-no is hidden' );
 
 		// toggle pet ownership, should also hide cat question
-		$( '#pet-owner2-no' ).click();
+		$( '#pet-owner2-no' )[ 0 ].click();
 		strictEqual( $( '#pets2' ).filter( ':hidden' ).length, 1, '#pets2 is hidden' );
 		strictEqual( $( '#cat-owners2, #dog-owners2, #bird-owners2' ).filter( ':hidden' ).length, 3, '#cat-owners2, #dog-owners2, #bird-owners2 sections are hidden' );
 		strictEqual( $( '#pets2-no' ).filter( ':visible' ).length, 1, '#pets2-no is visible' );
 
 		// toggle pet ownership, should also show cat question
-		$( '#pet-owner2-yes' ).click();
+		$( '#pet-owner2-yes' )[ 0 ].click();
 		strictEqual( $( '#pets2' ).filter( ':visible' ).length, 1, '#pets is visible' );
 		strictEqual( $( '#pets2-dog' )[ 0 ].checked, true, 'remembers pets2-dog is checked' );
 		strictEqual( $( '#pets2-bird' )[ 0 ].checked, true, 'remembers pets2-bird is checked' );
