@@ -20,6 +20,18 @@ if ( jQuery !== 'undefined' ) {
 			return element.value;
 		},
 
+		valueInArray = function( possibleValues, actualValues ) {
+			var i;
+			
+			for ( i = 0; i < actualValues.length; i++ ) {
+				if ( $.inArray( actualValues[ i ], possibleValues ) !== -1 ) {
+					return true;
+				}
+			}
+
+			return false;
+		},
+
 		// when changing a control that alters relevance of other elements…
 		recalculateRelevance = function() {
 			// assume dependency map exists
@@ -28,7 +40,7 @@ if ( jQuery !== 'undefined' ) {
 			;
 
 			$.each( map, function( index, config ) {
-				config.items.forcesRelevance( 'relevant', $.inArray( config.value, values ) >= 0 !== config.negate );
+				config.items.forcesRelevance( 'relevant', valueInArray( config.values, values ) !== config.negate );
 			});
 		},
 
@@ -60,7 +72,7 @@ if ( jQuery !== 'undefined' ) {
 										
 									} else {
 										values = $.map( $( form[ 0 ].elements[ name ]).filter( 'select,:checked' ).filter( ':visible' ), valueMap );
-										config.items.forcesRelevance( 'relevant', $.inArray( config.value, values ) >= 0 !== config.negate );
+										config.items.forcesRelevance( 'relevant', valueInArray( config.values, values ) !== config.negate );
 									}
 								});
 							}
@@ -139,7 +151,9 @@ if ( jQuery !== 'undefined' ) {
 		// example: $( '#red' ).forcesRelevance( 'relevantWhen', { id: 'rgb-red', value: 'red' })
 		// #red will be shown/hidden when '@name=rgb' value changes.
 		relevantWhen: function( config ) {
-			var form, data, name;
+			var form, data, name, values;
+
+			values = config.values || [ config.value ];
 
 			if ( config.name ) {
 				name = config.name;
@@ -175,12 +189,12 @@ if ( jQuery !== 'undefined' ) {
 			// add or update relevance rule
 			data.dependencyMap[ name ].push({
 				items: this,
-				value: config.value,
+				values: values,
 				negate: config.negate
 			});
 
 			// initial relevance
-			this.forcesRelevance( 'relevant', $.inArray( config.value, $.map( $( form[ 0 ].elements[ name ] ).filter( 'select,:checked' ).filter( ':visible' ), valueMap )) >= 0 !== config.negate );
+			this.forcesRelevance( 'relevant', valueInArray( values, $.map( $( form[ 0 ].elements[ name ] ).filter( 'select,:checked' ).filter( ':visible' ), valueMap )) !== config.negate );
 
 			return this;
 		},
@@ -218,7 +232,7 @@ if ( jQuery !== 'undefined' ) {
 						if ( ! toggle.eq( i ).is( '.section' )) {
 							// does this item have the answer we need?
 							answers = $.map( toggle.eq( i ).find( 'option,:radio,:checkbox' ), valueMap );
-							if ( $.inArray( value, answers ) >= 0 ) {
+							if ( valueInArray( value, answers )) {
 								toggle = toggle.eq( i );
 							}
 						}
