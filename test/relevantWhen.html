@@ -79,13 +79,18 @@
 				<input id="blue" name="blue" />
 	
 			</div>
+
+			<div id="cyan">Cyan</div>
+			<div id="magenta">Magenta</div>
+			<div id="yellow">Yellow</div>
+			<div id="black">Black</div>
 		</form>
 
 		<!-- custom sections outside of form -->
-		<div id="cyan">Cyan</div>
-		<div id="magenta">Magenta</div>
-		<div id="yellow">Yellow</div>
-		<div id="black">Black</div>
+		<div id="cyan-after">Cyan</div>
+		<div id="magenta-after">Magenta</div>
+		<div id="yellow-after">Yellow</div>
+		<div id="black-after">Black</div>
 
 
 	</div>
@@ -98,7 +103,7 @@
 
 	module( 'environment' );
 
-	test( 'test elements are in test form', 16, function() {
+	test( 'test elements are in test form', 20, function() {
 
 		strictEqual( $( 'form#test' ).length, 1, 'form#test exists' );
 		// rgb radio buttons exist
@@ -120,16 +125,21 @@
 		strictEqual( $( 'select#colour-space', 'form#test' ).length, 1, 'select#colour-space exists' );
 		strictEqual( $( 'option', '#colour-space' ).eq( 0 ).val(), 'RGB', 'select#colour-space option 1 is RGB' );
 		strictEqual( $( 'option', '#colour-space' ).eq( 1 ).val(), 'CMYK', 'select#colour-space option 2 is CMYK' );
+		// cyan, magenta, yellow items exist
+		strictEqual( $( '#cyan', 'form#test' ).length, 1, '#cyan exists in form#test' );
+		strictEqual( $( '#magenta', 'form#test' ).length, 1, '#magenta exists in form#test' );
+		strictEqual( $( '#yellow', 'form#test' ).length, 1, '#yellow exists in form#test' );
+		strictEqual( $( '#black', 'form#test' ).length, 1, '#black exists in form#test' );
 
 	});
 
 	test( 'test elements are after form', 4, function() {
 
 		// cymk sections are after form
-		strictEqual( $( 'form#test' ).nextAll( '#cyan' ).length, 1, '#cyan is after form#test' );
-		strictEqual( $( 'form#test' ).nextAll( '#magenta' ).length, 1, '#magenta is after form#test' );
-		strictEqual( $( 'form#test' ).nextAll( '#yellow' ).length, 1, '#yellow is after form#test' );
-		strictEqual( $( 'form#test' ).nextAll( '#black' ).length, 1, '#black is after form#test' );
+		strictEqual( $( 'form#test' ).nextAll( '#cyan-after' ).length, 1, '#cyan is after form#test' );
+		strictEqual( $( 'form#test' ).nextAll( '#magenta-after' ).length, 1, '#magenta is after form#test' );
+		strictEqual( $( 'form#test' ).nextAll( '#yellow-after' ).length, 1, '#yellow is after form#test' );
+		strictEqual( $( 'form#test' ).nextAll( '#black-after' ).length, 1, '#black is after form#test' );
 
 	});
 
@@ -224,6 +234,32 @@
 
 	});
 
+	test( 'can setup relevance using @values', 10, function() {
+
+		strictEqual( $( '#red, #green, #blue' ).filter( ':visible' ).length, 3, '#red, #green, #blue are visible' );
+
+		// setup relevance
+		$( '#red' ).forcesRelevance( 'relevantWhen', { name: 'rgb', values: [ 'red' ] });
+		$( '#green' ).forcesRelevance( 'relevantWhen', { name: 'rgb', values: [ 'green' ] });
+		$( '#blue' ).forcesRelevance( 'relevantWhen', { name: 'rgb', values: [ 'blue' ] });
+		strictEqual( $( '#red' ).filter( ':hidden' ).length, 1, '#red is hidden after relevantWhen setup' );
+		strictEqual( $( '#green' ).filter( ':visible' ).length, 1, '#green is visible after relevantWhen setup' );
+		strictEqual( $( '#blue' ).filter( ':hidden' ).length, 1, '#blue is hidden after relevantWhen setup' );
+
+		// click 'red' radio button
+		$( ':radio[value="red"]', 'form#test' )[ 0 ].click();
+		strictEqual( $( '#red' ).filter( ':visible' ).length, 1, '#red is visible after choosing "red" value' );
+		strictEqual( $( '#green' ).filter( ':hidden' ).length, 1, '#green is hidden after choosing "red" value' );
+		strictEqual( $( '#blue' ).filter( ':hidden' ).length, 1, '#blue is hidden after choosing "red" value' );
+
+		// click 'blue' radio button
+		$( ':radio[value="blue"]', 'form#test' )[ 0 ].click();
+		strictEqual( $( '#red' ).filter( ':hidden' ).length, 1, '#red is hidden after choosing "blue" value' );
+		strictEqual( $( '#green' ).filter( ':hidden' ).length, 1, '#green is hidden after choosing "blue" value' );
+		strictEqual( $( '#blue' ).filter( ':visible' ).length, 1, '#blue is visible after choosing "blue" value' );
+
+	});
+
 	module( 'dependencies' );
 
 	test( 'dependencies are managed', 14, function() {
@@ -272,7 +308,36 @@
 	// TODO nested dependencies
 	// TODO test initial relevance using checkboxes (e.g. cyan and yellow both checked, is yellow visible?)
 	// TODO update relevantWhen rule. e.g. relevantWhen rgb = red, then relevantWhen rgb = green
-	// TODO multiple rules (NOT SUPPORTED) e.g. magenta: relevantWhen rgb = red and/or(?) relevantWhen rgb = blue
+
+
+	// set of values e.g. magenta: relevantWhen rgb = red or blue
+	module( 'set of values' );
+
+	test( 'value in set', 10, function() {
+
+		strictEqual( $( '#cyan, #magenta, #yellow' ).filter( ':visible' ).length, 3, '#cyan, #magenta, #yellow are visible' );
+
+		// setup relevance
+		$( '#cyan' ).forcesRelevance( 'relevantWhen', { name: 'rgb', values: [ 'red', 'green' ] });
+		$( '#magenta' ).forcesRelevance( 'relevantWhen', { name: 'rgb', values: [ 'red', 'blue' ] });
+		$( '#yellow' ).forcesRelevance( 'relevantWhen', { name: 'rgb', values: [ 'green', 'blue' ] });
+		strictEqual( $( '#cyan' ).filter( ':visible' ).length, 1, '#cyan is visible after relevantWhen setup' );
+		strictEqual( $( '#magenta' ).filter( ':hidden' ).length, 1, '#magenta is hidden after relevantWhen setup' );
+		strictEqual( $( '#yellow' ).filter( ':visible' ).length, 1, '#yellow is visible after relevantWhen setup' );
+
+		// click 'red' radio button
+		$( ':radio[value="red"]', 'form#test' )[ 0 ].click();
+		strictEqual( $( '#cyan' ).filter( ':visible' ).length, 1, '#cyan is visible after choosing "red" value' );
+		strictEqual( $( '#magenta' ).filter( ':visible' ).length, 1, '#magenta is visible after choosing "red" value' );
+		strictEqual( $( '#yellow' ).filter( ':hidden' ).length, 1, '#yellow is hidden after choosing "red" value' );
+
+		// click 'blue' radio button
+		$( ':radio[value="blue"]', 'form#test' )[ 0 ].click();
+		strictEqual( $( '#cyan' ).filter( ':hidden' ).length, 1, '#cyan is hidden after choosing "blue" value' );
+		strictEqual( $( '#magenta' ).filter( ':visible' ).length, 1, '#magenta is visible after choosing "blue" value' );
+		strictEqual( $( '#yellow' ).filter( ':visible' ).length, 1, '#yellow is visible after choosing "blue" value' );
+
+	});
 
 
 // --></script>
