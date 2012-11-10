@@ -22,6 +22,9 @@ if ( jQuery !== 'undefined' ) {
 
 		valueInArray = function( possibleValues, actualValues ) {
 			var i;
+			if ( typeof possibleValues !== 'object' ) {
+				possibleValues = [ possibleValues ];
+			}
 			
 			for ( i = 0; i < actualValues.length; i++ ) {
 				if ( $.inArray( actualValues[ i ], possibleValues ) !== -1 ) {
