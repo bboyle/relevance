@@ -6,6 +6,8 @@
 
 */
 
+/*jslint browser:true,white:true,plusplus:true,regexp:true*/
+/*global jQuery*/
 if ( jQuery !== 'undefined' ) {
 (function( $ ) {
 	'use strict';
@@ -213,7 +215,7 @@ if ( jQuery !== 'undefined' ) {
 
 			this.find( options.instructionSelector ).each(function() {
 				var $this = $( this ),
-					value = $this.text().replace( /^[\S\s]*chose \W([\w\s]+)\W above[\S\s]*$/, '$1' ),
+					value = $this.text().replace( /^[\S\s]*chose \W([^'"’]+)['"’] above[\S\s]*$/, '$1' ),
 					question = $this.closest( options.questionSelector ),
 					toggle = question.prevAll( options.questionSelector ),
 					i, answers,

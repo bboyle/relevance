@@ -412,6 +412,44 @@
 					<input id="baz" />
 				</li>
 
+				<!-- issue #11
+				values are not extracted when they contain punctuation characters
+				https://github.com/Forces/relevance/issues/11 -->
+				<li>
+					<fieldset>
+						<legend>
+							<span class="label">How much would you like to donate?</span>
+							<abbr title="(required)">*</abbr>
+						</legend>
+						<ul class="choices">
+							<li><input type="radio" name="donation" required="required" id="donation-5" value="$5.00" /><label for="donation-5">$5.00</label></li>
+							<li><input type="radio" name="donation" required="required" id="donation-20" value="$20.00" /><label for="donation-20">$20.00</label></li>
+							<li><input type="radio" name="donation" required="required" id="donation-50" value="$50.00" /><label for="donation-50">$50.00</label></li>
+							<li><input type="radio" name="donation" required="required" id="donation-100" value="$100.00" /><label for="donation-100">$100.00</label></li>
+							<li><input type="radio" name="donation" required="required" id="donation-1000" value="$1000.00" /><label for="donation-1000">$1000.00</label></li>
+							<li><input type="radio" name="donation" required="required" id="donation-other-amount" value="other amount" /><label for="donation-other-amount">other amount</label></li>
+						</ul>
+					</fieldset>
+				</li>
+
+				<li>
+					<label for="donation-name">
+						<span class="label">Your name</span>
+						<small class="relevance">(If you chose '$1000.00' above)</small>
+						<small class="hint">We will publish your name in our list of major supporters</small>
+					</label>
+					<input id="donation-name" name="donationName" size="40" required="required" />
+				</li>
+
+				<li>
+					<label for="donation-amount">
+						<span class="label">How much would you like to donate?</span>
+						<abbr title="(required)">*</abbr>
+						<small class="relevance">(If you chose 'other amount' above)</small>
+					</label>
+					<input id="donation-amount" name="donationAmount" size="10" required="required" />
+				</li>
+
 			</ol>
 		</form>
 
@@ -517,10 +555,10 @@
 
 	module( 'environment' );
 
-	test( 'test fields are in test form', 14, function() {
+	test( 'test fields are in test form', 16, function() {
 
 		strictEqual( $( 'form#test' ).length, 1, 'form#test exists' );
-		strictEqual( $( '.relevance', '#test' ).length, 10, '10 `.relevance` instructions found' );
+		strictEqual( $( '.relevance', '#test' ).length, 12, '12 `.relevance` instructions found' );
 		strictEqual( $( '.relevance', '#test' ).eq( 0 ).text(), '(If different to home address)', 'correct instruction text' );
 		strictEqual( $( '.relevance', '#test' ).eq( 1 ).text(), '(If you chose ‘Current working visa’ above)', 'correct instruction text' );
 		strictEqual( $( '.relevance', '#test' ).eq( 2 ).text(), '(If you chose ‘Yes’ above)', 'correct instruction text' );
@@ -531,6 +569,8 @@
 		strictEqual( $( '.relevance', '#test' ).eq( 7 ).text(), '(If you chose ‘Bird’ above)', 'correct instruction text' );
 		strictEqual( $( '.relevance', '#test' ).eq( 8 ).text(), '(If you chose ‘Bar’ above)', 'correct instruction text' );
 		strictEqual( $( '.relevance', '#test' ).eq( 9 ).text(), '(If you chose ‘Baz’ above)', 'correct instruction text' );
+		strictEqual( $( '.relevance', '#test' ).eq( 10 ).text(), '(If you chose \'$1000.00\' above)', 'correct instruction text' );
+		strictEqual( $( '.relevance', '#test' ).eq( 11 ).text(), '(If you chose \'other amount\' above)', 'correct instruction text' );
 
 		// dependence
 		strictEqual( $( '#foo' ).val(), 'Foo', '#foo != Bar' );
@@ -555,7 +595,7 @@
 	module( 'before .forcesRelevance( \'instructions\' )' );
 
 	test( 'all sections are relevant', 1, function() {
-		strictEqual( $( '.relevance', '#test' ).filter( ':visible' ).length, 10, '10 `.relevance` instructions visible' );
+		strictEqual( $( '.relevance', '#test' ).filter( ':visible' ).length, 12, '12 `.relevance` instructions visible' );
 	});
 
 	test( 'custom sections are relevant', 1, function() {
@@ -713,6 +753,15 @@
 		strictEqual( $( '#dog-owners' ).closest( '.section' ).filter( ':visible' ).length, 1, '#dog-owners section is visible' );
 		strictEqual( $( '#bird-owners' ).closest( '.section' ).filter( ':visible' ).length, 1, '#bird-owners section is visible' );
 
+	});
+
+
+	test( 'punctuation characters are supported in values', 2, function() {
+
+		strictEqual( $( '#donation-name' ).filter( ':hidden' ).length, 1, '#donation-name is initially hidden' );
+
+		$( '#donation-1000' )[ 0 ].click();
+		strictEqual( $( '#donation-name' ).filter( ':visible' ).length, 1, '#donation-name is visible' );
 	});
 
 
