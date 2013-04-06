@@ -22,7 +22,7 @@ module.exports = function( grunt ) {
 			},
 			dist: {
 				files: {
-					'dist/<%= pkg.name %>.min.js': [ 'src/<%= pkg.name %>.js' ]
+					'dist/jquery.<%= pkg.name %>.min.js': [ 'src/jquery.<%= pkg.name %>.js' ]
 				}
 			},
 		},
