@@ -4,10 +4,9 @@
 	<meta charset="UTF-8" />
 	<title>relevance demo</title>
 
-	<!-- Load local jQuery. This can be overridden with a ?jquery=___ param. -->
-	<script src="libs/jquery-loader.js"></script>
-	<!-- Load local lib and tests. -->
-	<script src="src/jquery-relevance.js"></script>
+
+	<script src="libs/jquery/jquery.js"></script>
+	<script src="src/jquery.relevance.js"></script>
 
 
 	<style>
@@ -85,7 +84,7 @@
 <script><!-- //
 
 	// set defaults?
-	// $( document ).forcesRelevance( 'config', {
+	// $( document ).relevance( 'config', {
 		// hideAnimation: hide,
 		// hideTimeout: 0,
 		// showAnimation: slideDown,
@@ -95,9 +94,10 @@
 	// toggle relevance of foo and bar
 	var toggleRelevance = function() {
 		var isFooRelevant = $( '#toggleFoo' )[0].checked;
-		$( '#foo' ).forcesRelevance( 'relevant', isFooRelevant );
-		$( '#bar' ).forcesRelevance( 'relevant', ! isFooRelevant );
-	}
+		$( '#foo' ).relevance( 'relevant', isFooRelevant );
+		$( '#bar' ).relevance( 'relevant', ! isFooRelevant );
+	};
+
 	// assign to radio button click handlers
 	$( 'input[name=toggle]' ).bind( 'change', toggleRelevance );
 
@@ -112,10 +112,10 @@
 		question.stop( true, true );
 
 		if ( event.type === 'relevant' ) {
-			// question.forcesRelevance( 'show', { animation: slideDown, timeout: 350, callback: fire event x-text-resize } )
+			// question.relevance( 'show', { animation: slideDown, timeout: 350, callback: fire event x-text-resize } )
 			question.removeAttr( 'hidden' ).slideDown( 350 );
 		} else {
-			// question.forcesRelevance( 'hide', { animation: hide, callback: fire event x-text-resize } )
+			// question.relevance( 'hide', { animation: hide, callback: fire event x-text-resize } )
 			// question.hide( 0 );
 			question.attr( 'hidden', 'hidden' ).hide();
 		}
