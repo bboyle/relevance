@@ -36,6 +36,48 @@
 
 
 	<div id="qunit"></div>
+	<div id="qunit-fixture">
+
+		<form id="test" action="javascript:">
+
+			<ol class="questions">
+
+				<li class="group">
+					<fieldset>
+						<legend>
+							<span class="label">Fubar</span>
+						</legend>
+						<ol class="questions compact">
+							<li>
+								<label for="foo">
+									<span class="label">Foo</span>
+								</label>
+								<input type="text" id="foo" name="foo" />
+							</li>
+							<li>
+								<label for="bar">
+									<span class="label">Bar</span>
+								</label>
+								<input type="text" id="bar" name="bar" style="display: none" hidden="hidden" />
+							</li>
+						</ol>
+					</fieldset>
+				</li>
+
+				<li class="footer">
+					<ol class="submit">
+						<li>
+							<strong>
+								<input type="submit" value="Submit" />
+							</strong>
+						</li>
+					</ol>
+				</li>
+
+			</ol>
+
+		</form>
+	</div>
 
 
 </body>
