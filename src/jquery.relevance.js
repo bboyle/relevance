@@ -1,11 +1,3 @@
-/*
-	jquery forces relevance plugin
-
-	jquery.forcesForms( "relevant", true|false ) -- get label element
-	requires jquery
-
-*/
-
 /*globals jQuery*/
 if ( jQuery !== 'undefined' ) {
 	(function( $ ) {
@@ -39,12 +31,12 @@ if ( jQuery !== 'undefined' ) {
 			// when changing a control that alters relevance of other elements…
 			recalculateRelevance = function() {
 				// assume dependency map exists
-				var map = $( this.form ).data( 'forces-relevance' ).dependencyMap[ this.name ],
+				var map = $( this.form ).data( 'relevance' ).dependencyMap[ this.name ],
 					values = $.map( $( this.form.elements[ this.name ]).filter( 'select,:checked' ).filter( ':visible' ), valueMap )
 				;
 
 				$.each( map, function( index, config ) {
-					config.items.forcesRelevance( 'relevant', valueInArray( config.values, values ) !== config.negate );
+					config.items.relevance( 'relevant', valueInArray( config.values, values ) !== config.negate );
 				});
 			},
 
@@ -55,7 +47,7 @@ if ( jQuery !== 'undefined' ) {
 				// any change to relevant toggles?
 				form = this.closest( 'form' );
 				if ( form.length ) {
-					dependencyMap = form.data( 'forces-relevance' );
+					dependencyMap = form.data( 'relevance' );
 					if ( typeof dependencyMap === 'object' ) {
 						dependencyMap = dependencyMap.dependencyMap;
 						if ( typeof dependencyMap === 'object' ) {
@@ -72,11 +64,11 @@ if ( jQuery !== 'undefined' ) {
 								if ( typeof map === 'object' ) {
 									$.each( map, function( index, config ) {
 										if ( isRelevant === false ) {
-											config.items.forcesRelevance( 'relevant', false );
+											config.items.relevance( 'relevant', false );
 
 										} else {
 											values = $.map( $( form[ 0 ].elements[ name ]).filter( 'select,:checked' ).filter( ':visible' ), valueMap );
-											config.items.forcesRelevance( 'relevant', valueInArray( config.values, values ) !== config.negate );
+											config.items.relevance( 'relevant', valueInArray( config.values, values ) !== config.negate );
 										}
 									});
 								}
@@ -89,9 +81,9 @@ if ( jQuery !== 'undefined' ) {
 
 		methods = {
 
-			// $( x ).forcesRelevance( 'relevant', true )
+			// $( x ).relevance( 'relevant', true )
 			// if the element is hidden, fire a 'relevant' event
-			// $( x ).forcesRelevance( 'relevant', false )
+			// $( x ).relevance( 'relevant', false )
 			// if the element is visible, fire an "irrelevant" event
 			relevant: function( makeRelevant ) {
 				var targets;
@@ -109,7 +101,7 @@ if ( jQuery !== 'undefined' ) {
 				return this;
 			},
 
-			// $( x ).forcesRelevance( 'show' )
+			// $( x ).relevance( 'show' )
 			// shows the element (does not check if element is already visible)
 			// triggers 'relevant-done' after showing is complete
 			show: function() {
@@ -126,7 +118,7 @@ if ( jQuery !== 'undefined' ) {
 				});
 			},
 
-			// $( x ).forcesRelevance( 'hide' )
+			// $( x ).relevance( 'hide' )
 			// hides the element (does not check if element is already hidden)
 			// triggers 'irrelevant-done' after hiding is complete
 			hide: function() {
@@ -149,10 +141,10 @@ if ( jQuery !== 'undefined' ) {
 				});
 			},
 
-			// $( x ).forcesRelevance( 'relevantWhen', { name: radio/checkbox/select, value: requiredValue, negate: false | true })
+			// $( x ).relevance( 'relevantWhen', { name: radio/checkbox/select, value: requiredValue, negate: false | true })
 			// sets up dependent relevance
-			// example: $( '#red' ).forcesRelevance( 'relevantWhen', { name: 'rgb', value: 'red' })
-			// example: $( '#red' ).forcesRelevance( 'relevantWhen', { id: 'rgb-red', value: 'red' })
+			// example: $( '#red' ).relevance( 'relevantWhen', { name: 'rgb', value: 'red' })
+			// example: $( '#red' ).relevance( 'relevantWhen', { id: 'rgb-red', value: 'red' })
 			// #red will be shown/hidden when '@name=rgb' value changes.
 			relevantWhen: function( config ) {
 				var form, data, name, values;
@@ -171,10 +163,10 @@ if ( jQuery !== 'undefined' ) {
 				// find the form that has this control
 				form = this.closest( 'form' );
 				// get dependency map (create it if needed)
-				data = form.data( 'forces-relevance' );
+				data = form.data( 'relevance' );
 				if ( typeof data !== 'object' ) {
 					data = {};
-					form.data( 'forces-relevance', data );
+					form.data( 'relevance', data );
 				}
 				if ( typeof data.dependencyMap !== 'object' ) {
 					data.dependencyMap = {};
@@ -198,12 +190,12 @@ if ( jQuery !== 'undefined' ) {
 				});
 
 				// initial relevance
-				this.forcesRelevance( 'relevant', valueInArray( values, $.map( $( form[ 0 ].elements[ name ] ).filter( 'select,:checked' ).filter( ':visible' ), valueMap )) !== config.negate );
+				this.relevance( 'relevant', valueInArray( values, $.map( $( form[ 0 ].elements[ name ] ).filter( 'select,:checked' ).filter( ':visible' ), valueMap )) !== config.negate );
 
 				return this;
 			},
 
-			// $( x ).forcesRelevance( 'instructions', options )
+			// $( x ).relevance( 'instructions', options )
 			// sets up relevance handling based on text instructions
 			// options ::= { instructions: '.relevance', questions: '.questions > li' }
 			instructions: function( options ) {
@@ -244,7 +236,7 @@ if ( jQuery !== 'undefined' ) {
 					}
 					toggle = toggle.add( toggle.find( 'select,input' )).filter( 'select,:radio,:checkbox' );
 
-					question.forcesRelevance( 'relevantWhen', { name: toggle.attr( 'name' ), value: value, negate: negate });
+					question.relevance( 'relevantWhen', { name: toggle.attr( 'name' ), value: value, negate: negate });
 				});
 
 				return this;
@@ -257,14 +249,14 @@ if ( jQuery !== 'undefined' ) {
 		$( document ).bind( 'relevant irrelevant', function( event ) {
 			var target = $( event.target );
 			if ( event.type === 'relevant' ) {
-				target.forcesRelevance( 'show' );
+				target.relevance( 'show' );
 			} else {
-				target.forcesRelevance( 'hide' );
+				target.relevance( 'hide' );
 			}
 		});
 
 
-		$.fn.forcesRelevance = function( method ) {
+		$.fn.relevance = function( method ) {
 
 			// Method calling logic
 			// http://docs.jquery.com/Plugins/Authoring#Plugin_Methods
@@ -274,7 +266,7 @@ if ( jQuery !== 'undefined' ) {
 				// return methods.init.apply( this, arguments );
 				return this;
 			} else {
-				$.error( 'Method ' +  method + ' does not exist on jQuery.forcesRelevance' );
+				$.error( 'Method ' +  method + ' does not exist on jQuery.relevance' );
 			}
 
 		};

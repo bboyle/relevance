@@ -62,9 +62,9 @@
 		strictEqual( $( '#red, #green, #blue' ).filter( ':visible' ).length, 3, '#red, #green, #blue are visible' );
 
 		// setup relevance
-		$( '#red' ).forcesRelevance( 'relevantWhen', { name: 'rgb', value: 'red' });
-		$( '#green' ).forcesRelevance( 'relevantWhen', { name: 'rgb', value: 'green' });
-		$( '#blue' ).forcesRelevance( 'relevantWhen', { name: 'rgb', value: 'blue' });
+		$( '#red' ).relevance( 'relevantWhen', { name: 'rgb', value: 'red' });
+		$( '#green' ).relevance( 'relevantWhen', { name: 'rgb', value: 'green' });
+		$( '#blue' ).relevance( 'relevantWhen', { name: 'rgb', value: 'blue' });
 		strictEqual( $( '#red' ).filter( ':hidden' ).length, 1, '#red is hidden after relevantWhen setup' );
 		strictEqual( $( '#green' ).filter( ':visible' ).length, 1, '#green is visible after relevantWhen setup' );
 		strictEqual( $( '#blue' ).filter( ':hidden' ).length, 1, '#blue is hidden after relevantWhen setup' );
@@ -88,9 +88,9 @@
 		strictEqual( $( '#red, #green, #blue' ).filter( ':visible' ).length, 3, '#red, #green, #blue are visible' );
 
 		// setup relevance
-		$( '#red' ).forcesRelevance( 'relevantWhen', { id: 'rgb-red', value: 'red' });
-		$( '#green' ).forcesRelevance( 'relevantWhen', { id: 'rgb-green', value: 'green' });
-		$( '#blue' ).forcesRelevance( 'relevantWhen', { id: 'rgb-blue', value: 'blue' });
+		$( '#red' ).relevance( 'relevantWhen', { id: 'rgb-red', value: 'red' });
+		$( '#green' ).relevance( 'relevantWhen', { id: 'rgb-green', value: 'green' });
+		$( '#blue' ).relevance( 'relevantWhen', { id: 'rgb-blue', value: 'blue' });
 		strictEqual( $( '#red' ).filter( ':hidden' ).length, 1, '#red is hidden after relevantWhen setup' );
 		strictEqual( $( '#green' ).filter( ':visible' ).length, 1, '#green is visible after relevantWhen setup' );
 		strictEqual( $( '#blue' ).filter( ':hidden' ).length, 1, '#blue is hidden after relevantWhen setup' );
@@ -114,9 +114,9 @@
 		strictEqual( $( '#red, #green, #blue' ).filter( ':visible' ).length, 3, '#red, #green, #blue are visible' );
 
 		// setup relevance
-		$( '#red' ).forcesRelevance( 'relevantWhen', { container: '.rgb-radio-buttons', value: 'red' });
-		$( '#green' ).forcesRelevance( 'relevantWhen', { container: '.rgb-radio-buttons', value: 'green' });
-		$( '#blue' ).forcesRelevance( 'relevantWhen', { container: '.rgb-radio-buttons', value: 'blue' });
+		$( '#red' ).relevance( 'relevantWhen', { container: '.rgb-radio-buttons', value: 'red' });
+		$( '#green' ).relevance( 'relevantWhen', { container: '.rgb-radio-buttons', value: 'green' });
+		$( '#blue' ).relevance( 'relevantWhen', { container: '.rgb-radio-buttons', value: 'blue' });
 		strictEqual( $( '#red' ).filter( ':hidden' ).length, 1, '#red is hidden after relevantWhen setup' );
 		strictEqual( $( '#green' ).filter( ':visible' ).length, 1, '#green is visible after relevantWhen setup' );
 		strictEqual( $( '#blue' ).filter( ':hidden' ).length, 1, '#blue is hidden after relevantWhen setup' );
@@ -140,9 +140,9 @@
 		strictEqual( $( '#red, #green, #blue' ).filter( ':visible' ).length, 3, '#red, #green, #blue are visible' );
 
 		// setup relevance
-		$( '#red' ).forcesRelevance( 'relevantWhen', { name: 'rgb', values: [ 'red' ] });
-		$( '#green' ).forcesRelevance( 'relevantWhen', { name: 'rgb', values: [ 'green' ] });
-		$( '#blue' ).forcesRelevance( 'relevantWhen', { name: 'rgb', values: [ 'blue' ] });
+		$( '#red' ).relevance( 'relevantWhen', { name: 'rgb', values: [ 'red' ] });
+		$( '#green' ).relevance( 'relevantWhen', { name: 'rgb', values: [ 'green' ] });
+		$( '#blue' ).relevance( 'relevantWhen', { name: 'rgb', values: [ 'blue' ] });
 		strictEqual( $( '#red' ).filter( ':hidden' ).length, 1, '#red is hidden after relevantWhen setup' );
 		strictEqual( $( '#green' ).filter( ':visible' ).length, 1, '#green is visible after relevantWhen setup' );
 		strictEqual( $( '#blue' ).filter( ':hidden' ).length, 1, '#blue is hidden after relevantWhen setup' );
@@ -166,19 +166,19 @@
 	test( 'dependencies are managed', 14, function() {
 
 		// colour space relevance
-		$( '.rgb-radio-buttons' ).forcesRelevance( 'relevantWhen', { name: 'colourSpace', value: 'RGB' });
-		$( ':checkbox[name="cmyk"]' ).forcesRelevance( 'relevantWhen', { id: 'colour-space', value: 'CMYK' });
+		$( '.rgb-radio-buttons' ).relevance( 'relevantWhen', { name: 'colourSpace', value: 'RGB' });
+		$( ':checkbox[name="cmyk"]' ).relevance( 'relevantWhen', { id: 'colour-space', value: 'CMYK' });
 
 		// rgb question relevance
-		$( '#red' ).forcesRelevance( 'relevantWhen', { id: 'rgb-red', value: 'red' });
-		$( '#green' ).forcesRelevance( 'relevantWhen', { id: 'rgb-green', value: 'green' });
-		$( '#blue' ).forcesRelevance( 'relevantWhen', { id: 'rgb-blue', value: 'blue' });
+		$( '#red' ).relevance( 'relevantWhen', { id: 'rgb-red', value: 'red' });
+		$( '#green' ).relevance( 'relevantWhen', { id: 'rgb-green', value: 'green' });
+		$( '#blue' ).relevance( 'relevantWhen', { id: 'rgb-blue', value: 'blue' });
 
 		// cmyk question relevance
-		// $( '#cyan' ).forcesRelevance( 'relevantWhen', { name: 'cmyk', value: 'cyan' });
-		// $( '#magenta' ).forcesRelevance( 'relevantWhen', { name: 'cmyk', value: 'magenta' });
-		// $( '#yellow' ).forcesRelevance( 'relevantWhen', { name: 'cmyk', value: 'yellow' });
-		// $( '#black' ).forcesRelevance( 'relevantWhen', { name: 'cmyk', value: 'black' });
+		// $( '#cyan' ).relevance( 'relevantWhen', { name: 'cmyk', value: 'cyan' });
+		// $( '#magenta' ).relevance( 'relevantWhen', { name: 'cmyk', value: 'magenta' });
+		// $( '#yellow' ).relevance( 'relevantWhen', { name: 'cmyk', value: 'yellow' });
+		// $( '#black' ).relevance( 'relevantWhen', { name: 'cmyk', value: 'black' });
 
 		// check initial state
 		strictEqual( $( '#colour-space' ).val(), 'RGB', 'RGB is the colour space' );
@@ -219,9 +219,9 @@
 		strictEqual( $( '#cyan, #magenta, #yellow' ).filter( ':visible' ).length, 3, '#cyan, #magenta, #yellow are visible' );
 
 		// setup relevance
-		$( '#cyan' ).forcesRelevance( 'relevantWhen', { name: 'rgb', values: [ 'red', 'green' ] });
-		$( '#magenta' ).forcesRelevance( 'relevantWhen', { name: 'rgb', values: [ 'red', 'blue' ] });
-		$( '#yellow' ).forcesRelevance( 'relevantWhen', { name: 'rgb', values: [ 'green', 'blue' ] });
+		$( '#cyan' ).relevance( 'relevantWhen', { name: 'rgb', values: [ 'red', 'green' ] });
+		$( '#magenta' ).relevance( 'relevantWhen', { name: 'rgb', values: [ 'red', 'blue' ] });
+		$( '#yellow' ).relevance( 'relevantWhen', { name: 'rgb', values: [ 'green', 'blue' ] });
 		strictEqual( $( '#cyan' ).filter( ':visible' ).length, 1, '#cyan is visible after relevantWhen setup' );
 		strictEqual( $( '#magenta' ).filter( ':hidden' ).length, 1, '#magenta is hidden after relevantWhen setup' );
 		strictEqual( $( '#yellow' ).filter( ':visible' ).length, 1, '#yellow is visible after relevantWhen setup' );

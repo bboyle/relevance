@@ -18,7 +18,7 @@
 
 	test( 'null', 2, function() {
 
-		$( '#foo, #bar' ).forcesRelevance().attr( 'title', 'foo' );
+		$( '#foo, #bar' ).relevance().attr( 'title', 'foo' );
 		strictEqual( $( '#foo' ).attr( 'title' ), 'foo', '#foo was chained' );
 		strictEqual( $( '#bar' ).attr( 'title' ), 'foo', '#bar was chained' );
 
@@ -26,7 +26,7 @@
 
 	test( 'relevant', 2, function() {
 
-		$( '#foo, #bar' ).forcesRelevance( 'relevant', true ).attr( 'title', 'foo' );
+		$( '#foo, #bar' ).relevance( 'relevant', true ).attr( 'title', 'foo' );
 		strictEqual( $( '#foo' ).attr( 'title' ), 'foo', '#foo was chained' );
 		strictEqual( $( '#bar' ).attr( 'title' ), 'foo', '#bar was chained' );
 
@@ -34,7 +34,7 @@
 
 	test( 'show', 2, function() {
 
-		$( '#foo, #bar' ).forcesRelevance( 'show' ).attr( 'title', 'foo' );
+		$( '#foo, #bar' ).relevance( 'show' ).attr( 'title', 'foo' );
 		strictEqual( $( '#foo' ).attr( 'title' ), 'foo', '#foo was chained' );
 		strictEqual( $( '#bar' ).attr( 'title' ), 'foo', '#bar was chained' );
 
@@ -42,7 +42,7 @@
 
 	test( 'hide', 2, function() {
 
-		$( '#foo, #bar' ).forcesRelevance( 'hide' ).attr( 'title', 'foo' );
+		$( '#foo, #bar' ).relevance( 'hide' ).attr( 'title', 'foo' );
 		strictEqual( $( '#foo' ).attr( 'title' ), 'foo', '#foo was chained' );
 		strictEqual( $( '#bar' ).attr( 'title' ), 'foo', '#bar was chained' );
 
@@ -50,7 +50,7 @@
 
 	test( 'instructions', 2, function() {
 
-		$( '#foo, #bar' ).forcesRelevance( 'instructions' ).attr( 'title', 'foo' );
+		$( '#foo, #bar' ).relevance( 'instructions' ).attr( 'title', 'foo' );
 		strictEqual( $( '#foo' ).attr( 'title' ), 'foo', '#foo was chained' );
 		strictEqual( $( '#bar' ).attr( 'title' ), 'foo', '#bar was chained' );
 
@@ -58,7 +58,7 @@
 
 	test( 'relevantWhen', 2, function() {
 
-		$( '#foo, #bar' ).forcesRelevance( 'relevantWhen', {} ).attr( 'title', 'foo' );
+		$( '#foo, #bar' ).relevance( 'relevantWhen', {} ).attr( 'title', 'foo' );
 		strictEqual( $( '#foo' ).attr( 'title' ), 'foo', '#foo was chained' );
 		strictEqual( $( '#bar' ).attr( 'title' ), 'foo', '#bar was chained' );
 
@@ -94,12 +94,12 @@
 		// stop qunit (until event triggers)
 		stop();
 		// make foo irrelevant
-		$( '#foo' ).forcesRelevance( 'relevant', false );
+		$( '#foo' ).relevance( 'relevant', false );
 
 		// stop qunit (until event triggers)
 		stop();
 		// make foo relevant
-		$( '#foo' ).forcesRelevance( 'relevant', true );
+		$( '#foo' ).relevance( 'relevant', true );
 
 	});
 

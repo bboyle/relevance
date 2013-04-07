@@ -25,9 +25,9 @@
 			strictEqual( eventDetected, 1, 'relevant event detected' );
 		});
 
-		$( '#bar' ).forcesRelevance( 'relevant', true );
+		$( '#bar' ).relevance( 'relevant', true );
 		// should not fire event now element is relevant
-		$( '#bar' ).forcesRelevance( 'relevant', true );
+		$( '#bar' ).relevance( 'relevant', true );
 
 	});
 
@@ -38,7 +38,7 @@
 			ok( false, 'relevant event detected' );
 		});
 
-		$( '#foo' ).forcesRelevance( 'relevant', true );
+		$( '#foo' ).relevance( 'relevant', true );
 
 	});
 
@@ -54,7 +54,7 @@
 			ok( true, 'relevant event detected with document.bind()' );
 		});
 
-		$( '#bar' ).forcesRelevance( 'relevant', true );
+		$( '#bar' ).relevance( 'relevant', true );
 
 		$( '#foo, body' ).unbind( 'relevant.test' );
 		$( document ).unbind( 'relevant.test' );
@@ -73,9 +73,9 @@
 			strictEqual( eventDetected, 1, 'irrelevant event detected' );
 		});
 
-		$( '#foo' ).forcesRelevance( 'relevant', false );
+		$( '#foo' ).relevance( 'relevant', false );
 		// should not fire event now element is irrelevant
-		$( '#foo' ).forcesRelevance( 'relevant', false );
+		$( '#foo' ).relevance( 'relevant', false );
 
 	});
 
@@ -85,7 +85,7 @@
 			ok( true, 'irrelevant event detected' );
 		});
 
-		$( '#bar' ).forcesRelevance( 'relevant', false );
+		$( '#bar' ).relevance( 'relevant', false );
 
 	});
 
@@ -103,7 +103,7 @@
 			ok( true, 'irrelevant event detected with document.bind()' );
 		});
 
-		$( '#foo' ).forcesRelevance( 'relevant', false );
+		$( '#foo' ).relevance( 'relevant', false );
 
 		$( '#foo, body' ).unbind( 'irrelevant.test' );
 		$( document ).unbind( 'irrelevant.test' );
@@ -128,9 +128,9 @@
 			ok( eventDetectedOnFoo <= 2, 'relevant-done event detected on #foo' );
 		});
 
-		$( '#foo, #bar' ).forcesRelevance( 'show' );
+		$( '#foo, #bar' ).relevance( 'show' );
 		// should still fire, even though elements are now relevant
-		$( '#foo, #bar' ).forcesRelevance( 'show' );
+		$( '#foo, #bar' ).relevance( 'show' );
 
 	});
 
@@ -152,9 +152,9 @@
 			ok( eventDetectedOnFoo <= 2, 'irrelevant-done event detected on #foo' );
 		});
 
-		$( '#foo, #bar' ).forcesRelevance( 'hide' );
+		$( '#foo, #bar' ).relevance( 'hide' );
 		// should still fire, even though elements are now irrelevant
-		$( '#foo, #bar' ).forcesRelevance( 'hide' );
+		$( '#foo, #bar' ).relevance( 'hide' );
 
 	});
 
