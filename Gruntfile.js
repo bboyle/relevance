@@ -16,13 +16,31 @@ module.exports = function( grunt ) {
 			files: [ 'dist' ]
 		},
 		// production pipeline tasks
+		concat: {
+			options: {
+				banner: '<%= banner %>',
+				stripBanners: true
+			},
+			dist: {
+				src: [ 'src/jquery.<%= pkg.name %>.js' ],
+				dest: 'dist/jquery.<%= pkg.name %>.js'
+			},
+			legacy: {
+				src: [
+					'src/jquery.<%= pkg.name %>.js',
+					'src/jquery.<%= pkg.name %>.legacy-API.js',
+				],
+				dest: 'dist/jquery.forces.<%= pkg.name %>.js'
+			}
+		},
 		uglify: {
 			options: {
 				banner: '<%= banner %>'
 			},
 			dist: {
 				files: {
-					'dist/jquery.<%= pkg.name %>.min.js': [ 'src/jquery.<%= pkg.name %>.js' ]
+					'dist/jquery.<%= pkg.name %>.min.js': [ 'dist/jquery.<%= pkg.name %>.js' ],
+					'dist/jquery.forces.<%= pkg.name %>.min.js': [ 'dist/jquery.forces.<%= pkg.name %>.js' ]
 				}
 			},
 		},
@@ -68,6 +86,7 @@ module.exports = function( grunt ) {
 
 	// These plugins provide necessary tasks.
 	grunt.loadNpmTasks( 'grunt-contrib-clean' );
+	grunt.loadNpmTasks( 'grunt-contrib-concat' );
 	grunt.loadNpmTasks( 'grunt-contrib-uglify' );
 	grunt.loadNpmTasks( 'grunt-contrib-qunit' );
 	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
@@ -75,7 +94,7 @@ module.exports = function( grunt ) {
 
 	// Default task.
 	grunt.registerTask( 'test', [ 'jshint', 'qunit' ]);
-	grunt.registerTask( 'produce', [ 'clean', 'uglify' ]);
+	grunt.registerTask( 'produce', [ 'clean', 'concat', 'uglify' ]);
 	grunt.registerTask( 'default', [ 'test', 'produce' ]);
 
 };
