@@ -19,15 +19,15 @@ Tabbed interfaces still use *progressive disclosure* techniques, but **should no
 
 # API
 
-## .forcesRelevance( 'relevant', true )
+## .relevance( 'relevant', true )
 
 indicates an element should be made relevant (shown). No change for relevant elements, irrelevant elements will trigger a `relevant` event.
 
-## .forcesRelevance( 'relevant', false )
+## .relevance( 'relevant', false )
 
 indicates an element should be made irrelevant (hidden). No change for irrelevant elements, relevant elements will trigger an `irrelevant` event.
 
-## .forcesRelevance( 'show' )
+## .relevance( 'show' )
 
 1. enables descendent form elements and self
 2. removes `@hidden` attribute
@@ -35,7 +35,7 @@ indicates an element should be made irrelevant (hidden). No change for irrelevan
 4. shows the element (uses a `slideDown` transition)
 5. fires event `relevant-done`
 
-## .forcesRelevance( 'hide' )
+## .relevance( 'hide' )
 
 1. hides element (no animation, hiding is immediate)
 2. disables descendent form fields and self (if a form field)

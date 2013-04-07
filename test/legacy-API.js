@@ -2,14 +2,11 @@
 	'use strict';
 	
 
-	module( 'environment' );
+	module( 'legacy API' );
 
-	test( 'test fields are in test form', function() {
+	test( 'can use .forcesRelevance()', function() {
 
-		strictEqual( $( '#foo' ).length, 1, '#foo exists' );
-		strictEqual( $( '#bar' ).length, 1, '#bar exists' );
-		strictEqual( $( '#foo' ).is( ':visible' ), true, '#foo is visible' );
-		strictEqual( $( '#bar' ).is( ':hidden' ), true, '#bar is hidden' );
+		strictEqual( $.fn.forcesRelevance, $.fn.relevance, '.forcesRelevance === .relevance' );
 
 	});
 
@@ -18,7 +15,7 @@
 
 	test( 'null', 2, function() {
 
-		$( '#foo, #bar' ).relevance().attr( 'title', 'foo' );
+		$( '#foo, #bar' ).forcesRelevance().attr( 'title', 'foo' );
 		strictEqual( $( '#foo' ).attr( 'title' ), 'foo', '#foo was chained' );
 		strictEqual( $( '#bar' ).attr( 'title' ), 'foo', '#bar was chained' );
 
@@ -26,7 +23,7 @@
 
 	test( 'relevant', 2, function() {
 
-		$( '#foo, #bar' ).relevance( 'relevant', true ).attr( 'title', 'foo' );
+		$( '#foo, #bar' ).forcesRelevance( 'relevant', true ).attr( 'title', 'foo' );
 		strictEqual( $( '#foo' ).attr( 'title' ), 'foo', '#foo was chained' );
 		strictEqual( $( '#bar' ).attr( 'title' ), 'foo', '#bar was chained' );
 
@@ -34,7 +31,7 @@
 
 	test( 'show', 2, function() {
 
-		$( '#foo, #bar' ).relevance( 'show' ).attr( 'title', 'foo' );
+		$( '#foo, #bar' ).forcesRelevance( 'show' ).attr( 'title', 'foo' );
 		strictEqual( $( '#foo' ).attr( 'title' ), 'foo', '#foo was chained' );
 		strictEqual( $( '#bar' ).attr( 'title' ), 'foo', '#bar was chained' );
 
@@ -42,7 +39,7 @@
 
 	test( 'hide', 2, function() {
 
-		$( '#foo, #bar' ).relevance( 'hide' ).attr( 'title', 'foo' );
+		$( '#foo, #bar' ).forcesRelevance( 'hide' ).attr( 'title', 'foo' );
 		strictEqual( $( '#foo' ).attr( 'title' ), 'foo', '#foo was chained' );
 		strictEqual( $( '#bar' ).attr( 'title' ), 'foo', '#bar was chained' );
 
@@ -50,7 +47,7 @@
 
 	test( 'instructions', 2, function() {
 
-		$( '#foo, #bar' ).relevance( 'instructions' ).attr( 'title', 'foo' );
+		$( '#foo, #bar' ).forcesRelevance( 'instructions' ).attr( 'title', 'foo' );
 		strictEqual( $( '#foo' ).attr( 'title' ), 'foo', '#foo was chained' );
 		strictEqual( $( '#bar' ).attr( 'title' ), 'foo', '#bar was chained' );
 
@@ -58,7 +55,7 @@
 
 	test( 'relevantWhen', 2, function() {
 
-		$( '#foo, #bar' ).relevance( 'relevantWhen', {} ).attr( 'title', 'foo' );
+		$( '#foo, #bar' ).forcesRelevance( 'relevantWhen', {} ).attr( 'title', 'foo' );
 		strictEqual( $( '#foo' ).attr( 'title' ), 'foo', '#foo was chained' );
 		strictEqual( $( '#bar' ).attr( 'title' ), 'foo', '#bar was chained' );
 
@@ -94,12 +91,12 @@
 		// stop qunit (until event triggers)
 		stop();
 		// make foo irrelevant
-		$( '#foo' ).relevance( 'relevant', false );
+		$( '#foo' ).forcesRelevance( 'relevant', false );
 
 		// stop qunit (until event triggers)
 		stop();
 		// make foo relevant
-		$( '#foo' ).relevance( 'relevant', true );
+		$( '#foo' ).forcesRelevance( 'relevant', true );
 
 	});
 

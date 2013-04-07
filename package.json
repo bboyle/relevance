@@ -1,38 +1,47 @@
 {
-	"name": "relevance",
-	"title": "relevance",
-	"description": "Progressive disclosure (relevance) for HTML elements",
-	"version": "1.0.1",
-	"homepage": "https://github.com/bboyle/relevance",
-	"author": {
-		"name": "Ben Boyle",
-		"email": "benjamins.boyle@gmail.com",
-		"url": "http://ultimate.benboyle.id.au/"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git://github.com/bboyle/relevance.git"
-	},
-	"bugs": "https://github.com/bboyle/relevance/issues",
-	"licenses": [
-		{
-			"type": "MIT",
-			"url": "https://github.com/bboyle/relevance/blob/master/LICENSE-MIT"
-		}
-	],
-	"keywords": [ "HTML5", "forms", "UX", "progressive disclosure", "relevant", "toggle", "show hide" ],
-	"directories": {
-		"test": "test"
-	},
-	"devDependencies": {
-		"grunt-contrib-clean": "~0.4.0",
-		"grunt-contrib-watch": "~0.3.1",
-		"grunt-contrib-uglify": "~0.2.0",
-		"grunt": "~0.4.1",
-		"grunt-contrib-jshint": "~0.3.0",
-		"grunt-contrib-qunit": "~0.2.0"
-	},
-	"scripts": {
-		"test": "grunt test"
-	}
+  "name": "relevance",
+  "title": "relevance",
+  "description": "Progressive disclosure (relevance) for HTML elements",
+  "version": "1.1.0",
+  "homepage": "https://github.com/bboyle/relevance",
+  "author": {
+    "name": "Ben Boyle",
+    "email": "benjamins.boyle@gmail.com",
+    "url": "http://ultimate.benboyle.id.au/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bboyle/relevance.git"
+  },
+  "bugs": "https://github.com/bboyle/relevance/issues",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/bboyle/relevance/blob/master/LICENSE-MIT"
+    }
+  ],
+  "keywords": [
+    "HTML5",
+    "forms",
+    "UX",
+    "progressive disclosure",
+    "relevant",
+    "toggle",
+    "show hide"
+  ],
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {
+    "grunt-contrib-clean": "~0.4.0",
+    "grunt-contrib-watch": "~0.3.1",
+    "grunt-contrib-uglify": "~0.2.0",
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "~0.3.0",
+    "grunt-contrib-qunit": "~0.2.0",
+    "grunt-contrib-concat": "~0.1.3"
+  },
+  "scripts": {
+    "test": "grunt test"
+  }
 }

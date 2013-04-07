@@ -4,20 +4,20 @@
 
 	var relevanceLifecycle = {
 			setup: function() {
-				$( '#test' ).forcesRelevance( 'instructions' );
+				$( '#test' ).relevance( 'instructions' );
 			}
 		},
 
 		customRelevanceLifecycle = {
 			setup: function() {
-				$( '#test-custom' ).forcesRelevance( 'instructions', {
+				$( '#test-custom' ).relevance( 'instructions', {
 					instructionSelector : '.relevancy',
 					questionSelector : '.Choice, .Text, .group'
 				});
 			},
 			teardown: function() {
 				// reset options
-				$( '#test-custom' ).forcesRelevance( 'instructions', {
+				$( '#test-custom' ).relevance( 'instructions', {
 					instructionSelector: '.relevance',
 					questionSelector: '.questions > li'
 				});
@@ -65,7 +65,7 @@
 	});
 
 
-	module( 'before .forcesRelevance( \'instructions\' )' );
+	module( 'before .relevance( \'instructions\' )' );
 
 	test( 'all sections are relevant', 1, function() {
 		strictEqual( $( '.relevance', '#test' ).filter( ':visible' ).length, 12, '12 `.relevance` instructions visible' );
@@ -76,7 +76,7 @@
 	});
 
 
-	module( 'after .forcesRelevance( \'instructions\' )', relevanceLifecycle );
+	module( 'after .relevance( \'instructions\' )', relevanceLifecycle );
 
 	test( 'initial irrelevant elements are hidden', 1, function() {
 		strictEqual( $( '.relevance', '#test' ).filter( ':visible' ).length, 0, 'no `.relevance` instructions visible' );

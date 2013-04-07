@@ -1,4 +1,6 @@
-/*globals jQuery*/
+/*! relevance - v1.1.0 - 2013-04-07
+* https://github.com/bboyle/relevance
+* Copyright (c) 2013 Ben Boyle; Licensed MIT */
 if ( jQuery !== 'undefined' ) {
 	(function( $ ) {
 		'use strict';

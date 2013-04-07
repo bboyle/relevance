@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+	<meta charset="UTF-8" />
+	<title>legacy API tests · relevance tests</title>
+
+	<!-- Load local jQuery. This can be overridden with a ?jquery=___ param. -->
+	<script src="../libs/jquery-loader.js"></script>
+	<!-- Load local QUnit. -->
+	<link rel="stylesheet" href="../libs/qunit/qunit.css" media="screen">
+	<script src="../libs/qunit/qunit.js"></script>
+	<!-- Load local lib and tests. -->
+	<script src="../src/jquery.relevance.js"></script>
+	<script src="../src/jquery.relevance.legacy-API.js"></script>
+	<script src="legacy-API.js"></script>
+	<!-- Removing access to jQuery and $. But it'll still be available as _$, if
+		you REALLY want to mess around with jQuery in the console. REMEMBER WE
+		ARE TESTING A PLUGIN HERE, THIS HELPS ENSURE BEST PRACTICES. REALLY. -->
+	<script>window._$ = jQuery.noConflict(true);</script>
+
+	<style>
+		body {
+			padding: 2em;
+			font-family: sans-serif;
+			background: #faf7f3;
+			color: #111;
+		}
+
+		#qunit-fixture {
+			position: static;
+		}
+	</style>
+</head>
+
+<body>
+
+
+	<div id="qunit"></div>
+	<div id="qunit-fixture">
+
+		<form id="test" action="javascript:">
+
+			<ol class="questions">
+
+				<li class="group">
+					<fieldset>
+						<legend>
+							<span class="label">Fubar</span>
+						</legend>
+						<ol class="questions compact">
+							<li>
+								<label for="foo">
+									<span class="label">Foo</span>
+								</label>
+								<input type="text" id="foo" name="foo" />
+							</li>
+							<li>
+								<label for="bar">
+									<span class="label">Bar</span>
+								</label>
+								<input type="text" id="bar" name="bar" style="display: none" hidden="hidden" />
+							</li>
+						</ol>
+					</fieldset>
+				</li>
+
+				<li class="footer">
+					<ol class="submit">
+						<li>
+							<strong>
+								<input type="submit" value="Submit" />
+							</strong>
+						</li>
+					</ol>
+				</li>
+
+			</ol>
+
+		</form>
+	</div>
+
+
+</body>
+</html>
