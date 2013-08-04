@@ -21,26 +21,51 @@
 
 
 <main>
-	<p>This is a work in progress!</p>
+	<p>This is a work in progress! (Working demo <abbr title="to be developed">TBD</abbr>)</p>
 
-	<article>
+	<article id="relevance-defined">
 		<h2>What is relevance?</h2>
+
+		<p>This library was developed to help hide groups of questions in a web form.
+			The idea behind this is that forms are complicated, and asking a smaller number of questions is simpler.
+			More to the point, asking the right questions at the right time is easier.
+			What's another name for the right question at the right time? Relevance!</p>
+
+		<p>You might also hear this user interface technique called 'progressive disclosure'.</p>
 	</article>
 
-	<aside>
+	<aside id="relevance-vs-show-hide">
 		<h3>More than show() and hide()</h3>
+
+		<p>Yes, you can show and hide parts of forms (or any element on a web page) easily with jquery show() and hide() methods.
+			In fact, the relevance library uses show (slideDown actually) and hide to d just that.
+			But it does a little more.</p>
+
+		<p>When you hide a form input field, it is still kind of there.
+			Most importantly, when the form is submitted those hidden fields are submitted.
+			The fact that they aren't shown to the user really isn't taken into consideration.
+			If you want to stop form fields being submitted, you need to disable them.
+			This relevance library does exactly that.</p>
 	</aside>
 
-	<article>
+	<article id="instruction-based">
 		<h2>Instruction-based relevance</h2>
+
+		<p>If you are more comfortable with HTML than javascript, instruction-based relevance is for you.
+			Simply include 'instructions' about when questions are relevant and let this library do the rest.
+			As a bonus, instructions are useful for users that have javascript disabled.</p>
+		<p>Behind the scenes, the instruction-based relevance simply uses the relevantWhen API (described below) to setup the form.</p>
 	</article>
 
-	<article>
+	<article id="relevant-when">
 		<h2>The 'relevantWhen' API</h2>
+
+		<p>If you want full control over when a question is relevant, use the relevantWhen API.
+			This allows you to specify when an item is relevant, based on the value of any question that appears earlier in the same form.</p>
 	</article>
 
-	<article>
-		<h2>Events and customisation</h2>
+	<article id="events">
+		<h2>Events</h2>
 	</article>
 
 </main>
