@@ -28,10 +28,10 @@
 
 	module( 'environment' );
 
-	test( 'test fields are in test form', 16, function() {
+	test( 'test fields are in test form', 18, function() {
 
 		strictEqual( $( 'form#test' ).length, 1, 'form#test exists' );
-		strictEqual( $( '.relevance', '#test' ).length, 12, '12 `.relevance` instructions found' );
+		strictEqual( $( '.relevance', '#test' ).length, 14, '14 `.relevance` instructions found' );
 		strictEqual( $( '.relevance', '#test' ).eq( 0 ).text(), '(If different to home address)', 'correct instruction text' );
 		strictEqual( $( '.relevance', '#test' ).eq( 1 ).text(), '(If you chose ‘Current working visa’ above)', 'correct instruction text' );
 		strictEqual( $( '.relevance', '#test' ).eq( 2 ).text(), '(If you chose ‘Yes’ above)', 'correct instruction text' );
@@ -44,6 +44,8 @@
 		strictEqual( $( '.relevance', '#test' ).eq( 9 ).text(), '(If you chose ‘Baz’ above)', 'correct instruction text' );
 		strictEqual( $( '.relevance', '#test' ).eq( 10 ).text(), '(If you chose \'$1000.00\' above)', 'correct instruction text' );
 		strictEqual( $( '.relevance', '#test' ).eq( 11 ).text(), '(If you chose \'other amount\' above)', 'correct instruction text' );
+		strictEqual( $( '.relevance', '#test' ).eq( 12 ).text(), '(If you chose \'A\' above)', 'correct instruction text' );
+		strictEqual( $( '.relevance', '#test' ).eq( 13 ).text(), '(If you chose \'A\' above)', 'correct instruction text' );
 
 		// dependence
 		strictEqual( $( '#foo' ).val(), 'Foo', '#foo != Bar' );
@@ -68,7 +70,7 @@
 	module( 'before .relevance( \'instructions\' )' );
 
 	test( 'all sections are relevant', 1, function() {
-		strictEqual( $( '.relevance', '#test' ).filter( ':visible' ).length, 12, '12 `.relevance` instructions visible' );
+		strictEqual( $( '.relevance', '#test' ).filter( ':visible' ).length, 14, '12 `.relevance` instructions visible' );
 	});
 
 	test( 'custom sections are relevant', 1, function() {
@@ -312,6 +314,14 @@
 		// baz should be relevant
 		strictEqual( $( '#bar' ).val(), 'Baz', '#bar == Baz' );
 		strictEqual( $( '#baz' ).filter( ':visible' ).length, 1, '#baz is relevant' );
+
+	});
+
+	test( 'last question in previous section becomes the gate', 1, function() {
+
+		// second gate is hidden
+		// after gates is hidden
+		strictEqual( $( '#after-gates, #second-gate' ).filter( ':visible' ).length, 0, 'sections after gating questions are hidden' );
 
 	});
 
