@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-AU">
 <head>
-	<meta charset="UTF-8" />
+	<meta charset="UTF-8">
 	<title>relevantWhen tests · relevance tests</title>
 
 	<!-- Load local jQuery. This can be overridden with a ?jquery=___ param. -->
@@ -101,6 +101,22 @@
 		<div id="magenta-after">Magenta</div>
 		<div id="yellow-after">Yellow</div>
 		<div id="black-after">Black</div>
+
+		<!-- nested relevance -->
+		<form id="test2">
+			<input id="hidden-section" type="checkbox" name="hiddenSection" value="show">
+
+			<section id="hidden">
+				<input type="radio" name="icecream" id="icecream-yes" value="yes">
+				<input type="radio" name="icecream" id="icecream-no" value="no">
+
+				<section id="icecream">
+					<input type="checkbox" name="flavour" id="flavour-chocolate" value="chocolate">
+					<input type="checkbox" name="flavour" id="flavour-strawberry" value="strawberry">
+					<input type="checkbox" name="flavour" id="flavour-vanilla" value="vanilla">
+				</section>
+			</section>
+		</form>
 
 
 	</div>

@@ -44,6 +44,17 @@
 
 	});
 
+	test( 'nested section elements', 5, function() {
+
+		// hidden section items exist
+		strictEqual( $( ':checkbox', 'form#test2' ).length, 4, '4 checkboxes in form#test2 exists' );
+		strictEqual( $( 'section#hidden', 'form#test2' ).length, 1, 'hidden section in form#test2 exists' );
+		strictEqual( $( ':radio', 'section#hidden' ).length, 2, '2 radio buttons in section#hidden' );
+		strictEqual( $( 'section#icecream', 'section#hidden' ).length, 1, 'subsection within hidden section' );
+		strictEqual( $( ':checkbox', 'section#icecream' ).length, 3, '3 checkboxes within hidden subsection' );
+
+	});
+
 	test( 'elements are initially visible', 4, function() {
 
 		strictEqual( $( ':radio', '#test' ).filter( ':visible' ).length, 3, 'RGB radio buttons are visible' );
