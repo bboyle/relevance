@@ -1,4 +1,4 @@
-/*! relevance - v1.1.0 - 2013-04-07
+/*! relevance - v1.1.1 - 2013-08-14
 * https://github.com/bboyle/relevance
 * Copyright (c) 2013 Ben Boyle; Licensed MIT */
 if ( jQuery !== 'undefined' ) {
@@ -91,6 +91,7 @@ if ( jQuery !== 'undefined' ) {
 				var targets;
 				if ( ! makeRelevant ) {
 					targets = this.filter( ':visible' ).trigger( irrelevantEvent );
+
 					if ( targets.length ) {
 						recalculateDependents.call( targets, false );
 					}
@@ -109,7 +110,10 @@ if ( jQuery !== 'undefined' ) {
 			show: function() {
 
 				// enable elements before they are shown
-				this.add( this.find( elementsToDisable )).each(function() {
+				this.add( this.find( elementsToDisable ))
+				// but not any controls that will remain irrelevant
+				.not( this.find( '[hidden]' ).find( elementsToDisable ))
+				.each(function() {
 					this.removeAttribute( 'disabled' );
 				});
 
