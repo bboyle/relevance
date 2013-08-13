@@ -55,13 +55,14 @@
 
 	});
 
-	test( 'elements are initially visible', 4, function() {
+	test( 'elements are initially visible', 6, function() {
 
 		strictEqual( $( ':radio', '#test' ).filter( ':visible' ).length, 3, 'RGB radio buttons are visible' );
 		strictEqual( $( '#red, #green, #blue' ).filter( ':visible' ).length, 3, 'RGB elements are visible' );
 		strictEqual( $( ':checkbox', '#test' ).filter( ':visible' ).length, 4, 'CMYK checkboxes are visible' );
 		strictEqual( $( '#cyan, #magenta, #yellow, #black' ).filter( ':visible' ).length, 4, 'CMYK elements are visible' );
-
+		strictEqual( $( ':checkbox', '#test2' ).filter( ':visible' ).length, 4, 'form#test2 checkboxes are visible' );
+		strictEqual( $( ':radio', '#test2' ).filter( ':visible' ).length, 2, 'form#test2 radio buttons are visible' );
 
 	});
 
@@ -251,5 +252,7 @@
 
 	});
 
+
+	module( 'nested relevance' );
 
 }( jQuery ));
