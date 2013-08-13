@@ -44,13 +44,25 @@
 
 	});
 
-	test( 'elements are initially visible', 4, function() {
+	test( 'nested section elements', 5, function() {
+
+		// hidden section items exist
+		strictEqual( $( ':checkbox', 'form#test2' ).length, 4, '4 checkboxes in form#test2 exists' );
+		strictEqual( $( 'section#hidden', 'form#test2' ).length, 1, 'hidden section in form#test2 exists' );
+		strictEqual( $( ':radio', 'section#hidden' ).length, 2, '2 radio buttons in section#hidden' );
+		strictEqual( $( 'section#icecream', 'section#hidden' ).length, 1, 'subsection within hidden section' );
+		strictEqual( $( ':checkbox', 'section#icecream' ).length, 3, '3 checkboxes within hidden subsection' );
+
+	});
+
+	test( 'elements are initially visible', 6, function() {
 
 		strictEqual( $( ':radio', '#test' ).filter( ':visible' ).length, 3, 'RGB radio buttons are visible' );
 		strictEqual( $( '#red, #green, #blue' ).filter( ':visible' ).length, 3, 'RGB elements are visible' );
 		strictEqual( $( ':checkbox', '#test' ).filter( ':visible' ).length, 4, 'CMYK checkboxes are visible' );
 		strictEqual( $( '#cyan, #magenta, #yellow, #black' ).filter( ':visible' ).length, 4, 'CMYK elements are visible' );
-
+		strictEqual( $( ':checkbox', '#test2' ).filter( ':visible' ).length, 4, 'form#test2 checkboxes are visible' );
+		strictEqual( $( ':radio', '#test2' ).filter( ':visible' ).length, 2, 'form#test2 radio buttons are visible' );
 
 	});
 
@@ -237,6 +249,33 @@
 		strictEqual( $( '#cyan' ).filter( ':hidden' ).length, 1, '#cyan is hidden after choosing "blue" value' );
 		strictEqual( $( '#magenta' ).filter( ':visible' ).length, 1, '#magenta is visible after choosing "blue" value' );
 		strictEqual( $( '#yellow' ).filter( ':visible' ).length, 1, '#yellow is visible after choosing "blue" value' );
+
+	});
+
+
+	module( 'nested relevance' );
+
+	test( 'nested controls remain disabled until relevant', 6, function() {
+		// TODO if #hidden is already @hidden, then #icecream won't be changed as it is already 'irrelevant' (hidden)
+		$( '#icecream' ).relevance( 'relevantWhen', {
+			name: 'icecream',
+			value: 'yes'
+		});
+		// TODO does it matter what order this is done in?
+		$( '#hidden' ).relevance( 'relevantWhen', {
+			id: 'hidden-section',
+			value: 'show'
+		});
+
+		strictEqual( $( '#hidden' ).filter( ':hidden' ).length, 1, 'section is hidden' );
+		strictEqual( $( '#icecream' ).filter( ':hidden' ).length, 1, 'subsection is hidden' );
+		strictEqual( $( 'input', '#hidden' ).filter( '[disabled]' ).length, 5, '5 controls in section are disabled' );
+
+		// make section relevant
+		$( '#hidden-section' )[ 0 ].click();
+		strictEqual( $( '#hidden' ).filter( ':visible' ).length, 1, 'section is visible' );
+		strictEqual( $( '#icecream' ).filter( ':hidden' ).length, 1, 'subsection is hidden' );
+		strictEqual( $( 'input', '#hidden' ).filter( '[disabled]' ).length, 3, '3 controls in section are disabled' );
 
 	});
 
