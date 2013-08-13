@@ -460,6 +460,64 @@
 					<input id="donation-amount" name="donationAmount" size="10" required="required" />
 				</li>
 
+
+				<!-- issue #12
+				controls nested in a preceding section cannot toggle relevance
+				https://github.com/Forces/relevance/issues/12 -->
+				<li class="section" id="gating-section">
+					<fieldset>
+						<legend>
+							<span class="h2">Gating section</span>
+						</legend>
+						<ol class="questions">
+							<li>
+								<fieldset>
+									<legend>
+										<span class="label">First gate</span>
+									</legend>
+									<ul class="choices">
+										<li>
+											<input id="first-gate-A" type="checkbox" name="firstGate" value="A" />
+											<label for="first-gate-A">A</label>
+										</li>
+										<li>
+											<input id="first-gate-B" type="checkbox" name="firstGate" value="B" />
+											<label for="first-gate-B">B</label>
+										</li>
+									</ul>
+								</fieldset>
+							</li>
+							<li>
+								<fieldset id="second-gate">
+									<legend>
+										<span class="label">Second gate</span>
+										<small class="relevance">(If you chose 'A' above)</small>
+									</legend>
+									<ul class="choices">
+										<li>
+											<input id="second-gate-A" type="checkbox" name="secondGate" value="A" />
+											<label for="second-gate-A">A</label>
+										</li>
+										<li>
+											<input id="second-gate-B" type="checkbox" name="secondGate" value="B" />
+											<label for="second-gate-B">B</label>
+										</li>
+									</ul>
+								</fieldset>
+							</li>
+						</ol>
+					</fieldset>
+				</li>
+
+				<li class="section">
+					<fieldset id="after-gates">
+						<legend>
+							<span class="h2">After gates</span>
+							<!-- TODO issue in location of correct question with 'A' value here -->
+							<small class="relevance">(If you chose 'A' above)</small>
+						</legend>
+					</fieldset>
+				</li>
 			</ol>
 		</form>
 

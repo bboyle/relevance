@@ -28,10 +28,10 @@
 
 	module( 'environment' );
 
-	test( 'test fields are in test form', 16, function() {
+	test( 'test fields are in test form', 18, function() {
 
 		strictEqual( $( 'form#test' ).length, 1, 'form#test exists' );
-		strictEqual( $( '.relevance', '#test' ).length, 12, '12 `.relevance` instructions found' );
+		strictEqual( $( '.relevance', '#test' ).length, 14, '14 `.relevance` instructions found' );
 		strictEqual( $( '.relevance', '#test' ).eq( 0 ).text(), '(If different to home address)', 'correct instruction text' );
 		strictEqual( $( '.relevance', '#test' ).eq( 1 ).text(), '(If you chose ‘Current working visa’ above)', 'correct instruction text' );
 		strictEqual( $( '.relevance', '#test' ).eq( 2 ).text(), '(If you chose ‘Yes’ above)', 'correct instruction text' );
@@ -44,6 +44,8 @@
 		strictEqual( $( '.relevance', '#test' ).eq( 9 ).text(), '(If you chose ‘Baz’ above)', 'correct instruction text' );
 		strictEqual( $( '.relevance', '#test' ).eq( 10 ).text(), '(If you chose \'$1000.00\' above)', 'correct instruction text' );
 		strictEqual( $( '.relevance', '#test' ).eq( 11 ).text(), '(If you chose \'other amount\' above)', 'correct instruction text' );
+		strictEqual( $( '.relevance', '#test' ).eq( 12 ).text(), '(If you chose \'A\' above)', 'correct instruction text' );
+		strictEqual( $( '.relevance', '#test' ).eq( 13 ).text(), '(If you chose \'A\' above)', 'correct instruction text' );
 
 		// dependence
 		strictEqual( $( '#foo' ).val(), 'Foo', '#foo != Bar' );
@@ -52,7 +54,7 @@
 
 	});
 
-	test( 'test fields are in custom form', 7, function() {
+	test( 'test fields are in custom form', 8, function() {
 
 		strictEqual( $( 'form#test-custom' ).length, 1, 'form#test-custom exists' );
 		strictEqual( $( '.relevancy', '#test-custom' ).length, 5, '5 `.relevance` instructions found' );
@@ -61,6 +63,7 @@
 		strictEqual( $( '.relevancy', '#test-custom' ).eq( 2 ).text(), '(If you chose \'Cat\' above)', 'correct instruction text' );
 		strictEqual( $( '.relevancy', '#test-custom' ).eq( 3 ).text(), '(If you chose \'Dog\' above)', 'correct instruction text' );
 		strictEqual( $( '.relevancy', '#test-custom' ).eq( 4 ).text(), '(If you chose \'Bird\' above)', 'correct instruction text' );
+		strictEqual( $( '#after-gates, #second-gate' ).length, 2, 'gating question sections are present' );
 
 	});
 
@@ -68,7 +71,7 @@
 	module( 'before .relevance( \'instructions\' )' );
 
 	test( 'all sections are relevant', 1, function() {
-		strictEqual( $( '.relevance', '#test' ).filter( ':visible' ).length, 12, '12 `.relevance` instructions visible' );
+		strictEqual( $( '.relevance', '#test' ).filter( ':visible' ).length, 14, '12 `.relevance` instructions visible' );
 	});
 
 	test( 'custom sections are relevant', 1, function() {
@@ -312,6 +315,28 @@
 		// baz should be relevant
 		strictEqual( $( '#bar' ).val(), 'Baz', '#bar == Baz' );
 		strictEqual( $( '#baz' ).filter( ':visible' ).length, 1, '#baz is relevant' );
+
+	});
+
+	test( 'last question in previous section cannot become the toggle', 7, function() {
+
+		// second gate is hidden
+		// after gates is hidden
+		strictEqual( $( '#after-gates, #second-gate' ).filter( ':visible' ).length, 0, 'sections after gating questions are hidden' );
+
+		$( '#first-gate-A' )[ 0 ].click();
+		// second gate is visible
+		// after gates is hidden
+		strictEqual( $( '#after-gates, #second-gate' ).filter( ':visible' ).length, 1, '1 section is visible' );
+		strictEqual( $( '#second-gate' ).is( ':visible' ), true, 'second gate section is now visible' );
+		strictEqual( $( '#after-gates' ).is( ':hidden' ), true, 'after gates is still hidden' );
+
+		$( '#second-gate-A' )[ 0 ].click();
+		// second gate is visible
+		// after gates remains hidden
+		strictEqual( $( '#after-gates, #second-gate' ).filter( ':visible' ).length, 1, '1 section is visible' );
+		strictEqual( $( '#second-gate' ).is( ':visible' ), true, 'second gate section is now visible' );
+		strictEqual( $( '#after-gates' ).is( ':hidden' ), true, 'after gates is still hidden' );
 
 	});
 
