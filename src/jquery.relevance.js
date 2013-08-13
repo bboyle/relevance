@@ -89,6 +89,11 @@ if ( jQuery !== 'undefined' ) {
 				var targets;
 				if ( ! makeRelevant ) {
 					targets = this.filter( ':visible' ).trigger( irrelevantEvent );
+					// TODO (refactor) aggressively disable form controls
+					this.filter( elementsToDisable ).add( this.find( elementsToDisable )).each(function() {
+						this.setAttribute( 'disabled', 'disabled' );
+					});
+
 					if ( targets.length ) {
 						recalculateDependents.call( targets, false );
 					}

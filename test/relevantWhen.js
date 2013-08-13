@@ -255,4 +255,29 @@
 
 	module( 'nested relevance' );
 
+	test( 'nested controls remain disabled until relevant', 6, function() {
+		// TODO if #hidden is already @hidden, then #icecream won't be changed as it is already 'irrelevant' (hidden)
+		$( '#icecream' ).relevance( 'relevantWhen', {
+			name: 'icecream',
+			value: 'yes'
+		});
+		// TODO does it matter what order this is done in?
+		$( '#hidden' ).relevance( 'relevantWhen', {
+			id: 'hidden-section',
+			value: 'show'
+		});
+
+		strictEqual( $( '#hidden' ).filter( ':hidden' ).length, 1, 'section is hidden' );
+		strictEqual( $( '#icecream' ).filter( ':hidden' ).length, 1, 'subsection is hidden' );
+		strictEqual( $( 'input', '#hidden' ).filter( '[disabled]' ).length, 5, '5 controls in section are disabled' );
+
+		// make section relevant
+		$( '#hidden-section' )[ 0 ].click();
+		strictEqual( $( '#hidden' ).filter( ':visible' ).length, 1, 'section is visible' );
+		strictEqual( $( '#icecream' ).filter( ':hidden' ).length, 1, 'subsection is hidden' );
+		strictEqual( $( 'input', '#hidden' ).filter( '[disabled]' ).length, 3, '3 controls in section are disabled' );
+
+	});
+
+
 }( jQuery ));
