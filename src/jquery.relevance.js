@@ -89,10 +89,6 @@ if ( jQuery !== 'undefined' ) {
 				var targets;
 				if ( ! makeRelevant ) {
 					targets = this.filter( ':visible' ).trigger( irrelevantEvent );
-					// TODO (refactor) aggressively disable form controls
-					this.filter( elementsToDisable ).add( this.find( elementsToDisable )).each(function() {
-						this.setAttribute( 'disabled', 'disabled' );
-					});
 
 					if ( targets.length ) {
 						recalculateDependents.call( targets, false );
@@ -112,7 +108,10 @@ if ( jQuery !== 'undefined' ) {
 			show: function() {
 
 				// enable elements before they are shown
-				this.add( this.find( elementsToDisable )).each(function() {
+				this.add( this.find( elementsToDisable ))
+				// but not any controls that will remain irrelevant
+				.not( this.find( '[hidden]' ).find( elementsToDisable ))
+				.each(function() {
 					this.removeAttribute( 'disabled' );
 				});
 
