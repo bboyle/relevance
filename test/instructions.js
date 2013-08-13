@@ -54,7 +54,7 @@
 
 	});
 
-	test( 'test fields are in custom form', 7, function() {
+	test( 'test fields are in custom form', 8, function() {
 
 		strictEqual( $( 'form#test-custom' ).length, 1, 'form#test-custom exists' );
 		strictEqual( $( '.relevancy', '#test-custom' ).length, 5, '5 `.relevance` instructions found' );
@@ -63,6 +63,7 @@
 		strictEqual( $( '.relevancy', '#test-custom' ).eq( 2 ).text(), '(If you chose \'Cat\' above)', 'correct instruction text' );
 		strictEqual( $( '.relevancy', '#test-custom' ).eq( 3 ).text(), '(If you chose \'Dog\' above)', 'correct instruction text' );
 		strictEqual( $( '.relevancy', '#test-custom' ).eq( 4 ).text(), '(If you chose \'Bird\' above)', 'correct instruction text' );
+		strictEqual( $( '#after-gates, #second-gate' ).length, 2, 'gating question sections are present' );
 
 	});
 
@@ -317,11 +318,25 @@
 
 	});
 
-	test( 'last question in previous section becomes the gate', 1, function() {
+	test( 'last question in previous section cannot become the toggle', 7, function() {
 
 		// second gate is hidden
 		// after gates is hidden
 		strictEqual( $( '#after-gates, #second-gate' ).filter( ':visible' ).length, 0, 'sections after gating questions are hidden' );
+
+		$( '#first-gate-A' )[ 0 ].click();
+		// second gate is visible
+		// after gates is hidden
+		strictEqual( $( '#after-gates, #second-gate' ).filter( ':visible' ).length, 1, '1 section is visible' );
+		strictEqual( $( '#second-gate' ).is( ':visible' ), true, 'second gate section is now visible' );
+		strictEqual( $( '#after-gates' ).is( ':hidden' ), true, 'after gates is still hidden' );
+
+		$( '#second-gate-A' )[ 0 ].click();
+		// second gate is visible
+		// after gates remains hidden
+		strictEqual( $( '#after-gates, #second-gate' ).filter( ':visible' ).length, 1, '1 section is visible' );
+		strictEqual( $( '#second-gate' ).is( ':visible' ), true, 'second gate section is now visible' );
+		strictEqual( $( '#after-gates' ).is( ':hidden' ), true, 'after gates is still hidden' );
 
 	});
 
