@@ -70,17 +70,17 @@
 	test( 'toggle relevance', 8, function() {
 
 		$( '#foo' )
-		.on( 'irrelevant-done', function() {
+		.bind( 'irrelevant-done', function() {
 			// start qunit
 			start();
 
 			strictEqual( $( '#foo' ).is( ':hidden' ), true, '#foo is hidden' );
 			strictEqual( $( '#foo' ).attr( 'aria-hidden' ), 'true', '#foo is aria-hidden when irrelevant' );
 			ok( $( '#foo' )[ 0 ].getAttribute( 'hidden' ), '#foo is @hidden when irrelevant' );
-			strictEqual( $( '#foo' ).prop( 'disabled' ), true, '#foo is @disabled when irrelevant' );
+			strictEqual( $( '#foo' )[ 0 ].disabled, true, '#foo is @disabled when irrelevant' );
 
 		})
-		.on( 'relevant-done', function() {
+		.bind( 'relevant-done', function() {
 			// start qunit
 			start();
 

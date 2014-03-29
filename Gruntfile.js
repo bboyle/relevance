@@ -15,6 +15,14 @@ module.exports = function( grunt ) {
 		clean: {
 			files: [ 'dist' ]
 		},
+		connect: {
+			server: {
+				options: {
+					port: 8000,
+					base: '.'
+				}
+			}
+		},
 		// production pipeline tasks
 		concat: {
 			options: {
@@ -46,7 +54,27 @@ module.exports = function( grunt ) {
 		},
 		// code quality tasks
 		qunit: {
-			files: [ 'test/**/*.html' ]
+			unit: [ 'test/**/*.html' ],
+			// test other jquery versions
+			jquery: {
+				options: {
+					urls: [
+						'http://localhost:8000/test/events.html?jquery=1.4.4',
+						'http://localhost:8000/test/instructions.html?jquery=1.4.4',
+						'http://localhost:8000/test/legacy-API.html?jquery=1.4.4',
+						'http://localhost:8000/test/plugin.html?jquery=1.4.4',
+						'http://localhost:8000/test/relevantWhen.html?jquery=1.4.4',
+						'http://localhost:8000/test/ui.html?jquery=1.4.4',
+						// 2.1.0
+						'http://localhost:8000/test/events.html?jquery=2.1.0',
+						'http://localhost:8000/test/instructions.html?jquery=2.1.0',
+						'http://localhost:8000/test/legacy-API.html?jquery=2.1.0',
+						'http://localhost:8000/test/plugin.html?jquery=2.1.0',
+						'http://localhost:8000/test/relevantWhen.html?jquery=2.1.0',
+						'http://localhost:8000/test/ui.html?jquery=2.1.0',
+					]
+				}
+			}
 		},
 		jshint: {
 			gruntfile: {
@@ -75,11 +103,11 @@ module.exports = function( grunt ) {
 			},
 			src: {
 				files: '<%= jshint.src.src %>',
-				tasks: [ 'jshint:src', 'qunit' ]
+				tasks: [ 'jshint:src', 'qunit:unit' ]
 			},
 			test: {
 				files: '<%= jshint.test.src %>',
-				tasks: [ 'jshint:test', 'qunit' ]
+				tasks: [ 'jshint:test', 'qunit:unit' ]
 			},
 		}
 	});
@@ -88,12 +116,13 @@ module.exports = function( grunt ) {
 	grunt.loadNpmTasks( 'grunt-contrib-clean' );
 	grunt.loadNpmTasks( 'grunt-contrib-concat' );
 	grunt.loadNpmTasks( 'grunt-contrib-uglify' );
+	grunt.loadNpmTasks( 'grunt-contrib-connect' );
 	grunt.loadNpmTasks( 'grunt-contrib-qunit' );
 	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
 	grunt.loadNpmTasks( 'grunt-contrib-watch' );
 
 	// Default task.
-	grunt.registerTask( 'test', [ 'jshint', 'qunit' ]);
+	grunt.registerTask( 'test', [ 'jshint', 'connect', 'qunit' ]);
 	grunt.registerTask( 'produce', [ 'clean', 'concat', 'uglify' ]);
 	grunt.registerTask( 'default', [ 'test', 'produce' ]);
 
