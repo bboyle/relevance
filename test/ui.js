@@ -89,8 +89,8 @@
 
 		$( '#foo, #bar' ).relevance( 'hide' );
 		// @disabled is true when set
-		strictEqual( $( '#foo' ).prop( 'disabled' ), true, '#foo is @disabled after hide()' );
-		strictEqual( $( '#bar' ).prop( 'disabled' ), true, '#bar is @disabled after hide()' );
+		strictEqual( $( '#foo' )[0].disabled, true, '#foo is @disabled after hide()' );
+		strictEqual( $( '#bar' )[0].disabled, true, '#bar is @disabled after hide()' );
 
 		$( '#foo, #bar' ).relevance( 'show' );
 		ok( ! $( '#foo' )[0].getAttribute( 'disabled' ), '#foo is not disabled after show()' );
