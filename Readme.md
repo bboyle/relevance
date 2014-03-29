@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/bboyle/relevance.svg?branch=travis)](https://travis-ci.org/bboyle/relevance)
 [![devDependencies](https://david-dm.org/bboyle/relevance/dev-status.png)](https://david-dm.org/bboyle/relevance#info=devDependencies)
 
 ## Progressive disclosure
