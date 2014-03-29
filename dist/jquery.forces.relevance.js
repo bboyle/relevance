@@ -1,6 +1,6 @@
-/*! relevance - v1.1.1 - 2013-08-14
+/*! relevance - v1.1.1 - 2014-03-29
 * https://github.com/bboyle/relevance
-* Copyright (c) 2013 Ben Boyle; Licensed MIT */
+* Copyright (c) 2014 Ben Boyle; Licensed MIT */
 if ( jQuery !== 'undefined' ) {
 	(function( $ ) {
 		'use strict';
