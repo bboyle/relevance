@@ -65,6 +65,13 @@ module.exports = function( grunt ) {
 						'http://localhost:8000/test/plugin.html?jquery=1.4.4',
 						'http://localhost:8000/test/relevantWhen.html?jquery=1.4.4',
 						'http://localhost:8000/test/ui.html?jquery=1.4.4',
+						// 2.1.0
+						'http://localhost:8000/test/events.html?jquery=2.1.0',
+						'http://localhost:8000/test/instructions.html?jquery=2.1.0',
+						'http://localhost:8000/test/legacy-API.html?jquery=2.1.0',
+						'http://localhost:8000/test/plugin.html?jquery=2.1.0',
+						'http://localhost:8000/test/relevantWhen.html?jquery=2.1.0',
+						'http://localhost:8000/test/ui.html?jquery=2.1.0',
 					]
 				}
 			}
