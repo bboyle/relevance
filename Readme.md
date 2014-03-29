@@ -1,3 +1,5 @@
+[![devDependencies](https://david-dm.org/bboyle/relevance/dev-status.png)](https://david-dm.org/bboyle/relevance#info=devDependencies)
+
 ## Progressive disclosure
 
 Only show what is relevant, making the interface simpler for the user.
