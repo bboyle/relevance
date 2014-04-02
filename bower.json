@@ -20,6 +20,7 @@
   "private": true,
   "ignore": [
     "**/.*",
+    "*.*",
     "src",
     "libs",
     "node_modules",
