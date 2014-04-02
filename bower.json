@@ -20,7 +20,12 @@
   "private": true,
   "ignore": [
     "**/.*",
-    "*.*",
+    "bower.json",
+    "CONTRIBUTING.md",
+    "demo.html",
+    "Gruntfile.js",
+    "package.json",
+    "Readme.md",
     "src",
     "libs",
     "node_modules",
