@@ -30,15 +30,8 @@ module.exports = function( grunt ) {
 				stripBanners: true
 			},
 			dist: {
-				src: [ 'src/jquery.<%= pkg.name %>.js' ],
-				dest: 'dist/jquery.<%= pkg.name %>.js'
-			},
-			legacy: {
-				src: [
-					'src/jquery.<%= pkg.name %>.js',
-					'src/jquery.<%= pkg.name %>.legacy-API.js',
-				],
-				dest: 'dist/jquery.forces.<%= pkg.name %>.js'
+				src: [ 'src/<%= pkg.name %>.js' ],
+				dest: 'dist/<%= pkg.name %>.js'
 			}
 		},
 		uglify: {
@@ -47,8 +40,7 @@ module.exports = function( grunt ) {
 			},
 			dist: {
 				files: {
-					'dist/jquery.<%= pkg.name %>.min.js': [ 'dist/jquery.<%= pkg.name %>.js' ],
-					'dist/jquery.forces.<%= pkg.name %>.min.js': [ 'dist/jquery.forces.<%= pkg.name %>.js' ]
+					'dist/<%= pkg.name %>.min.js': [ 'dist/<%= pkg.name %>.js' ]
 				}
 			},
 		},
@@ -61,21 +53,18 @@ module.exports = function( grunt ) {
 					urls: [
 						'http://localhost:8000/test/events.html?jquery=1.4.4',
 						'http://localhost:8000/test/instructions.html?jquery=1.4.4',
-						'http://localhost:8000/test/legacy-API.html?jquery=1.4.4',
 						'http://localhost:8000/test/plugin.html?jquery=1.4.4',
 						'http://localhost:8000/test/relevantWhen.html?jquery=1.4.4',
 						'http://localhost:8000/test/ui.html?jquery=1.4.4',
 						// 1.7.2
 						'http://localhost:8000/test/events.html?jquery=1.7.2',
 						'http://localhost:8000/test/instructions.html?jquery=1.7.2',
-						'http://localhost:8000/test/legacy-API.html?jquery=1.7.2',
 						'http://localhost:8000/test/plugin.html?jquery=1.7.2',
 						'http://localhost:8000/test/relevantWhen.html?jquery=1.7.2',
 						'http://localhost:8000/test/ui.html?jquery=1.7.2',
 						// 2.1.0
 						'http://localhost:8000/test/events.html?jquery=2.1.0',
 						'http://localhost:8000/test/instructions.html?jquery=2.1.0',
-						'http://localhost:8000/test/legacy-API.html?jquery=2.1.0',
 						'http://localhost:8000/test/plugin.html?jquery=2.1.0',
 						'http://localhost:8000/test/relevantWhen.html?jquery=2.1.0',
 						'http://localhost:8000/test/ui.html?jquery=2.1.0',
