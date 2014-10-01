@@ -41,7 +41,10 @@
     "grunt-contrib-qunit": "~0.5.2",
     "grunt-contrib-uglify": "~0.6.0",
     "grunt-contrib-watch": "~0.6.1",
-    "qunitjs": "~1.15.0"
+    "qunitjs": "~1.15.0",
+    "karma": "~0.12.24",
+    "karma-qunit": "~0.1.4",
+    "karma-chrome-launcher": "~0.1.5"
   },
   "scripts": {
     "test": "grunt test"

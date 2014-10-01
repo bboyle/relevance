@@ -2,7 +2,27 @@
 	'use strict';
 	
 
-	module( 'environment' );
+	var lifecycle = {
+		setup: function() {
+
+			$( '<div id="qunit-fixture"/>' ).html(
+				'<form><input type="text" id="foo" name="foo" />' +
+				'<input type="text" id="bar" name="bar" style="display: none" hidden="hidden" /></form>'
+			).appendTo( document.body );
+
+			// noconflict
+			window._$ = jQuery.noConflict( true );
+
+		},
+		teardown: function() {
+			window.jQuery = window.$ = window._$;
+			$( '#qunit-fixture' ).remove();
+		}
+	};
+
+
+
+	module( 'environment', lifecycle );
 
 	test( 'test fields are in test form', function() {
 
@@ -14,7 +34,7 @@
 	});
 
 
-	module( 'chaining' );
+	module( 'chaining', lifecycle );
 
 	test( 'null', 2, function() {
 
@@ -58,14 +78,14 @@
 
 	test( 'relevantWhen', 2, function() {
 
-		$( '#foo, #bar' ).relevance( 'relevantWhen', {} ).attr( 'title', 'foo' );
+		$( '#foo, #bar' ).relevance( 'relevantWhen', { id: 'foo', value: 'foo' }).attr( 'title', 'foo' );
 		strictEqual( $( '#foo' ).attr( 'title' ), 'foo', '#foo was chained' );
 		strictEqual( $( '#bar' ).attr( 'title' ), 'foo', '#bar was chained' );
 
 	});
 
 
-	module( 'default behaviour' );
+	module( 'default behaviour', lifecycle );
 
 	test( 'toggle relevance', 8, function() {
 
