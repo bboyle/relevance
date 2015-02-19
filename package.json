@@ -2,7 +2,7 @@
   "name": "relevance",
   "title": "relevance",
   "description": "Progressive disclosure (relevance) for HTML elements",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "homepage": "https://github.com/bboyle/relevance",
   "author": {
     "name": "Ben Boyle",
@@ -33,15 +33,15 @@
     "test": "test"
   },
   "devDependencies": {
-    "grunt": "~0.4.4",
-    "grunt-contrib-clean": "~0.6.0",
-    "grunt-contrib-concat": "~0.5.0",
-    "grunt-contrib-connect": "~0.8.0",
-    "grunt-contrib-jshint": "~0.10.0",
-    "grunt-contrib-qunit": "~0.5.2",
-    "grunt-contrib-uglify": "~0.6.0",
-    "grunt-contrib-watch": "~0.6.1",
-    "qunitjs": "~1.15.0"
+    "grunt": "^0.4.5",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-concat": "^0.5.0",
+    "grunt-contrib-connect": "^0.9.0",
+    "grunt-contrib-jshint": "^0.11.0",
+    "grunt-contrib-qunit": "^0.5.2",
+    "grunt-contrib-uglify": "^0.7.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "qunitjs": "^1.17.1"
   },
   "scripts": {
     "test": "grunt test"

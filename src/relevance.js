@@ -9,6 +9,11 @@ if ( jQuery !== 'undefined' ) {
 			irrelevantDoneEvent = 'irrelevant-done',
 			elementsToDisable = 'button, input, select, textarea',
 
+			formElementsByName = function( form, name ) {
+				// filter out the @id matching of HTMLFormElement.elements[]
+				return $( form.elements[ name ] ).filter( '[name="' + name +'"]' );
+			},
+
 			valueMap = function( element ) {
 				return element.value;
 			},
@@ -32,7 +37,7 @@ if ( jQuery !== 'undefined' ) {
 			recalculateRelevance = function() {
 				// assume dependency map exists
 				var map = $( this.form ).data( 'relevance' ).dependencyMap[ this.name ],
-					values = $.map( $( this.form.elements[ this.name ]).filter( 'select,:checked' ).filter( ':visible' ), valueMap )
+					values = $.map( formElementsByName( this.form, this.name ).filter( 'select,:checked' ).filter( ':visible' ), valueMap )
 				;
 
 				$.each( map, function( index, config ) {
@@ -67,7 +72,7 @@ if ( jQuery !== 'undefined' ) {
 											config.items.relevance( 'relevant', false );
 
 										} else {
-											values = $.map( $( form[ 0 ].elements[ name ]).filter( 'select,:checked' ).filter( ':visible' ), valueMap );
+											values = $.map( formElementsByName( form[ 0 ], name ).filter( 'select,:checked' ).filter( ':visible' ), valueMap );
 											config.items.relevance( 'relevant', valueInArray( config.values, values ) !== config.negate );
 										}
 									});
@@ -178,7 +183,7 @@ if ( jQuery !== 'undefined' ) {
 				if ( typeof data.dependencyMap[ name ] !== 'object' ) {
 					data.dependencyMap[ name ] = [];
 					// setup event handlers for name
-					$( form[ 0 ].elements[ name ] )
+					formElementsByName( form[ 0 ], name )
 						.filter( ':radio,:checkbox' )
 							.bind( 'click', recalculateRelevance )
 						.end()
@@ -194,7 +199,7 @@ if ( jQuery !== 'undefined' ) {
 				});
 
 				// initial relevance
-				this.relevance( 'relevant', valueInArray( values, $.map( $( form[ 0 ].elements[ name ] ).filter( 'select,:checked' ).filter( ':visible' ), valueMap )) !== config.negate );
+				this.relevance( 'relevant', valueInArray( values, $.map( formElementsByName( form[ 0 ], name ).filter( 'select,:checked' ).filter( ':visible' ), valueMap )) !== config.negate );
 
 				return this;
 			},
