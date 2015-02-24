@@ -5,8 +5,6 @@ if ( jQuery !== 'undefined' ) {
 
 		var relevantEvent = 'relevant',
 			irrelevantEvent = 'irrelevant',
-			relevantDoneEvent = 'relevant-done',
-			irrelevantDoneEvent = 'irrelevant-done',
 			elementsToDisable = 'button, input, select, textarea',
 
 			formElementsByName = function( form, name ) {
@@ -94,15 +92,11 @@ if ( jQuery !== 'undefined' ) {
 				var targets;
 				if ( ! makeRelevant ) {
 					targets = this.filter( ':visible' ).trigger( irrelevantEvent );
-
-					if ( targets.length ) {
-						recalculateDependents.call( targets, false );
-					}
 				} else {
 					targets = this.filter( ':hidden' ).trigger( relevantEvent );
-					if ( targets.length ) {
-						recalculateDependents.call( targets );
-					}
+				}
+				if ( targets.length ) {
+					recalculateDependents.call( targets, makeRelevant );
 				}
 				return this;
 			},
@@ -121,15 +115,11 @@ if ( jQuery !== 'undefined' ) {
 				});
 
 				// stop animation, remove @hidden and @aria-hidden, start showing
-				return this.stop( true, true ).removeAttr( 'hidden' ).removeAttr( 'aria-hidden' ).slideDown(function() {
-					// done
-					$( this ).trigger( relevantDoneEvent );
-				});
+				return this.stop( true, true ).removeAttr( 'hidden' ).removeAttr( 'aria-hidden' ).slideDown();
 			},
 
 			// $( x ).relevance( 'hide' )
 			// hides the element (does not check if element is already hidden)
-			// triggers 'irrelevant-done' after hiding is complete
 			hide: function() {
 
 				// stop animation, start hiding
@@ -144,9 +134,6 @@ if ( jQuery !== 'undefined' ) {
 					// once hidden, toggle irrelevant with @hidden and aria-hidden
 					this.setAttribute( 'hidden', 'hidden' );
 					this.setAttribute( 'aria-hidden', 'true' );
-
-					// done
-					$this.trigger( irrelevantDoneEvent );
 				});
 			},
 

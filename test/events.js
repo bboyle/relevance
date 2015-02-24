@@ -1,6 +1,6 @@
 (function( $ ) {
 	'use strict';
-	
+
 
 	module( 'environment' );
 
@@ -19,7 +19,7 @@
 	test( 'relevant event is triggered for hidden elements', 1, function() {
 
 		var eventDetected = 0;
-		
+
 		$( '#bar' ).bind( 'relevant', function() {
 			eventDetected += 1;
 			strictEqual( eventDetected, 1, 'relevant event detected' );
@@ -33,7 +33,7 @@
 
 
 	test( 'relevant event not triggered for visible elements', 0, function() {
-		
+
 		$( '#foo' ).bind( 'relevant', function() {
 			ok( false, 'relevant event detected' );
 		});
@@ -65,7 +65,7 @@
 	module( 'irrelevant events' );
 
 	test( 'irrelevant event is triggered for visible elements', 1, function() {
-		
+
 		var eventDetected = 0;
 
 		$( '#foo' ).bind( 'irrelevant', function() {
@@ -80,7 +80,7 @@
 	});
 
 	test( 'irrelevant event not triggered for hidden elements', 0, function() {
-		
+
 		$( '#bar' ).bind( 'irrelevant', function() {
 			ok( true, 'irrelevant event detected' );
 		});
@@ -107,54 +107,6 @@
 
 		$( '#foo, body' ).unbind( 'irrelevant.test' );
 		$( document ).unbind( 'irrelevant.test' );
-
-	});
-
-
-	module( 'relevant-done events' );
-
-	test( 'relevant-done event is triggered after showing an element', 4, function() {
-
-		var eventDetectedOnBar = 0,
-			eventDetectedOnFoo = 0;
-		
-		$( '#bar' ).bind( 'relevant-done', function() {
-			eventDetectedOnBar++;
-			ok( eventDetectedOnBar <= 2, 'relevant-done event detected on #bar' );
-		});
-
-		$( '#foo' ).bind( 'relevant-done', function() {
-			eventDetectedOnFoo++;
-			ok( eventDetectedOnFoo <= 2, 'relevant-done event detected on #foo' );
-		});
-
-		$( '#foo, #bar' ).relevance( 'show' );
-		// should still fire, even though elements are now relevant
-		$( '#foo, #bar' ).relevance( 'show' );
-
-	});
-
-
-	module( 'irrelevant-done events' );
-
-	test( 'irrelevant-done event is triggered after showing an element', 4, function() {
-
-		var eventDetectedOnBar = 0,
-			eventDetectedOnFoo = 0;
-		
-		$( '#bar' ).bind( 'irrelevant-done', function() {
-			eventDetectedOnBar++;
-			ok( eventDetectedOnBar <= 2, 'irrelevant-done event detected on #bar' );
-		});
-
-		$( '#foo' ).bind( 'irrelevant-done', function() {
-			eventDetectedOnFoo++;
-			ok( eventDetectedOnFoo <= 2, 'irrelevant-done event detected on #foo' );
-		});
-
-		$( '#foo, #bar' ).relevance( 'hide' );
-		// should still fire, even though elements are now irrelevant
-		$( '#foo, #bar' ).relevance( 'hide' );
 
 	});
 

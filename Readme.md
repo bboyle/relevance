@@ -36,7 +36,6 @@ indicates an element should be made irrelevant (hidden). No change for irrelevan
 2. removes `@hidden` attribute
 3. removes `aria-hidden`
 4. shows the element (uses a `slideDown` transition)
-5. fires event `relevant-done`
 
 ## .relevance( 'hide' )
 
@@ -44,18 +43,13 @@ indicates an element should be made irrelevant (hidden). No change for irrelevan
 2. disables descendent form fields and self (if a form field)
 3. adds `@hidden` attribute
 4. adds `aria-hidden`
-5. fires event `irrelevant-done`
 
 ## Events
 
-| Event name        | Fired when                                                        | If you cancel it…                                  |
-|:------------------|:------------------------------------------------------------------|:---------------------------------------------------|
-| relevant          | an element that is hidden has become relevant and will be shown   | the element will remain irrelevant and stay hidden |
-| irrelevant        | an element that is shown has become irrelevant and will be hidden | the element will remain relevant and be visible    |
-| relevant-done     | an element became relevant and is now shown                       | not applicable                                     |
-| irrelevant-done   | an element became irrelevant and has been hidden                  | not applicable                                     |
+| Event name | Fired when                                                        | If you cancel it…                                  |
+|:-----------|:------------------------------------------------------------------|:---------------------------------------------------|
+| relevant   | an element that is hidden has become relevant and will be shown   | the element will remain irrelevant and stay hidden |
+| irrelevant | an element that is shown has become irrelevant and will be hidden | the element will remain relevant and be visible    |
 
 You can suppress the `relevant` and `irrelevant` events and cancel them to prevent an elements relevance state from changing.
 You will need to cancel the event before it reaches the `document` (this is where the default handlers are bound).
-
-The `relevant-done` and `irrelevant-done` events are fired after animations are complete and are provided as hooks in case you need to redraw the layout.
