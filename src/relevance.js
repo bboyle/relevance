@@ -215,7 +215,7 @@ if ( jQuery !== 'undefined' ) {
 
 				this.find( options.instructionSelector ).each(function() {
 					var $this = $( this ),
-						value = $this.text().replace( /^[\S\s]*chose \W([^'"’]+)['"’] above[\S\s]*$/, '$1' ),
+						value = $this.text(),
 						question = $this.closest( options.questionSelector ),
 						toggle = question.prevAll( options.questionSelector ),
 						i, answers,
@@ -229,6 +229,7 @@ if ( jQuery !== 'undefined' ) {
 						value = toggle.find( ':checkbox' ).val();
 						negate = true;
 					} else {
+						value = value.replace( /^.*chose\s+\S([^'"’]+)\S\s+above.*$/, '$1' );
 						// which of the previous questions is the toggle?
 						i = 0;
 						while ( i < toggle.length ) {
