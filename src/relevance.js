@@ -215,20 +215,23 @@ if ( jQuery !== 'undefined' ) {
 
 				this.find( options.instructionSelector ).each(function() {
 					var $this = $( this ),
-						value = $this.text().replace( /^[\S\s]*chose \W([^'"’]+)['"’] above[\S\s]*$/, '$1' ),
+						value = $this.text(),
 						question = $this.closest( options.questionSelector ),
 						toggle = question.prevAll( options.questionSelector ),
 						i, answers,
+						match = false,
 						negate = false
 					;
 
 					// pattern: (If different to <PREVIOUS QUESTION>)
 					if ( /If different to/.test( value )) {
 						// assume previous 'li' is the toggle
+						match = true;
 						toggle = toggle.eq( 0 );
 						value = toggle.find( ':checkbox' ).val();
 						negate = true;
 					} else {
+						value = value.replace( /^.*chose\s+\S([^'"’]+)\S\s+above.*$/, '$1' );
 						// which of the previous questions is the toggle?
 						i = 0;
 						while ( i < toggle.length ) {
@@ -237,15 +240,17 @@ if ( jQuery !== 'undefined' ) {
 								// does this item have the answer we need?
 								answers = $.map( toggle.eq( i ).find( 'option,:radio,:checkbox' ), valueMap );
 								if ( valueInArray( value, answers )) {
-									toggle = toggle.eq( i );
+									match = true;
+									toggle = toggle.eq( i ); // toggle.length becomes 1, loop will exit
 								}
 							}
 							i++;
 						}
 					}
-					toggle = toggle.add( toggle.find( 'select,input' )).filter( 'select,:radio,:checkbox' );
-
-					question.relevance( 'relevantWhen', { name: toggle.attr( 'name' ), value: value, negate: negate });
+					if ( match ) {
+						toggle = toggle.add( toggle.find( 'select,input' )).filter( 'select,:radio,:checkbox' );
+						question.relevance( 'relevantWhen', { name: toggle.attr( 'name' ), value: value, negate: negate });
+					}
 				});
 
 				return this;

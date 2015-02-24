@@ -26,7 +26,7 @@
 		}
 
 		.relevance {
-			color: red;
+			color: fuchsia;
 			font-weight: bold;
 		}
 
@@ -421,6 +421,17 @@
 					</label>
 					<input id="baz" />
 				</li>
+				<!-- for testing what happens to questions with orphaned relevance
+					i.e. the instructions here reference an answer that does not exist, therefore cannot be relevant -->
+				<li>
+					<label for="quux">
+						<span class="label">Quux</span>
+						<small class="relevance">(If you chose ‘Quux’ above)</small>
+					</label>
+					<input id="quux" />
+				</li>
+
+
 
 				<!-- issue #11
 				values are not extracted when they contain punctuation characters
@@ -464,6 +475,23 @@
 				<!-- issue #12
 				controls nested in a preceding section cannot toggle relevance
 				https://github.com/bboyle/relevance/issues/12 -->
+				<li id="before-gating-section">
+					<fieldset>
+						<legend>
+							<span class="label">Before gates</span>
+						</legend>
+						<ul class="choices">
+							<li>
+								<input id="before-gate-A" type="checkbox" name="beforeGate" value="A" />
+								<label for="before-gate-A">A</label>
+							</li>
+							<li>
+								<input id="before-gate-B" type="checkbox" name="beforeGate" value="B" />
+								<label for="before-gate-B">B</label>
+							</li>
+						</ul>
+					</fieldset>
+				</li>
 				<li class="section" id="gating-section">
 					<fieldset>
 						<legend>
