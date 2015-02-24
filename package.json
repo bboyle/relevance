@@ -2,7 +2,7 @@
   "name": "relevance",
   "title": "relevance",
   "description": "Progressive disclosure (relevance) for HTML elements",
-  "version": "1.1.5",
+  "version": "1.6.0-beta.1",
   "homepage": "https://github.com/bboyle/relevance",
   "author": {
     "name": "Ben Boyle",
