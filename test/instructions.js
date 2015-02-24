@@ -1,6 +1,6 @@
 (function( $ ) {
 	'use strict';
-	
+
 
 	var relevanceLifecycle = {
 			setup: function() {
@@ -28,10 +28,10 @@
 
 	module( 'environment' );
 
-	test( 'test fields are in test form', 18, function() {
+	test( 'test fields are in test form', 20, function() {
 
 		strictEqual( $( 'form#test' ).length, 1, 'form#test exists' );
-		strictEqual( $( '.relevance', '#test' ).length, 14, '14 `.relevance` instructions found' );
+		strictEqual( $( '.relevance', '#test' ).length, 15, '`.relevance` instructions found' );
 		strictEqual( $( '.relevance', '#test' ).eq( 0 ).text(), '(If different to home address)', 'correct instruction text' );
 		strictEqual( $( '.relevance', '#test' ).eq( 1 ).text(), '(If you chose ‘Current working visa’ above)', 'correct instruction text' );
 		strictEqual( $( '.relevance', '#test' ).eq( 2 ).text(), '(If you chose ‘Yes’ above)', 'correct instruction text' );
@@ -42,15 +42,19 @@
 		strictEqual( $( '.relevance', '#test' ).eq( 7 ).text(), '(If you chose ‘Bird’ above)', 'correct instruction text' );
 		strictEqual( $( '.relevance', '#test' ).eq( 8 ).text(), '(If you chose ‘Bar’ above)', 'correct instruction text' );
 		strictEqual( $( '.relevance', '#test' ).eq( 9 ).text(), '(If you chose ‘Baz’ above)', 'correct instruction text' );
-		strictEqual( $( '.relevance', '#test' ).eq( 10 ).text(), '(If you chose \'$1000.00\' above)', 'correct instruction text' );
-		strictEqual( $( '.relevance', '#test' ).eq( 11 ).text(), '(If you chose \'other amount\' above)', 'correct instruction text' );
-		strictEqual( $( '.relevance', '#test' ).eq( 12 ).text(), '(If you chose \'A\' above)', 'correct instruction text' );
+		strictEqual( $( '.relevance', '#test' ).eq( 10 ).text(), '(If you chose ‘Quux’ above)', 'correct instruction text' );
+		strictEqual( $( '.relevance', '#test' ).eq( 11 ).text(), '(If you chose \'$1000.00\' above)', 'correct instruction text' );
+		strictEqual( $( '.relevance', '#test' ).eq( 12 ).text(), '(If you chose \'other amount\' above)', 'correct instruction text' );
 		strictEqual( $( '.relevance', '#test' ).eq( 13 ).text(), '(If you chose \'A\' above)', 'correct instruction text' );
+		strictEqual( $( '.relevance', '#test' ).eq( 14 ).text(), '(If you chose \'A\' above)', 'correct instruction text' );
 
 		// dependence
 		strictEqual( $( '#foo' ).val(), 'Foo', '#foo != Bar' );
 		// baz would be relevant, if bar was relevant
 		strictEqual( $( '#bar' ).val(), 'Baz', '#bar == Baz' );
+
+		// there is no match for quux
+		strictEqual( $( 'input[value="Quux"]' ).length, 0, 'no elements match input[value="Quux"]' );
 
 	});
 
@@ -71,7 +75,7 @@
 	module( 'before .relevance( \'instructions\' )' );
 
 	test( 'all sections are relevant', 1, function() {
-		strictEqual( $( '.relevance', '#test' ).filter( ':visible' ).length, 14, '12 `.relevance` instructions visible' );
+		strictEqual( $( '.relevance', '#test' ).filter( ':visible' ).length, 15, '`.relevance` instructions visible' );
 	});
 
 	test( 'custom sections are relevant', 1, function() {
@@ -81,8 +85,10 @@
 
 	module( 'after .relevance( \'instructions\' )', relevanceLifecycle );
 
-	test( 'initial irrelevant elements are hidden', 1, function() {
-		strictEqual( $( '.relevance', '#test' ).filter( ':visible' ).length, 0, 'no `.relevance` instructions visible' );
+	test( 'initial irrelevant elements are hidden', 2, function() {
+		strictEqual( $( '.relevance', '#test' ).filter( ':visible' ).length, 1, 'no `.relevance` instructions visible' );
+		// quux should be visibile (not orphaned)
+		strictEqual( $( '.relevance', '#test' ).filter( ':visible' ).text(), '(If you chose ‘Quux’ above)', 'Orphaned question remains visible' );
 	});
 
 	test( 'custom sections are ignored', 1, function() {
@@ -90,13 +96,13 @@
 	});
 
 	test( 'initial relevant elements are shown', 10, function() {
-		
+
 		// test radio buttons
 		strictEqual( $( '#job-title' ).filter( ':hidden' ).length, 1, '#job-title is hidden' );
 		strictEqual( $( '#job-title' ).closest( '.section' ).filter( ':hidden' ).length, 1, '#job-title section is hidden' );
 		strictEqual( $( '#retirement-date' ).filter( ':hidden' ).length, 1, '#retirement-date is hidden' );
 		strictEqual( $( '#retirement-date' ).closest( '.questions > li' ).filter( ':hidden' ).length, 1, '#retirement-date question is hidden' );
-		
+
 		// test select
 		strictEqual( $( '#permit-expiry-date' ).filter( ':hidden' ).length, 1, '#permit-expiry-date is hidden' );
 		strictEqual( $( '#permit-expiry-date' ).closest( '.questions > li' ).filter( ':hidden' ).length, 1, '#permit-expiry-date question is hidden' );
