@@ -35,6 +35,10 @@
 			font-weight: bold;
 		}
 
+		[hidden] {
+			display: none;
+		}
+
 		#qunit-fixture {
 			position: static;
 		}
@@ -87,14 +91,14 @@
 													</label>
 													<select id="residential-address-qld" name="residential-address" required="required">
 														<option value="" class="placeholder">Please select&hellip;</option>
-														<option>ACT</option>
-														<option>NSW</option>
-														<option>NT</option>
-														<option selected="selected">QLD</option>
-														<option>SA</option>
-														<option>TAS</option>
-														<option>VIC</option>
-														<option>WA</option>
+														<option value="ACT">ACT</option>
+														<option value="NSW">NSW</option>
+														<option value="NT">NT</option>
+														<option value="QLD" selected="selected">QLD</option>
+														<option value="SA">SA</option>
+														<option value="TAS">TAS</option>
+														<option value="VIC">VIC</option>
+														<option value="WA">WA</option>
 													</select>
 												</li>
 												<li>
@@ -113,7 +117,7 @@
 											</label>
 											<select id="residential-address-australia" name="residential-address" required="required">
 												<option value="" class="placeholder">Please select&hellip;</option>
-												<option selected="selected">Australia</option>
+												<option value="Australia" selected="selected">Australia</option>
 											</select>
 										</li>
 									</ol>
@@ -155,14 +159,14 @@
 													</label>
 													<select id="postal-address-qld" name="postal-address">
 														<option value="" class="placeholder">Please select&hellip;</option>
-														<option>ACT</option>
-														<option>NSW</option>
-														<option>NT</option>
-														<option selected="selected">QLD</option>
-														<option>SA</option>
-														<option>TAS</option>
-														<option>VIC</option>
-														<option>WA</option>
+														<option value="ACT">ACT</option>
+														<option value="NSW">NSW</option>
+														<option value="NT">NT</option>
+														<option value="QLD" selected="selected">QLD</option>
+														<option value="SA">SA</option>
+														<option value="TAS">TAS</option>
+														<option value="VIC">VIC</option>
+														<option value="WA">WA</option>
 													</select>
 												</li>
 												<li>
@@ -181,7 +185,7 @@
 											</label>
 											<select id="postal-address-australia" name="postal-address">
 												<option value="" class="placeholder">Please select&hellip;</option>
-												<option selected="selected">Australia</option>
+												<option value="Australia" selected="selected">Australia</option>
 											</select>
 										</li>
 									</ol>
@@ -207,12 +211,12 @@
 								</label>
 								<select id="work-status" name="workStatus" required="required">
 									<option value="" class="placeholder">Please select&hellip;</option>
-									<option>Australian citizen</option>
-									<option>Australian resident</option>
-									<option>New Zealand citizen</option>
-									<option>New Zealand resident</option>
-									<option>Current working visa</option>
-									<option>Other</option>
+									<option value="Australian citizen">Australian citizen</option>
+									<option value="Australian resident">Australian resident</option>
+									<option value="New Zealand citizen">New Zealand citizen</option>
+									<option value="New Zealand resident">New Zealand resident</option>
+									<option value="Current working visa">Current working visa</option>
+									<option value="Other">Other</option>
 								</select>
 							</li>
 
@@ -266,7 +270,7 @@
 											</label>
 											<select name="classification" id="classification">
 												<option value="" class="placeholder">Please select&hellip;</option>
-												<option></option>
+												<option value=""></option>
 											</select>
 										</li>
 										<li>
@@ -281,7 +285,7 @@
 											</label>
 											<select name="department-organisation" id="department-organisation">
 												<option value="" class="placeholder">Please select&hellip;</option>
-												<option></option>
+												<option value=""></option>
 											</select>
 										</li>
 										<li>
@@ -296,12 +300,12 @@
 											</label>
 											<select name="job-type" id="job-type">
 												<option value="" class="placeholder">Please select&hellip;</option>
-												<option>Permanent full-time</option>
-												<option>Permanent part-time</option>
-												<option>Temporary full-time</option>
-												<option>Temporary part-time</option>
-												<option>Contract</option>
-												<option>Casual</option>
+												<option value="Permanent full-time">Permanent full-time</option>
+												<option value="Permanent part-time">Permanent part-time</option>
+												<option value="Temporary full-time">Temporary full-time</option>
+												<option value="Temporary part-time">Temporary part-time</option>
+												<option value="Contract">Contract</option>
+												<option value="Casual">Casual</option>
 											</select>
 										</li>
 
@@ -400,8 +404,8 @@
 						<span class="label">Foo</span>
 					</label>
 					<select id="foo" name="foo">
-						<option selected="selected">Foo</option>
-						<option>Bar</option>
+						<option value="Foo" selected="selected">Foo</option>
+						<option value="Bar">Bar</option>
 					</select>
 				</li>
 				<li>
@@ -410,8 +414,8 @@
 						<small class="relevance">(If you chose ‘Bar’ above)</small>
 					</label>
 					<select id="bar" name="bar">
-						<option>Bar</option>
-						<option selected="selected">Baz</option>
+						<option value="Bar">Bar</option>
+						<option value="Baz" selected="selected">Baz</option>
 					</select>
 				</li>
 				<li>

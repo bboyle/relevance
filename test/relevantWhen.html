@@ -4,6 +4,9 @@
 	<meta charset="UTF-8">
 	<title>relevantWhen tests · relevance tests</title>
 
+	<!-- html5 shim -->
+	<script>document.createElement('section');</script>
+
 	<!-- Load local jQuery. This can be overridden with a ?jquery=___ param. -->
 	<script src="../libs/jquery-loader.js"></script>
 	<!-- Load local QUnit. -->
@@ -47,7 +50,13 @@
 			background: black;
 		}
 
+		[hidden] {
+			display: none;
+		}
 
+		#qunit-fixture {
+			position: static;
+		}
 	</style>
 </head>
 
@@ -61,20 +70,20 @@
 		<form id="test" action="javascript:">
 			<div>
 				<select id="colour-space" name="colourSpace">
-					<option>RGB</option>
-					<option>CMYK</option>
+					<option value="RGB">RGB</option>
+					<option value="CMYK">CMYK</option>
 				</select>
 
 				<div class="rgb-radio-buttons">
-					<input type="radio" name="rgb" id="rgb-red" value="red" />
-					<input type="radio" name="rgb" id="rgb-green" value="green" checked="checked" />
-					<input type="radio" name="rgb" id="rgb-blue" value="blue" />
+					<label><input type="radio" name="rgb" id="rgb-red" value="red" />red</label>
+					<label><input type="radio" name="rgb" id="rgb-green" value="green" checked="checked" />green</label>
+					<label><input type="radio" name="rgb" id="rgb-blue" value="blue" />blue</label>
 				</div>
 
-				<input type="checkbox" name="cmyk" value="cyan" checked="checked" />
-				<input type="checkbox" name="cmyk" value="magenta" />
-				<input type="checkbox" name="cmyk" value="yellow" checked="checked" />
-				<input type="checkbox" name="cmyk" value="black" />
+				<label><input type="checkbox" name="cmyk" value="cyan" checked="checked" />cyan</label>
+				<label><input type="checkbox" name="cmyk" value="magenta" />magenta</label>
+				<label><input type="checkbox" name="cmyk" value="yellow" checked="checked" />yellow</label>
+				<label><input type="checkbox" name="cmyk" value="black" />black</label>
 
 				<!-- items within form -->
 				<div id="red">
@@ -84,10 +93,10 @@
 
 				<label for="green">Green</label>
 				<input id="green" name="green" />
-	
+
 				<label for="blue">Blue</label>
 				<input id="blue" name="blue" />
-	
+
 			</div>
 
 			<div id="cyan">Cyan</div>
@@ -104,16 +113,16 @@
 
 		<!-- nested relevance -->
 		<form id="test2">
-			<input id="hidden-section" type="checkbox" name="hiddenSection" value="show">
+			<label><input id="hidden-section" type="checkbox" name="hiddenSection" value="show">show</label>
 
 			<section id="hidden">
-				<input type="radio" name="icecream" id="icecream-yes" value="yes">
-				<input type="radio" name="icecream" id="icecream-no" value="no">
+				<label><input type="radio" name="icecream" id="icecream-yes" value="yes">yes</label>
+				<label><input type="radio" name="icecream" id="icecream-no" value="no">no</label>
 
 				<section id="icecream">
-					<input type="checkbox" name="flavour" id="flavour-chocolate" value="chocolate">
-					<input type="checkbox" name="flavour" id="flavour-strawberry" value="strawberry">
-					<input type="checkbox" name="flavour" id="flavour-vanilla" value="vanilla">
+					<label><input type="checkbox" name="flavour" id="flavour-chocolate" value="chocolate">chocolate</label>
+					<label><input type="checkbox" name="flavour" id="flavour-strawberry" value="strawberry">strawberry</label>
+					<label><input type="checkbox" name="flavour" id="flavour-vanilla" value="vanilla">vanilla</label>
 				</section>
 			</section>
 		</form>

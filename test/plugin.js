@@ -74,7 +74,7 @@
 			// start qunit
 			start();
 
-			strictEqual( $( '#foo' ).is( ':hidden' ), true, '#foo is hidden' );
+			strictEqual( $( '#foo' ).is( '[hidden]' ), true, '#foo is hidden' );
 			strictEqual( $( '#foo' ).attr( 'aria-hidden' ), 'true', '#foo is aria-hidden when irrelevant' );
 			ok( $( '#foo' )[ 0 ].getAttribute( 'hidden' ), '#foo is @hidden when irrelevant' );
 			strictEqual( $( '#foo' )[ 0 ].disabled, true, '#foo is @disabled when irrelevant' );
@@ -85,7 +85,7 @@
 			start();
 
 			strictEqual( $( '#foo' ).is( ':visible' ), true, '#foo is visible' );
-			strictEqual( $( '#foo' )[ 0 ].getAttribute( 'aria-hidden' ), null, '#foo is not aria-hidden' );
+			ok( ! $( '#foo' )[ 0 ].getAttribute( 'aria-hidden' ), '#foo is not aria-hidden' );
 			strictEqual( $( '#foo' )[ 0 ].getAttribute( 'hidden' ), null, '#foo is not hidden' );
 			ok( ! $( '#foo' )[ 0 ].getAttribute( 'disabled' ), '#foo is not disabled' );
 

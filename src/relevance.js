@@ -6,6 +6,12 @@ if ( jQuery !== 'undefined' ) {
 		var relevantEvent = 'relevant',
 			irrelevantEvent = 'irrelevant',
 			elementsToDisable = 'button, input, select, textarea',
+			polyfillHidden = (function() {
+				var hidden = $( '<div hidden/>' );
+				var isHidden = hidden.appendTo( 'body' ).is( ':visible' );
+				hidden.remove();
+				return isHidden;
+			}()),
 
 			formElementsByName = function( form, name ) {
 				// filter out the @id matching of HTMLFormElement.elements[]
@@ -90,10 +96,10 @@ if ( jQuery !== 'undefined' ) {
 			// if the element is visible, fire an "irrelevant" event
 			relevant: function( makeRelevant ) {
 				var targets;
-				if ( ! makeRelevant ) {
-					targets = this.filter( ':visible' ).trigger( irrelevantEvent );
+				if ( makeRelevant ) {
+					targets = this.filter( '[hidden]' ).trigger( relevantEvent );
 				} else {
-					targets = this.filter( ':hidden' ).trigger( relevantEvent );
+					targets = this.not( '[hidden]' ).trigger( irrelevantEvent );
 				}
 				if ( targets.length ) {
 					recalculateDependents.call( targets, makeRelevant );
@@ -115,26 +121,33 @@ if ( jQuery !== 'undefined' ) {
 				});
 
 				// stop animation, remove @hidden and @aria-hidden, start showing
-				return this.stop( true, true ).removeAttr( 'hidden' ).removeAttr( 'aria-hidden' ).slideDown();
+				if ( polyfillHidden ) {
+					this.stop( true, true ).slideDown();
+				}
+				return this.removeAttr( 'hidden' ).removeAttr( 'aria-hidden' );
 			},
 
 			// $( x ).relevance( 'hide' )
 			// hides the element (does not check if element is already hidden)
 			hide: function() {
 
-				// stop animation, start hiding
-				return this.stop( true, true ).hide( 0, function() {
-					var $this = $( this );
+				this.attr({ hidden : 'hidden', 'aria-hidden' : 'true' });
 
-					// disable elements (including self if appropriate)
-					$this.filter( elementsToDisable ).add( $this.find( elementsToDisable )).each(function() {
+				if ( polyfillHidden ) {
+					this.stop( true, true ).hide( 0, function() {
+						var $this = $( this );
+						// disable elements (including self if appropriate)
+						$this.filter( elementsToDisable ).add( $this.find( elementsToDisable )).each(function() {
+							this.setAttribute( 'disabled', 'disabled' );
+						});
+					});
+				} else {
+					this.filter( elementsToDisable ).add( this.find( elementsToDisable )).each(function() {
 						this.setAttribute( 'disabled', 'disabled' );
 					});
+				}
 
-					// once hidden, toggle irrelevant with @hidden and aria-hidden
-					this.setAttribute( 'hidden', 'hidden' );
-					this.setAttribute( 'aria-hidden', 'true' );
-				});
+				return this;
 			},
 
 			// $( x ).relevance( 'relevantWhen', { name: radio/checkbox/select, value: requiredValue, negate: false | true })
