@@ -6,11 +6,26 @@ module.exports = function( grunt ) {
 	grunt.initConfig({
 		// Metadata.
 		pkg: grunt.file.readJSON( 'package.json' ),
-		banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
+		title: '<%= pkg.title || pkg.name %> - v<%= pkg.version %>',
+		buildNumber: process.env.TRAVIS_BUILD_ID || grunt.template.today( 'isoUtcDateTime' ),
+		banner: '/*! <%= title %> - ' +
 			'<%= grunt.template.today("yyyy-mm-dd") %>\n' +
 			'<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
 			'* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
 			' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
+
+		browsers: [
+			{ browserName: 'Internet Explorer' },
+			{ browserName: 'Chrome' },
+			{ browserName: 'iPhone' },
+			{ browserName: 'android' },
+			{ browserName: 'Firefox' },
+			// old IE
+			{ browserName: 'Internet Explorer', version:  '9' },
+			{ browserName: 'Internet Explorer', version:  '8' },
+			{ browserName: 'Internet Explorer', version:  '6' }
+		],
+
 		// Task configuration.
 		clean: {
 			files: [ 'dist' ]
@@ -72,6 +87,48 @@ module.exports = function( grunt ) {
 				}
 			}
 		},
+		'saucelabs-qunit': {
+			events: {
+				options: {
+					testname: 'events - <%= title %>',
+					build: '<%= buildNumber %>',
+					urls: [ 'http://127.0.0.1:8000/test/events.html?jquery=1.7.2' ],
+					browsers: '<%= browsers %>'
+				}
+			},
+			instructions: {
+				options: {
+					testname: 'instructions - <%= title %>',
+					build: '<%= buildNumber %>',
+					urls: [ 'http://127.0.0.1:8000/test/instructions.html?jquery=1.7.2' ],
+					browsers: '<%= browsers %>'
+				}
+			},
+			plugin: {
+				options: {
+					testname: 'plugin - <%= title %>',
+					build: '<%= buildNumber %>',
+					urls: [ 'http://127.0.0.1:8000/test/plugin.html?jquery=1.7.2' ],
+					browsers: '<%= browsers %>'
+				}
+			},
+			relevantWhen: {
+				options: {
+					testname: 'relevantWhen - <%= title %>',
+					build: '<%= buildNumber %>',
+					urls: [ 'http://127.0.0.1:8000/test/relevantWhen.html?jquery=1.7.2' ],
+					browsers: '<%= browsers %>'
+				}
+			},
+			ui: {
+				options: {
+					testname: 'ui - <%= title %>',
+					build: '<%= buildNumber %>',
+					urls: [ 'http://127.0.0.1:8000/test/ui.html?jquery=1.7.2' ],
+					browsers: '<%= browsers %>'
+				}
+			},
+		},
 		jshint: {
 			gruntfile: {
 				options: {
@@ -119,6 +176,7 @@ module.exports = function( grunt ) {
 
 	// Default task.
 	grunt.registerTask( 'test', [ 'jshint', 'connect', 'qunit' ]);
+	grunt.registerTask( 'test-remote', [ 'jshint', 'qunit:unit', 'connect', 'clean', 'saucelabs-qunit' ]);
 	grunt.registerTask( 'produce', [ 'clean', 'concat', 'uglify' ]);
 	grunt.registerTask( 'default', [ 'test', 'produce' ]);
 
