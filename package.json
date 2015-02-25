@@ -47,5 +47,8 @@
   "scripts": {
     "test": "grunt test",
     "test-on-travis": "grunt test-remote"
+  },
+  "dependencies": {
+    "jquery": "^2.1.3"
   }
 }

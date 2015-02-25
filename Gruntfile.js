@@ -66,23 +66,23 @@ module.exports = function( grunt ) {
 			jquery: {
 				options: {
 					urls: [
-						'http://localhost:8000/test/events.html?jquery=1.4.4',
-						'http://localhost:8000/test/instructions.html?jquery=1.4.4',
-						'http://localhost:8000/test/plugin.html?jquery=1.4.4',
-						'http://localhost:8000/test/relevantWhen.html?jquery=1.4.4',
-						'http://localhost:8000/test/ui.html?jquery=1.4.4',
+						'http://127.0.0.1:8000/test/events.html?jquery=1.4.4',
+						'http://127.0.0.1:8000/test/instructions.html?jquery=1.4.4',
+						'http://127.0.0.1:8000/test/plugin.html?jquery=1.4.4',
+						'http://127.0.0.1:8000/test/relevantWhen.html?jquery=1.4.4',
+						'http://127.0.0.1:8000/test/ui.html?jquery=1.4.4',
 						// 1.7.2
-						'http://localhost:8000/test/events.html?jquery=1.7.2',
-						'http://localhost:8000/test/instructions.html?jquery=1.7.2',
-						'http://localhost:8000/test/plugin.html?jquery=1.7.2',
-						'http://localhost:8000/test/relevantWhen.html?jquery=1.7.2',
-						'http://localhost:8000/test/ui.html?jquery=1.7.2',
+						'http://127.0.0.1:8000/test/events.html?jquery=1.7.2',
+						'http://127.0.0.1:8000/test/instructions.html?jquery=1.7.2',
+						'http://127.0.0.1:8000/test/plugin.html?jquery=1.7.2',
+						'http://127.0.0.1:8000/test/relevantWhen.html?jquery=1.7.2',
+						'http://127.0.0.1:8000/test/ui.html?jquery=1.7.2',
 						// 2.1.0
-						'http://localhost:8000/test/events.html?jquery=2.1.0',
-						'http://localhost:8000/test/instructions.html?jquery=2.1.0',
-						'http://localhost:8000/test/plugin.html?jquery=2.1.0',
-						'http://localhost:8000/test/relevantWhen.html?jquery=2.1.0',
-						'http://localhost:8000/test/ui.html?jquery=2.1.0',
+						'http://127.0.0.1:8000/test/events.html?jquery=2.1.0',
+						'http://127.0.0.1:8000/test/instructions.html?jquery=2.1.0',
+						'http://127.0.0.1:8000/test/plugin.html?jquery=2.1.0',
+						'http://127.0.0.1:8000/test/relevantWhen.html?jquery=2.1.0',
+						'http://127.0.0.1:8000/test/ui.html?jquery=2.1.0',
 					]
 				}
 			}
