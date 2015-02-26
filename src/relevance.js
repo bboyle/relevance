@@ -131,7 +131,10 @@ if ( jQuery !== 'undefined' ) {
 			// hides the element (does not check if element is already hidden)
 			hide: function() {
 
-				this.attr({ hidden : 'hidden', 'aria-hidden' : 'true' });
+				this.attr({
+					hidden: 'hidden',
+					'aria-hidden': 'true'
+				});
 
 				if ( polyfillHidden ) {
 					this.stop( true, true ).hide( 0, function() {

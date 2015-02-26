@@ -76,7 +76,7 @@
 
 			strictEqual( $( '#foo' ).is( '[hidden]' ), true, '#foo is hidden' );
 			strictEqual( $( '#foo' ).attr( 'aria-hidden' ), 'true', '#foo is aria-hidden when irrelevant' );
-			ok( $( '#foo' )[ 0 ].getAttribute( 'hidden' ), '#foo is @hidden when irrelevant' );
+			ok( $( '#foo' ).attr( 'hidden' ), '#foo is @hidden when irrelevant' );
 			strictEqual( $( '#foo' )[ 0 ].disabled, true, '#foo is @disabled when irrelevant' );
 
 		})
