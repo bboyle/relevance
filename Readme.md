@@ -66,6 +66,14 @@ Elements are hidden by toggling the HTML5 `hidden` attribute. Modern browsers su
 }
 ```
 
+Hopefully you're beyond needing IE6 support, but just in case:
+
+```css
+* {
+    _display: expression(this.hidden?'none':'inherit');
+}
+```
+
 However, the script will check whether 'hidden' elements are visible. If they are, it will use the jQuery `.toggle()` method to control relevance. This results in the style `display` being change to `none` when elements are not relevant.
 
 You can override `hidden` in modern browsers to implement CSS transitions. For example:

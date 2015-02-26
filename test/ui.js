@@ -19,24 +19,24 @@
 	test( 'elements are visible after show', 4, function() {
 
 		$( '#foo, #bar' ).relevance( 'show' );
-		strictEqual( $( '#foo' ).is( ':visible' ), true, '#foo is visible' );
-		strictEqual( $( '#bar' ).is( ':visible' ), true, '#bar is visible' );
+		strictEqual( $( '#foo' ).is( '[hidden]' ), false, '#foo is visible' );
+		strictEqual( $( '#bar' ).is( '[hidden]' ), false, '#bar is visible' );
 
 		$( '#foo, #bar' ).relevance( 'show' );
-		strictEqual( $( '#foo' ).is( ':visible' ), true, '#foo is still visible' );
-		strictEqual( $( '#bar' ).is( ':visible' ), true, '#bar is still visible' );
+		strictEqual( $( '#foo' ).is( '[hidden]' ), false, '#foo is still visible' );
+		strictEqual( $( '#bar' ).is( '[hidden]' ), false, '#bar is still visible' );
 
 	});
 
 	test( 'elements are hidden after hide', 4, function() {
 
 		$( '#foo, #bar' ).relevance( 'hide' );
-		strictEqual( $( '#foo' ).is( ':hidden' ), true, '#foo is hidden' );
-		strictEqual( $( '#bar' ).is( ':hidden' ), true, '#bar is hidden' );
+		strictEqual( $( '#foo' ).is( '[hidden]' ), true, '#foo is hidden' );
+		strictEqual( $( '#bar' ).is( '[hidden]' ), true, '#bar is hidden' );
 
 		$( '#foo, #bar' ).relevance( 'hide' );
-		strictEqual( $( '#foo' ).is( ':hidden' ), true, '#foo is still hidden' );
-		strictEqual( $( '#bar' ).is( ':hidden' ), true, '#bar is still hidden' );
+		strictEqual( $( '#foo' ).is( '[hidden]' ), true, '#foo is still hidden' );
+		strictEqual( $( '#bar' ).is( '[hidden]' ), true, '#bar is still hidden' );
 	});
 
 

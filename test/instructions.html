@@ -39,6 +39,9 @@
 		[hidden] {
 			display: none;
 		}
+		* {
+			_display: expression(this.hidden?'none':'inherit');
+		}
 
 		#qunit-fixture {
 			position: static;

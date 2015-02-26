@@ -77,21 +77,21 @@
 		$( '#red' ).relevance( 'relevantWhen', { name: 'rgb', value: 'red' });
 		$( '#green' ).relevance( 'relevantWhen', { name: 'rgb', value: 'green' });
 		$( '#blue' ).relevance( 'relevantWhen', { name: 'rgb', value: 'blue' });
-		strictEqual( $( '#red' ).filter( ':hidden' ).length, 1, '#red is hidden after relevantWhen setup' );
-		strictEqual( $( '#green' ).filter( ':visible' ).length, 1, '#green is visible after relevantWhen setup' );
-		strictEqual( $( '#blue' ).filter( ':hidden' ).length, 1, '#blue is hidden after relevantWhen setup' );
+		strictEqual( $( '#red' ).filter( '[hidden]' ).length, 1, '#red is hidden after relevantWhen setup' );
+		strictEqual( $( '#green' ).not( '[hidden]' ).length, 1, '#green is visible after relevantWhen setup' );
+		strictEqual( $( '#blue' ).filter( '[hidden]' ).length, 1, '#blue is hidden after relevantWhen setup' );
 
 		// click 'red' radio button
 		$( ':radio[value="red"]', 'form#test' )[ 0 ].click();
-		strictEqual( $( '#red' ).filter( ':visible' ).length, 1, '#red is visible after choosing "red" value' );
-		strictEqual( $( '#green' ).filter( ':hidden' ).length, 1, '#green is hidden after choosing "red" value' );
-		strictEqual( $( '#blue' ).filter( ':hidden' ).length, 1, '#blue is hidden after choosing "red" value' );
+		strictEqual( $( '#red' ).not( '[hidden]' ).length, 1, '#red is visible after choosing "red" value' );
+		strictEqual( $( '#green' ).filter( '[hidden]' ).length, 1, '#green is hidden after choosing "red" value' );
+		strictEqual( $( '#blue' ).filter( '[hidden]' ).length, 1, '#blue is hidden after choosing "red" value' );
 
 		// click 'blue' radio button
 		$( ':radio[value="blue"]', 'form#test' )[ 0 ].click();
-		strictEqual( $( '#red' ).filter( ':hidden' ).length, 1, '#red is hidden after choosing "blue" value' );
-		strictEqual( $( '#green' ).filter( ':hidden' ).length, 1, '#green is hidden after choosing "blue" value' );
-		strictEqual( $( '#blue' ).filter( ':visible' ).length, 1, '#blue is visible after choosing "blue" value' );
+		strictEqual( $( '#red' ).filter( '[hidden]' ).length, 1, '#red is hidden after choosing "blue" value' );
+		strictEqual( $( '#green' ).filter( '[hidden]' ).length, 1, '#green is hidden after choosing "blue" value' );
+		strictEqual( $( '#blue' ).not( '[hidden]' ).length, 1, '#blue is visible after choosing "blue" value' );
 
 	});
 
@@ -103,21 +103,21 @@
 		$( '#red' ).relevance( 'relevantWhen', { id: 'rgb-red', value: 'red' });
 		$( '#green' ).relevance( 'relevantWhen', { id: 'rgb-green', value: 'green' });
 		$( '#blue' ).relevance( 'relevantWhen', { id: 'rgb-blue', value: 'blue' });
-		strictEqual( $( '#red' ).filter( ':hidden' ).length, 1, '#red is hidden after relevantWhen setup' );
-		strictEqual( $( '#green' ).filter( ':visible' ).length, 1, '#green is visible after relevantWhen setup' );
-		strictEqual( $( '#blue' ).filter( ':hidden' ).length, 1, '#blue is hidden after relevantWhen setup' );
+		strictEqual( $( '#red' ).filter( '[hidden]' ).length, 1, '#red is hidden after relevantWhen setup' );
+		strictEqual( $( '#green' ).not( '[hidden]' ).length, 1, '#green is visible after relevantWhen setup' );
+		strictEqual( $( '#blue' ).filter( '[hidden]' ).length, 1, '#blue is hidden after relevantWhen setup' );
 
 		// click 'red' radio button
 		$( ':radio[value="red"]', 'form#test' )[ 0 ].click();
-		strictEqual( $( '#red' ).filter( ':visible' ).length, 1, '#red is visible after choosing "red" value' );
-		strictEqual( $( '#green' ).filter( ':hidden' ).length, 1, '#green is hidden after choosing "red" value' );
-		strictEqual( $( '#blue' ).filter( ':hidden' ).length, 1, '#blue is hidden after choosing "red" value' );
+		strictEqual( $( '#red' ).not( '[hidden]' ).length, 1, '#red is visible after choosing "red" value' );
+		strictEqual( $( '#green' ).filter( '[hidden]' ).length, 1, '#green is hidden after choosing "red" value' );
+		strictEqual( $( '#blue' ).filter( '[hidden]' ).length, 1, '#blue is hidden after choosing "red" value' );
 
 		// click 'blue' radio button
 		$( ':radio[value="blue"]', 'form#test' )[ 0 ].click();
-		strictEqual( $( '#red' ).filter( ':hidden' ).length, 1, '#red is hidden after choosing "blue" value' );
-		strictEqual( $( '#green' ).filter( ':hidden' ).length, 1, '#green is hidden after choosing "blue" value' );
-		strictEqual( $( '#blue' ).filter( ':visible' ).length, 1, '#blue is visible after choosing "blue" value' );
+		strictEqual( $( '#red' ).filter( '[hidden]' ).length, 1, '#red is hidden after choosing "blue" value' );
+		strictEqual( $( '#green' ).filter( '[hidden]' ).length, 1, '#green is hidden after choosing "blue" value' );
+		strictEqual( $( '#blue' ).not( '[hidden]' ).length, 1, '#blue is visible after choosing "blue" value' );
 
 	});
 
@@ -129,21 +129,21 @@
 		$( '#red' ).relevance( 'relevantWhen', { container: '.rgb-radio-buttons', value: 'red' });
 		$( '#green' ).relevance( 'relevantWhen', { container: '.rgb-radio-buttons', value: 'green' });
 		$( '#blue' ).relevance( 'relevantWhen', { container: '.rgb-radio-buttons', value: 'blue' });
-		strictEqual( $( '#red' ).filter( ':hidden' ).length, 1, '#red is hidden after relevantWhen setup' );
-		strictEqual( $( '#green' ).filter( ':visible' ).length, 1, '#green is visible after relevantWhen setup' );
-		strictEqual( $( '#blue' ).filter( ':hidden' ).length, 1, '#blue is hidden after relevantWhen setup' );
+		strictEqual( $( '#red' ).filter( '[hidden]' ).length, 1, '#red is hidden after relevantWhen setup' );
+		strictEqual( $( '#green' ).not( '[hidden]' ).length, 1, '#green is visible after relevantWhen setup' );
+		strictEqual( $( '#blue' ).filter( '[hidden]' ).length, 1, '#blue is hidden after relevantWhen setup' );
 
 		// click 'red' radio button
 		$( ':radio[value="red"]', 'form#test' )[ 0 ].click();
-		strictEqual( $( '#red' ).filter( ':visible' ).length, 1, '#red is visible after choosing "red" value' );
-		strictEqual( $( '#green' ).filter( ':hidden' ).length, 1, '#green is hidden after choosing "red" value' );
-		strictEqual( $( '#blue' ).filter( ':hidden' ).length, 1, '#blue is hidden after choosing "red" value' );
+		strictEqual( $( '#red' ).not( '[hidden]' ).length, 1, '#red is visible after choosing "red" value' );
+		strictEqual( $( '#green' ).filter( '[hidden]' ).length, 1, '#green is hidden after choosing "red" value' );
+		strictEqual( $( '#blue' ).filter( '[hidden]' ).length, 1, '#blue is hidden after choosing "red" value' );
 
 		// click 'blue' radio button
 		$( ':radio[value="blue"]', 'form#test' )[ 0 ].click();
-		strictEqual( $( '#red' ).filter( ':hidden' ).length, 1, '#red is hidden after choosing "blue" value' );
-		strictEqual( $( '#green' ).filter( ':hidden' ).length, 1, '#green is hidden after choosing "blue" value' );
-		strictEqual( $( '#blue' ).filter( ':visible' ).length, 1, '#blue is visible after choosing "blue" value' );
+		strictEqual( $( '#red' ).filter( '[hidden]' ).length, 1, '#red is hidden after choosing "blue" value' );
+		strictEqual( $( '#green' ).filter( '[hidden]' ).length, 1, '#green is hidden after choosing "blue" value' );
+		strictEqual( $( '#blue' ).not( '[hidden]' ).length, 1, '#blue is visible after choosing "blue" value' );
 
 	});
 
@@ -155,21 +155,21 @@
 		$( '#red' ).relevance( 'relevantWhen', { name: 'rgb', values: [ 'red' ] });
 		$( '#green' ).relevance( 'relevantWhen', { name: 'rgb', values: [ 'green' ] });
 		$( '#blue' ).relevance( 'relevantWhen', { name: 'rgb', values: [ 'blue' ] });
-		strictEqual( $( '#red' ).filter( ':hidden' ).length, 1, '#red is hidden after relevantWhen setup' );
-		strictEqual( $( '#green' ).filter( ':visible' ).length, 1, '#green is visible after relevantWhen setup' );
-		strictEqual( $( '#blue' ).filter( ':hidden' ).length, 1, '#blue is hidden after relevantWhen setup' );
+		strictEqual( $( '#red' ).filter( '[hidden]' ).length, 1, '#red is hidden after relevantWhen setup' );
+		strictEqual( $( '#green' ).not( '[hidden]' ).length, 1, '#green is visible after relevantWhen setup' );
+		strictEqual( $( '#blue' ).filter( '[hidden]' ).length, 1, '#blue is hidden after relevantWhen setup' );
 
 		// click 'red' radio button
 		$( ':radio[value="red"]', 'form#test' )[ 0 ].click();
-		strictEqual( $( '#red' ).filter( ':visible' ).length, 1, '#red is visible after choosing "red" value' );
-		strictEqual( $( '#green' ).filter( ':hidden' ).length, 1, '#green is hidden after choosing "red" value' );
-		strictEqual( $( '#blue' ).filter( ':hidden' ).length, 1, '#blue is hidden after choosing "red" value' );
+		strictEqual( $( '#red' ).not( '[hidden]' ).length, 1, '#red is visible after choosing "red" value' );
+		strictEqual( $( '#green' ).filter( '[hidden]' ).length, 1, '#green is hidden after choosing "red" value' );
+		strictEqual( $( '#blue' ).filter( '[hidden]' ).length, 1, '#blue is hidden after choosing "red" value' );
 
 		// click 'blue' radio button
 		$( ':radio[value="blue"]', 'form#test' )[ 0 ].click();
-		strictEqual( $( '#red' ).filter( ':hidden' ).length, 1, '#red is hidden after choosing "blue" value' );
-		strictEqual( $( '#green' ).filter( ':hidden' ).length, 1, '#green is hidden after choosing "blue" value' );
-		strictEqual( $( '#blue' ).filter( ':visible' ).length, 1, '#blue is visible after choosing "blue" value' );
+		strictEqual( $( '#red' ).filter( '[hidden]' ).length, 1, '#red is hidden after choosing "blue" value' );
+		strictEqual( $( '#green' ).filter( '[hidden]' ).length, 1, '#green is hidden after choosing "blue" value' );
+		strictEqual( $( '#blue' ).not( '[hidden]' ).length, 1, '#blue is visible after choosing "blue" value' );
 
 	});
 
@@ -234,21 +234,21 @@
 		$( '#cyan' ).relevance( 'relevantWhen', { name: 'rgb', values: [ 'red', 'green' ] });
 		$( '#magenta' ).relevance( 'relevantWhen', { name: 'rgb', values: [ 'red', 'blue' ] });
 		$( '#yellow' ).relevance( 'relevantWhen', { name: 'rgb', values: [ 'green', 'blue' ] });
-		strictEqual( $( '#cyan' ).filter( ':visible' ).length, 1, '#cyan is visible after relevantWhen setup' );
-		strictEqual( $( '#magenta' ).filter( ':hidden' ).length, 1, '#magenta is hidden after relevantWhen setup' );
-		strictEqual( $( '#yellow' ).filter( ':visible' ).length, 1, '#yellow is visible after relevantWhen setup' );
+		strictEqual( $( '#cyan' ).not( '[hidden]' ).length, 1, '#cyan is visible after relevantWhen setup' );
+		strictEqual( $( '#magenta' ).filter( '[hidden]' ).length, 1, '#magenta is hidden after relevantWhen setup' );
+		strictEqual( $( '#yellow' ).not( '[hidden]' ).length, 1, '#yellow is visible after relevantWhen setup' );
 
 		// click 'red' radio button
 		$( ':radio[value="red"]', 'form#test' )[ 0 ].click();
-		strictEqual( $( '#cyan' ).filter( ':visible' ).length, 1, '#cyan is visible after choosing "red" value' );
-		strictEqual( $( '#magenta' ).filter( ':visible' ).length, 1, '#magenta is visible after choosing "red" value' );
-		strictEqual( $( '#yellow' ).filter( ':hidden' ).length, 1, '#yellow is hidden after choosing "red" value' );
+		strictEqual( $( '#cyan' ).not( '[hidden]' ).length, 1, '#cyan is visible after choosing "red" value' );
+		strictEqual( $( '#magenta' ).not( '[hidden]' ).length, 1, '#magenta is visible after choosing "red" value' );
+		strictEqual( $( '#yellow' ).filter( '[hidden]' ).length, 1, '#yellow is hidden after choosing "red" value' );
 
 		// click 'blue' radio button
 		$( ':radio[value="blue"]', 'form#test' )[ 0 ].click();
-		strictEqual( $( '#cyan' ).filter( ':hidden' ).length, 1, '#cyan is hidden after choosing "blue" value' );
-		strictEqual( $( '#magenta' ).filter( ':visible' ).length, 1, '#magenta is visible after choosing "blue" value' );
-		strictEqual( $( '#yellow' ).filter( ':visible' ).length, 1, '#yellow is visible after choosing "blue" value' );
+		strictEqual( $( '#cyan' ).filter( '[hidden]' ).length, 1, '#cyan is hidden after choosing "blue" value' );
+		strictEqual( $( '#magenta' ).not( '[hidden]' ).length, 1, '#magenta is visible after choosing "blue" value' );
+		strictEqual( $( '#yellow' ).not( '[hidden]' ).length, 1, '#yellow is visible after choosing "blue" value' );
 
 	});
 
@@ -267,14 +267,14 @@
 			value: 'show'
 		});
 
-		strictEqual( $( '#hidden' ).filter( ':hidden' ).length, 1, 'section is hidden' );
-		strictEqual( $( '#icecream' ).filter( ':hidden' ).length, 1, 'subsection is hidden' );
+		strictEqual( $( '#hidden' ).filter( '[hidden]' ).length, 1, 'section is hidden' );
+		strictEqual( $( '#icecream' ).filter( '[hidden]' ).length, 1, 'subsection is hidden' );
 		strictEqual( $( 'input', '#hidden' ).filter( '[disabled]' ).length, 5, '5 controls in section are disabled' );
 
 		// make section relevant
 		$( '#hidden-section' )[ 0 ].click();
-		strictEqual( $( '#hidden' ).filter( ':visible' ).length, 1, 'section is visible' );
-		strictEqual( $( '#icecream' ).filter( ':hidden' ).length, 1, 'subsection is hidden' );
+		strictEqual( $( '#hidden' ).not( '[hidden]' ).length, 1, 'section is visible' );
+		strictEqual( $( '#icecream' ).filter( '[hidden]' ).length, 1, 'subsection is hidden' );
 		strictEqual( $( 'input', '#hidden' ).filter( '[disabled]' ).length, 3, '3 controls in section are disabled' );
 
 	});
