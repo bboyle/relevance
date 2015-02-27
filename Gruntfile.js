@@ -6,11 +6,26 @@ module.exports = function( grunt ) {
 	grunt.initConfig({
 		// Metadata.
 		pkg: grunt.file.readJSON( 'package.json' ),
-		banner: '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
+		title: '<%= pkg.title || pkg.name %> - v<%= pkg.version %>',
+		buildNumber: process.env.TRAVIS_BUILD_ID || grunt.template.today( 'isoUtcDateTime' ),
+		banner: '/*! <%= title %> - ' +
 			'<%= grunt.template.today("yyyy-mm-dd") %>\n' +
 			'<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
 			'* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
 			' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
+
+		browsers: [
+			{ browserName: 'Internet Explorer' },
+			{ browserName: 'Chrome' },
+			{ browserName: 'iPhone' },
+			{ browserName: 'android' },
+			{ browserName: 'Firefox' },
+			// old IE
+			{ browserName: 'Internet Explorer', version:  '9' },
+			{ browserName: 'Internet Explorer', version:  '8' },
+			{ browserName: 'Internet Explorer', version:  '6' }
+		],
+
 		// Task configuration.
 		clean: {
 			files: [ 'dist' ]
@@ -51,26 +66,68 @@ module.exports = function( grunt ) {
 			jquery: {
 				options: {
 					urls: [
-						'http://localhost:8000/test/events.html?jquery=1.4.4',
-						'http://localhost:8000/test/instructions.html?jquery=1.4.4',
-						'http://localhost:8000/test/plugin.html?jquery=1.4.4',
-						'http://localhost:8000/test/relevantWhen.html?jquery=1.4.4',
-						'http://localhost:8000/test/ui.html?jquery=1.4.4',
+						'http://127.0.0.1:8000/test/events.html?jquery=1.4.4',
+						'http://127.0.0.1:8000/test/instructions.html?jquery=1.4.4',
+						'http://127.0.0.1:8000/test/plugin.html?jquery=1.4.4',
+						'http://127.0.0.1:8000/test/relevantWhen.html?jquery=1.4.4',
+						'http://127.0.0.1:8000/test/ui.html?jquery=1.4.4',
 						// 1.7.2
-						'http://localhost:8000/test/events.html?jquery=1.7.2',
-						'http://localhost:8000/test/instructions.html?jquery=1.7.2',
-						'http://localhost:8000/test/plugin.html?jquery=1.7.2',
-						'http://localhost:8000/test/relevantWhen.html?jquery=1.7.2',
-						'http://localhost:8000/test/ui.html?jquery=1.7.2',
+						'http://127.0.0.1:8000/test/events.html?jquery=1.7.2',
+						'http://127.0.0.1:8000/test/instructions.html?jquery=1.7.2',
+						'http://127.0.0.1:8000/test/plugin.html?jquery=1.7.2',
+						'http://127.0.0.1:8000/test/relevantWhen.html?jquery=1.7.2',
+						'http://127.0.0.1:8000/test/ui.html?jquery=1.7.2',
 						// 2.1.0
-						'http://localhost:8000/test/events.html?jquery=2.1.0',
-						'http://localhost:8000/test/instructions.html?jquery=2.1.0',
-						'http://localhost:8000/test/plugin.html?jquery=2.1.0',
-						'http://localhost:8000/test/relevantWhen.html?jquery=2.1.0',
-						'http://localhost:8000/test/ui.html?jquery=2.1.0',
+						'http://127.0.0.1:8000/test/events.html?jquery=2.1.0',
+						'http://127.0.0.1:8000/test/instructions.html?jquery=2.1.0',
+						'http://127.0.0.1:8000/test/plugin.html?jquery=2.1.0',
+						'http://127.0.0.1:8000/test/relevantWhen.html?jquery=2.1.0',
+						'http://127.0.0.1:8000/test/ui.html?jquery=2.1.0',
 					]
 				}
 			}
+		},
+		'saucelabs-qunit': {
+			events: {
+				options: {
+					testname: 'events - <%= title %>',
+					build: '<%= buildNumber %>',
+					urls: [ 'http://127.0.0.1:8000/test/events.html?jquery=1.7.2' ],
+					browsers: '<%= browsers %>'
+				}
+			},
+			instructions: {
+				options: {
+					testname: 'instructions - <%= title %>',
+					build: '<%= buildNumber %>',
+					urls: [ 'http://127.0.0.1:8000/test/instructions.html?jquery=1.7.2' ],
+					browsers: '<%= browsers %>'
+				}
+			},
+			plugin: {
+				options: {
+					testname: 'plugin - <%= title %>',
+					build: '<%= buildNumber %>',
+					urls: [ 'http://127.0.0.1:8000/test/plugin.html?jquery=1.7.2' ],
+					browsers: '<%= browsers %>'
+				}
+			},
+			relevantWhen: {
+				options: {
+					testname: 'relevantWhen - <%= title %>',
+					build: '<%= buildNumber %>',
+					urls: [ 'http://127.0.0.1:8000/test/relevantWhen.html?jquery=1.7.2' ],
+					browsers: '<%= browsers %>'
+				}
+			},
+			ui: {
+				options: {
+					testname: 'ui - <%= title %>',
+					build: '<%= buildNumber %>',
+					urls: [ 'http://127.0.0.1:8000/test/ui.html?jquery=1.7.2' ],
+					browsers: '<%= browsers %>'
+				}
+			},
 		},
 		jshint: {
 			gruntfile: {
@@ -114,11 +171,13 @@ module.exports = function( grunt ) {
 	grunt.loadNpmTasks( 'grunt-contrib-uglify' );
 	grunt.loadNpmTasks( 'grunt-contrib-connect' );
 	grunt.loadNpmTasks( 'grunt-contrib-qunit' );
+	grunt.loadNpmTasks( 'grunt-saucelabs' );
 	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
 	grunt.loadNpmTasks( 'grunt-contrib-watch' );
 
 	// Default task.
 	grunt.registerTask( 'test', [ 'jshint', 'connect', 'qunit' ]);
+	grunt.registerTask( 'test-remote', [ 'jshint', 'qunit:unit', 'connect', 'clean', 'saucelabs-qunit' ]);
 	grunt.registerTask( 'produce', [ 'clean', 'concat', 'uglify' ]);
 	grunt.registerTask( 'default', [ 'test', 'produce' ]);
 
