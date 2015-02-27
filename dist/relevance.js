@@ -1,4 +1,4 @@
-/*! relevance - v2.0.0 - 2015-02-27
+/*! relevance - v2.0.2 - 2015-02-27
 * https://github.com/bboyle/relevance
 * Copyright (c) 2015 Ben Boyle; Licensed MIT */
 if ( jQuery !== 'undefined' ) {
@@ -10,9 +10,9 @@ if ( jQuery !== 'undefined' ) {
 			elementsToDisable = 'button, input, select, textarea',
 			polyfillHidden = (function() {
 				var hidden = $( '<div hidden></div>' );
-				var isHidden = hidden.appendTo( 'body' ).is( ':visible' );
+				var hiddenSupported = hidden.appendTo( 'body' ).is( ':hidden' );
 				hidden.remove();
-				return ! isHidden;
+				return ! hiddenSupported;
 			}()),
 
 			formElementsByName = function( form, name ) {
@@ -99,9 +99,9 @@ if ( jQuery !== 'undefined' ) {
 			relevant: function( makeRelevant ) {
 				var targets;
 				if ( makeRelevant ) {
-					targets = this.filter( '[hidden]' ).trigger( relevantEvent );
+					targets = this.filter( ':hidden' ).trigger( relevantEvent );
 				} else {
-					targets = this.not( '[hidden]' ).trigger( irrelevantEvent );
+					targets = this.not( ':hidden' ).trigger( irrelevantEvent );
 				}
 				if ( targets.length ) {
 					recalculateDependents.call( targets, makeRelevant );
