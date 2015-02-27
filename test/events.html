@@ -26,6 +26,13 @@
 			color: #111;
 		}
 
+		[hidden] {
+			display: none;
+		}
+		input {
+			_display: expression(this.hidden?'none':'block');
+		}
+
 		#qunit-fixture {
 			position: static;
 		}
