@@ -1,4 +1,4 @@
-/*! relevance - v2.0.2 - 2015-02-27
+/*! relevance - v2.0.3 - 2015-02-27
 * https://github.com/bboyle/relevance
 * Copyright (c) 2015 Ben Boyle; Licensed MIT */
 if ( jQuery !== 'undefined' ) {
@@ -18,6 +18,14 @@ if ( jQuery !== 'undefined' ) {
 			formElementsByName = function( form, name ) {
 				// filter out the @id matching of HTMLFormElement.elements[]
 				return $( form.elements[ name ] ).filter( '[name="' + name +'"]' );
+			},
+
+			filterRelevant = function() {
+				return $( this ).closest( '[hidden]' ).length === 0;
+			},
+
+			filterIrrelevant = function() {
+				return $( this ).closest( '[hidden]' ).length > 0;
 			},
 
 			valueMap = function( element ) {
@@ -99,9 +107,9 @@ if ( jQuery !== 'undefined' ) {
 			relevant: function( makeRelevant ) {
 				var targets;
 				if ( makeRelevant ) {
-					targets = this.filter( ':hidden' ).trigger( relevantEvent );
+					targets = this.filter( filterIrrelevant ).trigger( relevantEvent );
 				} else {
-					targets = this.not( ':hidden' ).trigger( irrelevantEvent );
+					targets = this.filter( filterRelevant ).trigger( irrelevantEvent );
 				}
 				if ( targets.length ) {
 					recalculateDependents.call( targets, makeRelevant );
