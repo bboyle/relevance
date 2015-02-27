@@ -97,9 +97,9 @@ if ( jQuery !== 'undefined' ) {
 			relevant: function( makeRelevant ) {
 				var targets;
 				if ( makeRelevant ) {
-					targets = this.filter( '[hidden]' ).trigger( relevantEvent );
+					targets = this.filter( ':hidden' ).trigger( relevantEvent );
 				} else {
-					targets = this.not( '[hidden]' ).trigger( irrelevantEvent );
+					targets = this.not( ':hidden' ).trigger( irrelevantEvent );
 				}
 				if ( targets.length ) {
 					recalculateDependents.call( targets, makeRelevant );
