@@ -8,9 +8,9 @@ if ( jQuery !== 'undefined' ) {
 			elementsToDisable = 'button, input, select, textarea',
 			polyfillHidden = (function() {
 				var hidden = $( '<div hidden></div>' );
-				var isHidden = hidden.appendTo( 'body' ).is( ':visible' );
+				var hiddenSupported = hidden.appendTo( 'body' ).is( ':hidden' );
 				hidden.remove();
-				return ! isHidden;
+				return ! hiddenSupported;
 			}()),
 
 			formElementsByName = function( form, name ) {
