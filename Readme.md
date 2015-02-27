@@ -1,6 +1,8 @@
 [![Build Status](https://travis-ci.org/bboyle/relevance.svg?branch=travis)](https://travis-ci.org/bboyle/relevance)
 [![devDependencies](https://david-dm.org/bboyle/relevance/dev-status.svg)](https://david-dm.org/bboyle/relevance#info=devDependencies)
 
+[![Sauce Test Status](https://saucelabs.com/browser-matrix/benboyle-relevance.svg)](https://saucelabs.com/u/benboyle-relevance)
+
 ## Progressive disclosure
 
 Only show what is relevant, making the interface simpler for the user.
