@@ -324,7 +324,7 @@
 
 	});
 
-	test( 'last question in previous section cannot become the toggle', 7, function() {
+	test( 'last question in previous section will become the toggle', 7, function() {
 
 		// second gate is hidden
 		// after gates is hidden
@@ -334,15 +334,15 @@
 		// second gate is visible
 		// after gates is hidden
 		strictEqual( $( '#after-gates, #second-gate' ).filter( ':visible' ).length, 1, '1 section is visible' );
-		strictEqual( $( '#second-gate' ).is( ':visible' ), true, 'second gate section is now visible' );
-		strictEqual( $( '#after-gates' ).is( ':hidden' ), true, 'after gates is still hidden' );
+		strictEqual( $( '#second-gate' ).is( ':visible' ), true, 'second gate section is visible' );
+		strictEqual( $( '#after-gates' ).is( ':hidden' ), true, 'after gates is hidden' );
 
 		$( '#second-gate-A' )[ 0 ].click();
 		// second gate is visible
 		// after gates remains hidden
-		strictEqual( $( '#after-gates, #second-gate' ).filter( ':visible' ).length, 1, '1 section is visible' );
-		strictEqual( $( '#second-gate' ).is( ':visible' ), true, 'second gate section is now visible' );
-		strictEqual( $( '#after-gates' ).is( ':hidden' ), true, 'after gates is still hidden' );
+		strictEqual( $( '#after-gates, #second-gate' ).filter( ':visible' ).length, 2, '2 sections are visible' );
+		strictEqual( $( '#second-gate' ).is( ':visible' ), true, 'second gate section is still visible' );
+		strictEqual( $( '#after-gates' ).is( ':visible' ), true, 'after gates is visible hidden' );
 
 	});
 
