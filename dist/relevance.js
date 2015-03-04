@@ -1,4 +1,4 @@
-/*! relevance - v2.0.3 - 2015-02-27
+/*! relevance - v2.1.0 - 2015-03-04
 * https://github.com/bboyle/relevance
 * Copyright (c) 2015 Ben Boyle; Licensed MIT */
 if ( jQuery !== 'undefined' ) {
@@ -231,7 +231,7 @@ if ( jQuery !== 'undefined' ) {
 						value = $this.text(),
 						question = $this.closest( options.questionSelector ),
 						toggle = question.prevAll( options.questionSelector ),
-						i, answers,
+						i, answers, nestedToggles,
 						match = false,
 						negate = false
 					;
@@ -248,16 +248,21 @@ if ( jQuery !== 'undefined' ) {
 						// which of the previous questions is the toggle?
 						i = 0;
 						while ( i < toggle.length ) {
-							// skip sections
-							if ( ! toggle.eq( i ).is( '.section' )) {
-								// does this item have the answer we need?
-								answers = $.map( toggle.eq( i ).find( 'option,:radio,:checkbox' ), valueMap );
-								if ( valueInArray( value, answers )) {
+							// does this item have the answer we need?
+							answers = $.map( toggle.eq( i ).find( 'option,:radio,:checkbox' ), valueMap );
+							if ( valueInArray( value, answers )) {
+								nestedToggles = toggle.eq( i ).find( options.questionSelector );
+								if ( nestedToggles.length ) {
+									toggle = $( nestedToggles.get().reverse() );
+									i = 0;
+								} else {
 									match = true;
 									toggle = toggle.eq( i ); // toggle.length becomes 1, loop will exit
+									i = 1; // exit loop
 								}
+							} else {
+								i++;
 							}
-							i++;
 						}
 					}
 					if ( match ) {
