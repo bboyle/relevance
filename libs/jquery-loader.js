@@ -8,5 +8,7 @@
     path = 'http://code.jquery.com/jquery-' + jqversion[1] + '.js';
   }
   // This is the only time I'll ever use document.write, I promise!
-  document.write('<script src="' + path + '"></script>');
+  /* jshint -W060 */
+  document.write('<script src="' + path + '"></script>'); // eslint-disable-line no-implied-eval
+  /* jshint +W060 */
 }());
