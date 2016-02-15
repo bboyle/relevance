@@ -15,11 +15,11 @@ module.exports = function( grunt ) {
 			' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
 
 		browsers: [
-			{ browserName: 'Internet Explorer' },
+			{ browserName: 'Internet Explorer', version: '11' },
 			{ browserName: 'Chrome' },
 			{ browserName: 'iPhone' },
 			{ browserName: 'android' },
-			{ browserName: 'Firefox' },
+			{ browserName: 'Firefox', platform: 'Linux' },
 			// old IE
 			{ browserName: 'Internet Explorer', version:  '9' },
 			{ browserName: 'Internet Explorer', version:  '8' },
