@@ -7,3 +7,4 @@ before_script:
   - bower install
 script:
   - npm run-script test-on-travis
+sudo: false
