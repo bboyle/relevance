@@ -216,13 +216,6 @@
 	});
 
 
-
-	// TODO test chaining, e.g. both #red and #green toggled when relevant = blue
-	// TODO nested dependencies
-	// TODO test initial relevance using checkboxes (e.g. cyan and yellow both checked, is yellow visible?)
-	// TODO update relevantWhen rule. e.g. relevantWhen rgb = red, then relevantWhen rgb = green
-
-
 	// set of values e.g. magenta: relevantWhen rgb = red or blue
 	module( 'set of values' );
 
@@ -256,12 +249,10 @@
 	module( 'nested relevance' );
 
 	test( 'nested controls remain disabled until relevant', 6, function() {
-		// TODO if #hidden is already @hidden, then #icecream won't be changed as it is already 'irrelevant' (hidden)
 		$( '#icecream' ).relevance( 'relevantWhen', {
 			name: 'icecream',
 			value: 'yes'
 		});
-		// TODO does it matter what order this is done in?
 		$( '#hidden' ).relevance( 'relevantWhen', {
 			id: 'hidden-section',
 			value: 'show'
