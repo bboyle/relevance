@@ -9,6 +9,10 @@
     "email": "benjamins.boyle@gmail.com",
     "url": "http://ultimate.benboyle.id.au/"
   },
+  "engines": {
+    "node": ">=4.0.0",
+    "npm": ">=3.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/bboyle/relevance.git"
