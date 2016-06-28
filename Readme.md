@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/bboyle/relevance.svg?branch=travis)](https://travis-ci.org/bboyle/relevance)
 [![bitHound Overall Score](https://www.bithound.io/github/bboyle/relevance/badges/score.svg)](https://www.bithound.io/github/bboyle/relevance)
-[![bitHound Dependencies](https://www.bithound.io/github/bboyle/relevance/badges/dependencies.svg)](https://www.bithound.io/github/bboyle/relevance/gh-pages/dependencies/npm)
-[![bitHound Dev Dependencies](https://www.bithound.io/github/bboyle/relevance/badges/devDependencies.svg)](https://www.bithound.io/github/bboyle/relevance/gh-pages/dependencies/npm)
+[![bitHound Dependencies](https://www.bithound.io/github/bboyle/relevance/badges/dependencies.svg)](https://www.bithound.io/github/bboyle/relevance/dependencies/npm)
+[![bitHound Dev Dependencies](https://www.bithound.io/github/bboyle/relevance/badges/devDependencies.svg)](https://www.bithound.io/github/bboyle/relevance/dependencies/npm)
 
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/benboyle-relevance.svg)](https://saucelabs.com/u/benboyle-relevance)
 
