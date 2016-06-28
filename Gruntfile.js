@@ -12,7 +12,7 @@ module.exports = function( grunt ) {
 			'<%= grunt.template.today("yyyy-mm-dd") %>\n' +
 			'<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
 			'* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
-			' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
+			' Licensed <%= _.map(pkg.licenses, "type").join(", ") %> */\n',
 
 		browsers: [
 			{ browserName: 'Internet Explorer', version: '11' },
@@ -83,6 +83,12 @@ module.exports = function( grunt ) {
 						'http://127.0.0.1:8000/test/plugin.html?jquery=2.1.0',
 						'http://127.0.0.1:8000/test/relevantWhen.html?jquery=2.1.0',
 						'http://127.0.0.1:8000/test/ui.html?jquery=2.1.0',
+						// 3.0.0
+						'http://127.0.0.1:8000/test/events.html?jquery=3.0.0',
+						'http://127.0.0.1:8000/test/instructions.html?jquery=3.0.0',
+						'http://127.0.0.1:8000/test/plugin.html?jquery=3.0.0',
+						'http://127.0.0.1:8000/test/relevantWhen.html?jquery=3.0.0',
+						'http://127.0.0.1:8000/test/ui.html?jquery=3.0.0',
 					]
 				}
 			}
